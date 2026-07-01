@@ -1,0 +1,7 @@
+{
+  "title": "Networking",
+  "slug": "networking",
+  "description": "Notes on sockets, byte order, TCP/IP, ports, server behavior, and network programming fundamentals.",
+  "order": 20,
+  "icon": "<>"
+}

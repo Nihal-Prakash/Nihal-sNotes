@@ -1,0 +1,30 @@
+{
+  "name": "nihals-notes",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "npm run build:astro && npm run index:search",
+    "build:astro": "astro build",
+    "index:search": "pagefind --site dist",
+    "import:notion": "node scripts/import-notion.mjs",
+    "import:notion:dry": "node scripts/import-notion.mjs --dry-run",
+    "import:notion:force": "node scripts/import-notion.mjs --force",
+    "metadata:studio": "node scripts/metadata-studio.mjs",
+    "metadata:validate": "node scripts/metadata-validate.mjs",
+    "preview": "astro preview",
+    "check:deploy": "npm run metadata:validate && npm run build"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^7.0.0",
+    "astro": "^7.0.4"
+  },
+  "devDependencies": {
+    "pagefind": "^1.5.2",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "byte-order": {
+    "title": "Byte Order",
+    "topic": "networking",
+    "tags": [
+      "networking",
+      "endianness",
+      "binary",
+      "c"
+    ],
+    "summary": "Short note explaining big-endian network byte order, little-endian host byte order, and portable conversion helpers like htons, htonl, ntohs, and ntohl.",
+    "pinned": false,
+    "order": 20,
+    "hidden": false,
+    "coverImage": "",
+    "icon": "",
+    "reviewNeeded": false
+  },
+  "c": {
+    "title": "C",
+    "topic": "c-cpp",
+    "tags": [
+      "c",
+      "systems-programming",
+      "basics"
+    ],
+    "summary": "Introductory C notes covering the language model, program structure, variables, printf, operators, control flow, functions, pointers, and foundational syntax.",
+    "pinned": true,
+    "order": 10,
+    "hidden": false,
+    "coverImage": "",
+    "icon": "",
+    "reviewNeeded": false
+  },
+  "memory-and-address-in-c": {
+    "title": "Memory and Address in C",
+    "topic": "c-cpp",
+    "tags": [
+      "c",
+      "memory",
+      "addresses",
+      "pointers"
+    ],
+    "summary": "C memory and address notes covering variables, address-of, memory representation, and pointer foundations.",
+    "pinned": false,
+    "order": 20,
+    "hidden": false,
+    "coverImage": "",
+    "icon": "",
+    "reviewNeeded": false
+  },
+  "server-c": {
+    "title": "Server.C",
+    "topic": "networking",
+    "tags": [
+      "c",
+      "network-programming",
+      "server",
+      "signals"
+    ],
+    "summary": "C server notes focused on process cleanup, SIGCHLD handling, waitpid, sockaddr setup, getaddrinfo, sockets, bind, listen, accept, and fork-based request handling.",
+    "pinned": true,
+    "order": 10,
+    "hidden": false,
+    "coverImage": "",
+    "icon": "",
+    "reviewNeeded": false
+  },
+  "tcp-socket": {
+    "title": "TCP Socket",
+    "topic": "networking",
+    "tags": [
+      "networking",
+      "tcp",
+      "sockets",
+      "unix"
+    ],
+    "summary": "Networking notes on UNIX sockets, stream versus datagram sockets, TCP reliability, layered network models, ports, IP addresses, and socket address structures.",
+    "pinned": false,
+    "order": 30,
+    "hidden": false,
+    "coverImage": "",
+    "icon": "",
+    "reviewNeeded": false
+  }
+}

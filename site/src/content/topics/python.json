@@ -1,0 +1,7 @@
+{
+  "title": "Python",
+  "slug": "python",
+  "description": "Python notes for tooling, automation, scripting, backend glue, and practical programming patterns.",
+  "order": 30,
+  "icon": "py"
+}

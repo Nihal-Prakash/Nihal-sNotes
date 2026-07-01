@@ -1,0 +1,23 @@
+[
+  {
+    "title": "C/C++",
+    "slug": "c-cpp",
+    "description": "Systems programming notes on C, C++, memory, compilation, sockets, and low-level engineering.",
+    "order": 10,
+    "icon": "{}"
+  },
+  {
+    "title": "Networking",
+    "slug": "networking",
+    "description": "Notes on sockets, byte order, TCP/IP, ports, server behavior, and network programming fundamentals.",
+    "order": 20,
+    "icon": "<>"
+  },
+  {
+    "title": "Python",
+    "slug": "python",
+    "description": "Python notes for tooling, automation, scripting, backend glue, and practical programming patterns.",
+    "order": 30,
+    "icon": "py"
+  }
+]

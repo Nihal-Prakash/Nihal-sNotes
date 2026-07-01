@@ -1,0 +1,7 @@
+{
+  "title": "C/C++",
+  "slug": "c-cpp",
+  "description": "Systems programming notes on C, C++, memory, compilation, sockets, and low-level engineering.",
+  "order": 10,
+  "icon": "{}"
+}

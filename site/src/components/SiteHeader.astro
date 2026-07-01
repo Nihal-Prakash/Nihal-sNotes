@@ -1,0 +1,21 @@
+---
+const pathname = Astro.url.pathname;
+const navItems = [
+  { href: '/topics/', label: 'Topics' },
+  { href: '/notes/', label: 'Notes' },
+  { href: '/search/', label: 'Search' },
+];
+---
+
+<header class="site-header" data-pagefind-ignore="all">
+  <a class="site-title" href="/" aria-current={pathname === '/' ? 'page' : undefined}>Nihal's Notes</a>
+  <p class="site-subtitle">C/C++, Networking, and Python notes — foundation build.</p>
+  <nav class="site-nav" aria-label="Primary navigation">
+    {
+      navItems.map((item) => {
+        const active = pathname === item.href || pathname.startsWith(item.href);
+        return <a href={item.href} aria-current={active ? 'page' : undefined}>{item.label}</a>;
+      })
+    }
+  </nav>
+</header>

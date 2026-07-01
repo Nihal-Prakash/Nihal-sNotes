@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Astro
+.astro/
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+
+#site 
+site/node_modules/
+site/dist/
+site/.astro/
+site/.vercel/
+
+site/imports/_extracted/
+site/imports/*.zip
+site/imports/**/*.zip

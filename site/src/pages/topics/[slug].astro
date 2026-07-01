@@ -1,0 +1,185 @@
+---
+import NoteCard from '@components/NoteCard.astro';
+import SiteHeader from '@components/SiteHeader.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getMergedNotes, getTopics } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const topics = getTopics();
+  const notes = await getMergedNotes();
+
+  return topics.map((topic) => ({
+    params: { slug: topic.slug },
+    props: {
+      topic,
+      notes: notes
+        .filter((note) => note.data.topic === topic.slug)
+        .sort((a, b) => {
+          if (a.data.pinned !== b.data.pinned) return a.data.pinned ? -1 : 1;
+          if (a.data.order !== b.data.order) return a.data.order - b.data.order;
+          return a.data.title.localeCompare(b.data.title);
+        }),
+    },
+  }));
+}
+
+const { topic, notes } = Astro.props;
+const tags = Array.from(new Set(notes.flatMap((note) => note.data.tags))).sort((a, b) => a.localeCompare(b));
+---
+
+<BaseLayout title={`${topic.title} | Nihal's Notes`} description={topic.description}>
+  <SiteHeader />
+  <main data-topic-notes>
+    <a class="back-link" href="/topics/">← Topics</a>
+    <p class="kicker">Topic</p>
+    <h1>{topic.title}</h1>
+    <p class="lede">{topic.description}</p>
+
+    {
+      notes.length > 0 ? (
+        <>
+          <div class="discovery-controls discovery-controls--wide" aria-label="Note discovery controls">
+            <label class="control-field control-field--grow" for="note-search">
+              <span>Search this topic</span>
+              <input id="note-search" type="search" placeholder="Search title, summary, or tag" autocomplete="off" data-note-search />
+            </label>
+
+            <label class="control-field" for="tag-filter">
+              <span>Tag</span>
+              <select id="tag-filter" data-tag-filter>
+                <option value="">All tags</option>
+                {tags.map((tag) => <option value={tag.toLowerCase()}>{tag}</option>)}
+              </select>
+            </label>
+
+            <label class="control-field" for="sort-notes">
+              <span>Sort</span>
+              <select id="sort-notes" data-sort-notes>
+                <option value="pinned">Pinned first</option>
+                <option value="order">Custom order</option>
+                <option value="updated">Recently updated</option>
+                <option value="alpha">Alphabetical</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="tag-filter-row" aria-label="Quick tag filters">
+            <button class="tag-filter-button is-active" type="button" data-tag-button value="">All</button>
+            {tags.map((tag) => <button class="tag-filter-button" type="button" data-tag-button value={tag.toLowerCase()}>{tag}</button>)}
+          </div>
+
+          <p class="results-count" data-note-count>{notes.length} {notes.length === 1 ? 'note' : 'notes'}</p>
+
+          <div class="note-grid" data-note-list>
+            {notes.map((note) => (
+              <div
+                class="filter-item"
+                data-note-item
+                data-title={note.data.title.toLowerCase()}
+                data-summary={note.data.summary.toLowerCase()}
+                data-tags={note.data.tags.map((tag) => tag.toLowerCase()).join('|')}
+                data-search={`${note.data.title} ${note.data.summary} ${note.data.tags.join(' ')}`.toLowerCase()}
+                data-pinned={note.data.pinned ? '1' : '0'}
+                data-order={String(note.data.order)}
+                data-updated={String(note.data.updatedAt.getTime())}
+              >
+                <NoteCard note={note} />
+              </div>
+            ))}
+          </div>
+
+          <p class="empty-state" data-note-empty hidden>No notes match the current search/tag filter.</p>
+        </>
+      ) : (
+        <p class="empty-state">No public notes in this topic yet. Review imported notes in the metadata studio and assign <code>{topic.slug}</code>.</p>
+      )
+    }
+  </main>
+
+  <script>
+    const root = document.querySelector('[data-topic-notes]');
+    const searchInput = root?.querySelector('[data-note-search]');
+    const tagSelect = root?.querySelector('[data-tag-filter]');
+    const sortSelect = root?.querySelector('[data-sort-notes]');
+    const list = root?.querySelector('[data-note-list]');
+    const items = Array.from(root?.querySelectorAll('[data-note-item]') ?? []);
+    const count = root?.querySelector('[data-note-count]');
+    const empty = root?.querySelector('[data-note-empty]');
+    const tagButtons = Array.from(root?.querySelectorAll('[data-tag-button]') ?? []);
+
+    const readNumber = (item, key) => {
+      if (!(item instanceof HTMLElement)) return 0;
+      return Number(item.dataset[key] ?? 0);
+    };
+
+    const compareBySort = (a, b, sortMode) => {
+      if (!(a instanceof HTMLElement) || !(b instanceof HTMLElement)) return 0;
+      if (sortMode === 'updated') {
+        const updatedDelta = readNumber(b, 'updated') - readNumber(a, 'updated');
+        if (updatedDelta !== 0) return updatedDelta;
+        return (a.dataset.title ?? '').localeCompare(b.dataset.title ?? '');
+      }
+      if (sortMode === 'alpha') {
+        return (a.dataset.title ?? '').localeCompare(b.dataset.title ?? '');
+      }
+      if (sortMode === 'order') {
+        const orderDelta = readNumber(a, 'order') - readNumber(b, 'order');
+        if (orderDelta !== 0) return orderDelta;
+        return (a.dataset.title ?? '').localeCompare(b.dataset.title ?? '');
+      }
+
+      const pinnedDelta = readNumber(b, 'pinned') - readNumber(a, 'pinned');
+      if (pinnedDelta !== 0) return pinnedDelta;
+      const orderDelta = readNumber(a, 'order') - readNumber(b, 'order');
+      if (orderDelta !== 0) return orderDelta;
+      return (a.dataset.title ?? '').localeCompare(b.dataset.title ?? '');
+    };
+
+    const setActiveTagButton = (tag) => {
+      for (const button of tagButtons) {
+        if (!(button instanceof HTMLButtonElement)) continue;
+        button.classList.toggle('is-active', button.value === tag);
+      }
+    };
+
+    const updateNotes = () => {
+      if (!(searchInput instanceof HTMLInputElement)) return;
+      if (!(tagSelect instanceof HTMLSelectElement)) return;
+      if (!(sortSelect instanceof HTMLSelectElement)) return;
+      const query = searchInput.value.trim().toLowerCase();
+      const tag = tagSelect.value;
+      const sortMode = sortSelect.value;
+      let visible = 0;
+
+      const sortedItems = [...items].sort((a, b) => compareBySort(a, b, sortMode));
+      for (const item of sortedItems) list?.append(item);
+
+      for (const item of sortedItems) {
+        if (!(item instanceof HTMLElement)) continue;
+        const haystack = item.dataset.search ?? '';
+        const itemTags = (item.dataset.tags ?? '').split('|').filter(Boolean);
+        const matchesQuery = query === '' || haystack.includes(query);
+        const matchesTag = tag === '' || itemTags.includes(tag);
+        const visibleItem = matchesQuery && matchesTag;
+        item.hidden = !visibleItem;
+        if (visibleItem) visible += 1;
+      }
+
+      if (count) count.textContent = `${visible} ${visible === 1 ? 'note' : 'notes'}`;
+      if (empty instanceof HTMLElement) empty.hidden = visible !== 0;
+      setActiveTagButton(tag);
+    };
+
+    searchInput?.addEventListener('input', updateNotes);
+    tagSelect?.addEventListener('change', updateNotes);
+    sortSelect?.addEventListener('change', updateNotes);
+    for (const button of tagButtons) {
+      button.addEventListener('click', () => {
+        if (!(button instanceof HTMLButtonElement)) return;
+        if (!(tagSelect instanceof HTMLSelectElement)) return;
+        tagSelect.value = button.value;
+        updateNotes();
+      });
+    }
+  </script>
+</BaseLayout>

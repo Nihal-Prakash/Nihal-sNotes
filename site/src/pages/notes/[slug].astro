@@ -1,0 +1,226 @@
+---
+import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { render } from 'astro:content';
+import { codeToHtml } from 'shiki';
+import SiteHeader from '@components/SiteHeader.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getMergedNotes, getTopicBySlug, getTopics } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const notes = await getMergedNotes();
+
+  return notes.map((note) => ({
+    params: { slug: note.data.slug },
+    props: { note, topic: getTopicBySlug(note.data.topic) },
+  }));
+}
+
+const { note, topic } = Astro.props;
+const isHtmlBackedNote = note.data.sourceType === 'html';
+const topicTitle = topic?.title ?? note.data.topic;
+const tagLabel = note.data.tags.join(', ');
+const allTopics = getTopics();
+const allNotes = await getMergedNotes();
+const topicNotes = allNotes
+  .filter((item) => item.data.topic === note.data.topic)
+  .sort((a, b) => {
+    if (a.data.pinned !== b.data.pinned) return a.data.pinned ? -1 : 1;
+    if (a.data.order !== b.data.order) return a.data.order - b.data.order;
+    return a.data.title.localeCompare(b.data.title);
+  });
+
+type TocItem = { depth: number; slug: string; text: string };
+
+function stripTags(value: string) {
+  return decodeHtmlEntities(value.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim());
+}
+
+function slugifyHeading(value: string, index: number) {
+  const slug = value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+  return slug || `section-${index + 1}`;
+}
+
+function addSummaryHeadingIds(html: string) {
+  let index = 0;
+  return html.replace(/<summary\b([^>]*)>([\s\S]*?)<\/summary>/g, (full, attrs: string, inner: string) => {
+    if (/\bid=/.test(attrs)) return full;
+    const text = stripTags(inner);
+    const id = `toc-${slugifyHeading(text, index)}`;
+    index += 1;
+    return `<summary id="${id}"${attrs}>${inner}</summary>`;
+  });
+}
+
+function extractHtmlHeadings(html: string): TocItem[] {
+  const structuralHeadings = Array.from(html.matchAll(/<h([2-3])\b[^>]*\bid="([^"]+)"[^>]*>([\s\S]*?)<\/h\1>/g))
+    .map((match) => ({ depth: Number(match[1]), slug: match[2], text: stripTags(match[3]) }))
+    .filter((heading) => heading.slug && heading.text);
+
+  const summaryHeadings = Array.from(html.matchAll(/<summary\b[^>]*\bid="([^"]+)"[^>]*>([\s\S]*?)<\/summary>/g))
+    .map((match) => ({ depth: 2, slug: match[1], text: stripTags(match[2]) }))
+    .filter((heading) => heading.slug && heading.text);
+
+  return [...structuralHeadings, ...summaryHeadings].slice(0, 18);
+}
+
+function decodeHtmlEntities(value: string) {
+  return value
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;/g, "'")
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&');
+}
+
+async function highlightNotionCodeBlocks(html: string) {
+  const codeBlockPattern = /<pre\b([^>]*)>\s*<code\b([^>]*)>([\s\S]*?)<\/code>\s*<\/pre>/g;
+  const replacements: Array<{ start: number; end: number; html: string }> = [];
+
+  for (const match of html.matchAll(codeBlockPattern)) {
+    const [original, preAttrs, codeAttrs, encodedCode] = match;
+    const classSource = `${preAttrs} ${codeAttrs}`;
+    const lang = /\blanguage-([a-z0-9_-]+)/i.exec(classSource)?.[1];
+    const preClasses = /\bclass="([^"]*)"/.exec(preAttrs)?.[1] ?? 'code code-wrap';
+    if (!lang || !preClasses.includes('code') || match.index === undefined) continue;
+
+    const code = decodeHtmlEntities(encodedCode);
+    const highlighted = await codeToHtml(code, {
+      lang,
+      theme: 'github-dark-default',
+    });
+    const preId = /\bid="[^"]+"/.exec(preAttrs)?.[0] ?? '';
+    const replacement = highlighted.replace(
+      '<pre class="shiki github-dark-default"',
+      `<pre ${preId} class="${preClasses} shiki github-dark-default notion-code-highlight"`,
+    );
+
+    replacements.push({
+      start: match.index,
+      end: match.index + original.length,
+      html: replacement,
+    });
+  }
+
+  let output = '';
+  let cursor = 0;
+  for (const replacement of replacements) {
+    output += html.slice(cursor, replacement.start);
+    output += replacement.html;
+    cursor = replacement.end;
+  }
+  output += html.slice(cursor);
+
+  return output;
+}
+
+const rawHtmlBody = isHtmlBackedNote
+  ? await readFile(resolve(process.cwd(), note.data.sourcePath), 'utf-8')
+  : '';
+const highlightedHtmlBody = isHtmlBackedNote ? await highlightNotionCodeBlocks(rawHtmlBody) : '';
+const htmlBody = isHtmlBackedNote ? addSummaryHeadingIds(highlightedHtmlBody) : '';
+const renderedMarkdown = isHtmlBackedNote ? null : await render(note);
+const Content = renderedMarkdown?.Content;
+const markdownHeadings = ((renderedMarkdown as unknown as { headings?: TocItem[] } | null)?.headings ?? [])
+  .filter((heading) => heading.depth === 2 || heading.depth === 3);
+const tocItems = isHtmlBackedNote ? extractHtmlHeadings(htmlBody) : markdownHeadings;
+---
+
+<BaseLayout title={`${note.data.title} | Nihal's Notes`} description={note.data.summary}>
+  <SiteHeader />
+  <main class="note-shell">
+    <aside class="note-sidebar" aria-label="Note navigation" data-pagefind-ignore="all">
+      <a class="back-link" href="/notes/">← Notes</a>
+      <nav class="sidebar-block" aria-label="Topics">
+        <p class="sidebar-title">Topics</p>
+        {
+          allTopics.map((item) => (
+            <a class="sidebar-link" href={`/topics/${item.slug}/`} aria-current={item.slug === note.data.topic ? 'true' : undefined}>
+              <span>{item.icon}</span>
+              <b>{item.title}</b>
+            </a>
+          ))
+        }
+      </nav>
+      <nav class="sidebar-block" aria-label={`${topicTitle} notes`}>
+        <p class="sidebar-title">{topicTitle}</p>
+        {
+          topicNotes.map((item) => (
+            <a class="sidebar-note" href={`/notes/${item.data.slug}/`} aria-current={item.data.slug === note.data.slug ? 'page' : undefined}>
+              {item.data.title}
+            </a>
+          ))
+        }
+      </nav>
+    </aside>
+
+    <article class="note-page" data-pagefind-body>
+      <header class="note-hero">
+        <p class="kicker" data-pagefind-meta="topic">{topicTitle}</p>
+        <h1 data-pagefind-meta="title">{note.data.title}</h1>
+        <p class="lede" data-pagefind-meta="summary">{note.data.summary}</p>
+        <div class="note-meta-line" data-pagefind-ignore="all">
+          {note.data.pinned && <span>Pinned</span>}
+          <time datetime={note.data.updatedAt.toISOString()}>Updated {note.data.updatedAt.toLocaleDateString('en-IN')}</time>
+        </div>
+        <div class="note-tags" aria-label="Tags" data-pagefind-meta={`tags:${tagLabel}`}>
+          <span>Tags:</span>
+          <ul>
+            {note.data.tags.map((tag) => <li>{tag}</li>)}
+          </ul>
+        </div>
+      </header>
+
+      {
+        tocItems.length > 0 && (
+          <nav class="note-toc" aria-label="Table of contents" data-pagefind-ignore="all">
+            <p>On this page</p>
+            <ol>
+              {tocItems.map((heading) => (
+                <li class={`toc-depth-${heading.depth}`}>
+                  <a href={`#${heading.slug}`}>{heading.text}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )
+      }
+
+      {
+        isHtmlBackedNote ? (
+          <div class="prose notion-prose" set:html={htmlBody} />
+        ) : (
+          <div class="prose">
+            {Content && <Content />}
+          </div>
+        )
+      }
+      {
+        isHtmlBackedNote && (
+          <script is:inline>
+            document.querySelectorAll('.notion-prose img').forEach((img) => {
+              if (!img.getAttribute('src')) {
+                img.closest('figure')?.remove();
+                img.remove();
+                return;
+              }
+
+              img.addEventListener('error', () => {
+                const figure = img.closest('figure.image');
+                if (figure) {
+                  figure.remove();
+                } else {
+                  img.remove();
+                }
+              }, { once: true });
+            });
+          </script>
+        )
+      }
+    </article>
+  </main>
+</BaseLayout>

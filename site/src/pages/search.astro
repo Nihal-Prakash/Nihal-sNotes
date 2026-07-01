@@ -1,0 +1,147 @@
+---
+import SiteHeader from '@components/SiteHeader.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Search | Nihal's Notes" description="Full-text search across Nihal's public technical notes.">
+  <SiteHeader />
+  <main class="search-page" data-pagefind-ignore="all">
+    <p class="kicker">Full-text search</p>
+    <h1>Search notes</h1>
+    <p class="lede">
+      Static Pagefind search across generated note pages. No backend, no database, no runtime indexing.
+    </p>
+
+    <div class="search-panel">
+      <label class="control-field" for="site-search">
+        <span>Search query</span>
+        <input id="site-search" type="search" placeholder="Try: waitpid, byte order, sockets" autocomplete="off" autofocus data-search-input />
+      </label>
+      <p class="results-count" data-search-status>Type to search indexed notes.</p>
+      <div class="search-loading" data-search-loading hidden aria-live="polite">
+        <span></span><span></span><span></span>
+        <b>Searching index</b>
+      </div>
+    </div>
+
+    <ol class="search-results" data-search-results aria-label="Search results"></ol>
+
+    <p class="empty-state" data-search-empty hidden>No indexed notes match that query.</p>
+    <p class="empty-state" data-search-unavailable hidden>
+      Search index not found. Run <code>npm run build</code> and serve <code>dist/</code> with <code>npm run preview</code>.
+    </p>
+  </main>
+
+  <script is:inline type="module">
+    const input = document.querySelector('[data-search-input]');
+    const resultsList = document.querySelector('[data-search-results]');
+    const status = document.querySelector('[data-search-status]');
+    const empty = document.querySelector('[data-search-empty]');
+    const unavailable = document.querySelector('[data-search-unavailable]');
+    const loading = document.querySelector('[data-search-loading]');
+
+    let pagefind;
+    let loadFailed = false;
+
+    const escapeText = (value) => {
+      const span = document.createElement('span');
+      span.textContent = value ?? '';
+      return span.innerHTML;
+    };
+
+    const renderResult = (data) => {
+      const item = document.createElement('li');
+      item.className = 'search-result';
+
+      const normalizeMeta = (value, fallback) => {
+        if (Array.isArray(value)) return value.find(Boolean) || fallback;
+        return value || fallback;
+      };
+      const title = normalizeMeta(data.meta?.title, data.url);
+      const topic = normalizeMeta(data.meta?.topic, 'Note');
+      const excerpt = data.excerpt || data.plain_excerpt || '';
+
+      item.innerHTML = `
+        <article>
+          <div class="search-result__meta">
+            <p class="search-result__topic">${escapeText(topic)}</p>
+            <span>Match</span>
+          </div>
+          <h2><a href="${escapeText(data.url)}">${escapeText(title)}</a></h2>
+          <p class="search-result__excerpt">${excerpt}</p>
+          <a class="search-result__url" href="${escapeText(data.url)}">Open note →</a>
+        </article>
+      `;
+
+      return item;
+    };
+
+    const loadPagefind = async () => {
+      if (pagefind || loadFailed) return pagefind;
+      try {
+        pagefind = await import('/pagefind/pagefind.js');
+        return pagefind;
+      } catch (error) {
+        loadFailed = true;
+        if (status) status.textContent = 'Search index is unavailable in this server mode.';
+        if (unavailable instanceof HTMLElement) unavailable.hidden = false;
+        return null;
+      }
+    };
+
+    let requestId = 0;
+    let searchTimer;
+    const runSearch = async () => {
+      if (!(input instanceof HTMLInputElement)) return;
+      if (!(resultsList instanceof HTMLOListElement)) return;
+
+      const query = input.value.trim();
+      const currentRequest = ++requestId;
+      resultsList.replaceChildren();
+      if (empty instanceof HTMLElement) empty.hidden = true;
+      if (loading instanceof HTMLElement) loading.hidden = true;
+
+      const params = new URLSearchParams(window.location.search);
+      if (query) params.set('q', query);
+      else params.delete('q');
+      const nextUrl = `${window.location.pathname}${params.toString() ? `?${params}` : ''}`;
+      window.history.replaceState({}, '', nextUrl);
+
+      if (!query) {
+        if (status) status.textContent = 'Type to search indexed notes.';
+        return;
+      }
+
+      if (status) status.textContent = 'Searching…';
+      if (loading instanceof HTMLElement) loading.hidden = false;
+      const pf = await loadPagefind();
+      if (!pf) return;
+
+      const search = await pf.search(query);
+      if (currentRequest !== requestId) return;
+
+      const resultData = await Promise.all(search.results.slice(0, 20).map((result) => result.data()));
+      if (currentRequest !== requestId) return;
+      if (loading instanceof HTMLElement) loading.hidden = true;
+
+      for (const data of resultData) {
+        resultsList.append(renderResult(data));
+      }
+
+      const total = search.results.length;
+      if (status) status.textContent = `${total} ${total === 1 ? 'result' : 'results'}`;
+      if (empty instanceof HTMLElement) empty.hidden = total !== 0;
+    };
+
+    const initialQuery = new URLSearchParams(window.location.search).get('q') ?? '';
+    if (input instanceof HTMLInputElement && initialQuery) {
+      input.value = initialQuery;
+      runSearch();
+    }
+
+    input?.addEventListener('input', () => {
+      window.clearTimeout(searchTimer);
+      searchTimer = window.setTimeout(runSearch, 120);
+    });
+  </script>
+</BaseLayout>

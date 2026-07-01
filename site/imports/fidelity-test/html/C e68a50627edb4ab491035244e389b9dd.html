@@ -1,0 +1,1379 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>C</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+
+	table.collection-content {
+		width: 100%;
+		table-layout: fixed;
+	}
+
+	table.collection-content th,
+	table.collection-content td {
+		overflow-wrap: anywhere;
+	}
+
+	table.collection-content td > .user,
+	table.collection-content td > time {
+		white-space: pre-wrap;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content-wrapper {
+	overflow-x: auto;
+}
+
+@media only print {
+	.collection-content-wrapper {
+		overflow-x: visible;
+	}
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	gap: 46px;
+}
+
+.column {
+	min-width: 0;
+	overflow: hidden;
+}
+
+.column > *:first-child {
+	margin-top: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+table {
+	border-collapse: collapse;
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol.numbered-list.numbered-list-digits-2 {
+	padding-inline-start: 2em;
+}
+
+ol.numbered-list.numbered-list-digits-3plus {
+	padding-inline-start: 2.4em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="e68a5062-7edb-4ab4-9103-5244e389b9dd" class="page sans"><header><img class="page-cover-image" src="https://images.unsplash.com/photo-1548867682-7ecce09e3c98?ixlib=rb-4.0.3&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb" style="object-position:center 18.479999999999997%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon notion-static-icon" src="https://app.notion.com/icons/alien-pixel_yellow.svg"/></div><h1 class="page-title" dir="auto">C</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Introduction</summary><div class="indented"><div style="display:contents" dir="auto"><ul id="fd133765-12da-4075-922b-585b973b85d5" class="bulleted-list"><li style="list-style-type:disc">C is a <mark class="highlight-teal"><strong>statically</strong></mark> typed language</li></ul></div><div style="display:contents" dir="auto"><ul id="4a8f5199-5ab5-40eb-b6dd-82c682cb0ce4" class="bulleted-list"><li style="list-style-type:disc">Statically typed: languages that have the type of the variable are known at the <mark class="highlight-purple">compile time</mark> rather than <mark class="highlight-purple">runtime</mark>.</li></ul></div><div style="display:contents" dir="auto"><ul id="e569b99a-4dbb-4df2-b2de-fe08c30096aa" class="bulleted-list"><li style="list-style-type:disc">C has no <mark class="highlight-teal"><strong>type safety</strong></mark></li></ul></div><div style="display:contents" dir="auto"><ul id="25c80f27-eb85-4193-97a2-14904312eacb" class="bulleted-list"><li style="list-style-type:disc">Type safety: languages that control and ensure that any variable access only its authorized memory locations in a well-defined and permissible way</li></ul></div><div style="display:contents" dir="auto"><ul id="ac5d9ff5-b074-41e3-86db-52b7b8942c51" class="bulleted-list"><li style="list-style-type:disc">C has no <mark class="highlight-teal"><strong>garbage collector</strong></mark></li></ul></div><div style="display:contents" dir="auto"><ul id="42a34898-5928-445e-9484-baa1aaaf8211" class="bulleted-list"><li style="list-style-type:disc">Garbage collector: memory management system which automatically finds and removes objects that are no longer being used</li></ul></div><div style="display:contents" dir="auto"><ul id="265c6a85-c98f-4f63-8bb4-abd15777390d" class="bulleted-list"><li style="list-style-type:disc">C is known for its <mark class="highlight-teal"><strong>speed, efficiency ,hardware manipulation capabilities and relative ease of shooting yourself in the foot</strong></mark></li></ul></div><div style="display:contents" dir="auto"><ul id="009b9b2d-28f3-4105-8be0-17ac38deb27f" class="bulleted-list"><li style="list-style-type:disc">C is used game development, robotics etc.</li></ul></div></div></details></div><div style="display:contents" dir="auto"><p id="a31d837a-c31e-4dd4-8378-00de59cb360b" class=""><mark class="highlight-teal"><strong> </strong></mark></p></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Workflow</summary><div class="indented"><div style="display:contents" dir="auto"><p id="d44b3eed-6f06-44c4-ab1a-9d2234927ab4" class=""><span style="border-bottom:0.05em solid">Computer</span></p></div><div style="display:contents" dir="ltr"><figure id="8ad7ff10-206d-457c-ae27-4ac188083043" class="image" style="text-align:center"><a href="C/Untitled.png"><img style="width:528px" src="C/Untitled.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="a7891046-2a0a-4ad7-9787-bdd11f510fb8" class=""><span style="border-bottom:0.05em solid">User</span></p></div><div style="display:contents" dir="ltr"><figure id="3ef28718-5230-4639-8b7f-6e772a4e4312" class="image" style="text-align:center"><a href="C/Untitled%201.png"><img style="width:432px" src="C/Untitled%201.png"/></a></figure></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Basic Structure of the Code</summary><div class="indented"><div style="display:contents" dir="auto"><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js" integrity="sha512-8VrjxGFLIkS0mgEmO3p46A5OkqATHhrNVwyv2V7yUeZrk1jmSDuI3SOEpC9XHEHUWEOsfzzcJeBlUkee9lKGrw==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><pre id="e1f9b975-bfc0-466f-9470-376adb232cd9" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt; //standard input/output
+#include &lt;stdlib.h&gt; //standard library
+
+int main(void){
+/* code */
+return 0; //after successful completion of the program the &quot;main&quot; function returns 0
+}</code></pre></div><div style="display:contents" dir="auto"><ul id="fcae8409-127c-4554-a898-1f373978d828" class="bulleted-list"><li style="list-style-type:disc">First two lines of code initiates the program by importing the required libraries using the <mark class="highlight-teal"><strong>include</strong></mark> keyword</li></ul></div><div style="display:contents" dir="auto"><ul id="9598e5c8-7a4b-434b-a6c1-54dfce71ab49" class="bulleted-list"><li style="list-style-type:disc">The default starting point of the program is the <mark class="highlight-teal"><strong>main </strong></mark><mark class="highlight-purple">function</mark>, the <mark class="highlight-teal"><strong>int </strong></mark>and <mark class="highlight-teal"><strong>void </strong></mark>keywords are respectively the the output and the input types required by the main <mark class="highlight-default">function, what are functions you ask? well we will discuss that in the next section - please bear with me for now</mark></li></ul></div><div style="display:contents" dir="auto"><ul id="1554d034-ad90-4dd9-9791-f3a64c30c278" class="bulleted-list"><li style="list-style-type:disc">After successful execution of the code the <mark class="highlight-teal"><strong>return</strong></mark><strong> </strong>keyword “returns” a value of 0 signifying the successful completion of the code. In case of an error return “returns” a non-zero value</li></ul></div><div style="display:contents" dir="auto"><ul id="1087977c-6b0b-4d11-adb1-2e0707be791a" class="bulleted-list"><li style="list-style-type:disc">Ending the line with “ <mark class="highlight-teal"><strong>;</strong></mark> ” should always be kept in mind </li></ul></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">The Basics</summary><div class="indented"><div style="display:contents" dir="auto"><p id="16cb26d6-3c81-4d26-a016-55dcfcbbd689" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Hello World</span></strong></mark></p></div><div style="display:contents" dir="auto"><p id="127ffa41-2f84-4cc5-afe5-02a216ed5d61" class="">The <mark class="highlight-teal"><strong>printf </strong></mark>statement prints the value in terminal, similar to <mark class="highlight-teal"><strong>echo, print , cout </strong></mark><mark class="highlight-default">etc. </mark></p></div><div style="display:contents" dir="auto"><pre id="abfb8e22-3b39-4570-942e-fa6d1ddeeab8" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt; 
+#include &lt;stdlib.h&gt;
+
+int main(void){
+		printf(&quot;Hello World!&quot;);
+return 0; 
+}</code></pre></div><div style="display:contents" dir="auto"><div id="101e1f45-bd1c-4caf-b0e2-c1dc42f4115d" class="column-list"><div style="display:contents" dir="auto"><div id="657dac65-7343-4ec2-8f86-a81d3bc37f22" style="width:31.25%" class="column"><div style="display:contents" dir="auto"><p id="2178c2a5-b11d-4ac6-9f97-07e329fbdc12" class="">Compiling and running the code produces the following result: </p></div></div></div><div style="display:contents" dir="auto"><div id="3d6edd51-3d86-4820-abfb-daded8556570" style="width:68.75%" class="column"><div style="display:contents" dir="ltr"><figure id="a5177187-8eb4-4cce-89db-51be31e601c7" class="image" style="text-align:center"><a href="C/3bb03773-b7fc-4807-a1a2-e53d3b02372e.png"><img style="width:384px" src="C/3bb03773-b7fc-4807-a1a2-e53d3b02372e.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="31a8ac49-f294-4a4b-b45c-4aeb2bfa47b2" class="">
+</p></div></div></div></div></div><div style="display:contents" dir="auto"><p id="63930223-690b-44b2-adca-fed6afafccb4" class="">Now let us see variations of the above code to understand how the <mark class="highlight-teal"><strong>printf</strong></mark><strong> </strong>statement works:</p></div><div style="display:contents" dir="auto"><pre id="1b676832-32f9-4723-95a6-f7b8b2ed6f45" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt; 
+#include &lt;stdlib.h&gt;
+
+int main(void){
+		printf(&quot;Hello&quot;);
+		printf(&quot; World!&quot;);
+return 0; 
+}</code></pre></div><div style="display:contents" dir="auto"><p id="845c1f24-ca69-4f9d-9001-f6e16a442d64" class="">Intrestingly this code outputs the same result, this shows us that in C the <mark class="highlight-teal"><strong>printf </strong></mark>works squentially and dosent enters a new line with each subsequent printfs’ , then how do we enter a new line? </p></div><div style="display:contents" dir="auto"><p id="bf719e78-6d05-4b0c-8905-4c495507387f" class="">This can be achieved by thr <mark class="highlight-teal"><strong>\n </strong></mark>tag:</p></div><div style="display:contents" dir="auto"><pre id="8c0671ef-3773-421e-948f-de2ea59cafe7" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt; 
+#include &lt;stdlib.h&gt;
+
+int main(void){
+		printf(&quot;Hello\n&quot;);
+		printf(&quot;World!&quot;);
+return 0; 
+}</code></pre></div><div style="display:contents" dir="auto"><div id="ba18eb3a-9f8a-4e31-af01-552c58183a8b" class="column-list"><div style="display:contents" dir="auto"><div id="b7f6a121-d14d-4be7-942f-2e65270f6f19" style="width:50.000000000000014%" class="column"><div style="display:contents" dir="ltr"><figure id="075cdee6-418d-4be1-98a7-a00203b5eff1" class="image"><a href="C/Untitled%202.png"><img style="width:317.51116943359375px" src="C/Untitled%202.png"/></a></figure></div></div></div><div style="display:contents" dir="auto"><div id="e28189d2-dd39-4b1a-a056-37f38b3eca8c" style="width:50%" class="column"><div style="display:contents" dir="auto"><p id="e3f1d85c-228e-4467-8148-afbe9545daee" class="">The code switches to a new line when it encounters the <mark class="highlight-teal"><strong>\n </strong></mark>tag, there are many more tag like this such as <mark class="highlight-teal"><strong>\t , \b , \\ </strong></mark> for tab, backspace and slash repectively </p></div></div></div></div></div><div style="display:contents" dir="auto"><p id="4c43dcd4-0198-4818-9b95-c3983b8d2978" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Variables</span></strong></mark></p></div><div style="display:contents" dir="auto"><p id="9e4a5706-033b-412e-892d-7b2d94086621" class="">Variables are variables - study asome algebra if you dont know what a variable is. When in C as with most other languages we are required to type define each variable at the time of declaration. As mention earlier C is a <mark class="highlight-teal"><strong>statically typed language </strong></mark>hence the type of each variable is known at the <mark class="highlight-purple">compile time</mark></p></div><div style="display:contents" dir="auto"><p id="d4a5209c-1357-4d3b-a10b-c3c09f4cebd6" class="">There are various types of variable each which a specific use:</p></div><div style="display:contents" dir="auto"><pre id="904e5620-7e7a-43bd-8cf7-3c447ccaea0f" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt; 
+#include &lt;stdlib.h&gt;
+
+int main(void){
+		char name1 = &#x27;*&#x27;;
+		int name2 = 3;
+		long name3 = 999999999;
+		float name4 = 3.141592;
+		double name5 = 999999.999999;
+		
+return 0; 
+}</code></pre></div><div style="display:contents" dir="auto"><p id="f43ebfbe-d36b-4b5d-8b8f-1668e0fd9be5" class="">This is not an exhaustive list of all variable types , however this list should be sufficient for the most part</p></div><div style="display:contents" dir="auto"><ol type="1" id="85c3e396-9234-4e2e-903b-8b91d9f2344b" class="numbered-list" start="1"><li><mark class="highlight-teal"><strong>char</strong></mark><strong>: </strong>char or character are 1 byte long, used to contain letters or special characters (one byte is 8 bit as in 8 on/off switches in binary)</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="dee5354e-be2c-492a-88da-18df1634ddcf" class="numbered-list" start="2"><li><mark class="highlight-teal"><strong>int</strong></mark><strong>: </strong>int or interger are 4 bytes long, used to contain integer values - it can hold maximum value of <mark class="highlight-orange"><strong>2^32 -1 = 4294967295 </strong></mark>and for signed we need to allot one bit to represent the sign hence the maximum does down to <mark class="highlight-orange"><strong>2^31 -1 = 2147483647 </strong></mark></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="5877543f-794b-470d-8a9d-6b44feb09fd9" class="numbered-list" start="3"><li><mark class="highlight-teal"><strong>long</strong></mark><strong>: </strong>long is an extension of int to store larger values and are 4 bytes and 8 bytes long in 32-bit and 64-bit system respectively</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="3d29198c-1e64-4292-8bc0-08a9a30af69b" class="numbered-list" start="4"><li><mark class="highlight-teal"><strong>float</strong></mark><strong>: </strong>float or floating point type is used to store decimal values, which are 4 bytes long</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="c4f0de0e-177a-4dd7-ba67-c80c82bbf396" class="numbered-list" start="5"><li><mark class="highlight-teal"><strong>double</strong></mark><strong>: </strong>double is the long version of float, 8 bytes long</li></ol></div><div style="display:contents" dir="auto"><p id="d3cb087a-8adc-47fb-ae50-2905ed354f24" class="">So these were the basic types of the variables!</p></div><div style="display:contents" dir="auto"><hr id="06574b8b-cffd-4168-8056-da9f747ffa9b"/></div><div style="display:contents" dir="auto"><div id="710d4c1a-e099-4b40-90cf-48f3d8a31f55" class="column-list"><div style="display:contents" dir="auto"><div id="747d0066-3980-48e7-b09d-21528d04adbe" style="width:50%" class="column"><div style="display:contents" dir="auto"><blockquote id="7bf4fd88-49ad-4bb8-92e6-15023e38eaeb" class="">An Important thing to note is that C converts one type of variable into another when called via by some other format, for example if we initialize a variable as float : <em><mark class="highlight-blue">float</mark></em><em> </em>name = <mark class="highlight-brown">3.141592</mark>; and try to output it using printf as an <em><mark class="highlight-blue">int</mark></em> we get the following result 👉<br/><br/>Why did we get 0? </blockquote></div><div style="display:contents" dir="ltr"><figure id="9ec6cb52-62de-41d1-b139-acdd275fb01e" class="image"><a href="C/Untitled%203.png"><img style="width:316.9977722167969px" src="C/Untitled%203.png"/></a></figure></div></div></div><div style="display:contents" dir="auto"><div id="d72544e5-9853-4712-ad86-9e4083e65783" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="7de1f358-f247-4891-a387-6dee3941f37e" class="image" style="text-align:right"><a href="C/Untitled%204.png"><img style="width:336px" src="C/Untitled%204.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="9b6cbfec-b704-451c-ba11-0416b6be04cf" class="">
+</p></div><div style="display:contents" dir="auto"><blockquote id="915b54e3-50fd-4db4-a15c-7d53e869d16a" class="">Now what would we get if we tried to ouput it as <em><mark class="highlight-blue">double</mark></em>? will we get 0 again? <br/><br/>We got 3.141592 as the result what does it say about the output give by C?</blockquote></div></div></div></div></div><div style="display:contents" dir="auto"><hr id="09ed4cfa-e4ea-4cdf-881f-3440a5f7e441"/></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Format Specifiers</summary><div class="indented"><div style="display:contents" dir="auto"><p id="1fa15dbf-b6a2-80b7-aa33-dd530a7681dd" class="">Used to specify a data type <br/>It is initiated by the % - you can think of it as a placeholder for whatever you want , input or output. Every variable type has it own flag.</p></div><div style="display:contents" dir="auto"><div id="1fa15dbf-b6a2-80bf-8c09-df9c267762d0" class="column-list"><div style="display:contents" dir="auto"><div id="1fa15dbf-b6a2-802b-954a-d5ebc0f3fb9f" style="width:50%" class="column"><div style="display:contents" dir="auto"><pre id="1fa15dbf-b6a2-803f-abbf-df799619b814" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+int main(void) {
+    
+    int age = 25;
+    float price = 19.99;
+    double pi = 3.1415926535;
+    char currency = &#x27;$&#x27;;
+    char name[] = &quot;Bro Code&quot;;
+     
+    printf(&quot;%d\n&quot;, age);
+    printf(&quot;%f\n&quot;, price);
+    printf(&quot;%lf\n&quot;, pi);
+    printf(&quot;%c\n&quot;, currency);
+    printf(&quot;%s\n&quot;, name);
+
+    return 0;
+}</code></pre></div></div></div><div style="display:contents" dir="auto"><div id="1fa15dbf-b6a2-80ca-9d73-c49c558ed9c8" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="1fa15dbf-b6a2-802e-8a25-d26be65a3fc8" class="image"><a href="C/image.png"><img style="width:240px" src="C/image.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="1fa15dbf-b6a2-80b2-8ddc-d9b3f3dd3d04" class="">
+</p></div></div></div></div></div><div style="display:contents" dir="auto"><p id="1fa15dbf-b6a2-80ce-9380-f4afdead77bc" class=""><mark class="highlight-brown_background"><strong><span style="border-bottom:0.05em solid">Modifiers</span></strong></mark></p></div><div style="display:contents" dir="auto"><pre id="1fa15dbf-b6a2-8053-9cc9-e1097af437b4" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+int main(void) {
+    
+    float num2 = 19.99;
+    int num1 = -100;
+
+    printf(&quot;%d\n&quot;, num1);
+    printf(&quot;%4d\n&quot;, num1); /*characters in output*/
+    printf(&quot;%-4d\n&quot;, num1);/*spaces on the right most*/
+    printf(&quot;%04d\n&quot;, num1);/*replaces spaces by 0*/
+    printf(&quot;%+4d\n&quot;, num1);/*displays +ve/-ve numbers*/
+    printf(&quot;%.2f\n&quot;, num2);/*places after decimal*/
+    
+
+    return 0;
+}</code></pre></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">User Input</summary><div class="indented"><div style="display:contents" dir="auto"><p id="1fa15dbf-b6a2-8015-ae1e-c5d8182b0a28" class="">Here we will learn how to take input from our user and deal with different scenarios relating to the various types of variables</p></div><div style="display:contents" dir="auto"><div id="1fb15dbf-b6a2-8064-a5f1-eb99fbb8b570" class="column-list"><div style="display:contents" dir="auto"><div id="1fb15dbf-b6a2-805e-9ec9-f6f45d1187b2" style="width:50%" class="column"><div style="display:contents" dir="auto"><p id="1fb15dbf-b6a2-80f2-990f-ef40a6b312b1" class="">Let us breakdown this code bit by bit<br/>The first thing you might notice is the inclusion of a new library <mark class="highlight-teal"><strong><span style="border-bottom:0.05em solid">string.h</span></strong></mark>, for now just know that it helps us deal with pesky scenarios relating to strings</p></div><div style="display:contents" dir="auto"><p id="1fb15dbf-b6a2-80dc-8358-d19d0ec8d9e6" class="">Best practice is to always use a variable only after assigning it a value to avoid any unpredictable behavior. this can occur due to the variable being assigned storage which has some left over data from some other program on the machine - hence I initiated the variable with nil values</p></div><div style="display:contents" dir="auto"><p id="1fb15dbf-b6a2-8098-8fb5-e3a6cb286e73" class="">Now the interesting <mark class="highlight-teal"><strong>scanf</strong></mark> function: It takes the user input of the defined variable type. The <mark class="highlight-red"><strong>&amp;</strong></mark> specifies the address of the variable .One thing to pay attention to is the space before the %c in grade input , this is avoid taking in the \n of the previous command acting as an input buffer.</p></div><div style="display:contents" dir="auto"><p id="1fb15dbf-b6a2-802c-b32a-f324ee8ecde6" class="">Finally we get to the name input- this can get a little complicated. The reason why we use the <mark class="highlight-teal"><strong><span style="border-bottom:0.05em solid">fgets</span></strong></mark> function instead of  the scanf function is due to the fact that scanf stops reading after spaces so we wont be able to take in our user’s full names</p></div><div style="display:contents" dir="auto"><p id="1fb15dbf-b6a2-806c-9ad9-c845827bcd36" class="">The <mark class="highlight-teal"><strong>getchar()</strong></mark> functions acts the space in the scanf function (basically an input buffer)</p></div><div style="display:contents" dir="auto"><p id="1fb15dbf-b6a2-8063-9c49-dc50419ac914" class=""><mark class="highlight-yellow_background">name[strlen(name) - 1] = &#x27;\0&#x27;</mark> 👈 this whole thing is just to take in “abc def” instead of “abc def\n” as fgets adds \n for enter key we press, This is also where we use the <mark class="highlight-teal"><strong><span style="border-bottom:0.05em solid">string.h</span></strong></mark> library<br/></p></div></div></div><div style="display:contents" dir="auto"><div id="1fb15dbf-b6a2-8069-843f-fdc004792e82" style="width:50%" class="column"><div style="display:contents" dir="auto"><pre id="1fb15dbf-b6a2-80d3-8d20-eb0681c9f757" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+int main(void){
+
+    int age = 0;
+    float gpa = 0.0f;
+    char grade=&#x27;\0&#x27;;
+    char name[30] = &quot;&quot;;
+
+    printf(&quot;Enter your age: &quot;);
+    scanf(&quot;%d&quot;, &amp;age);
+
+    printf(&quot;Enter your GPA: &quot;);
+    scanf(&quot;%f&quot;, &amp;gpa);
+
+    printf(&quot;Enter your grade: &quot;);
+    scanf(&quot; %c&quot;, &amp;grade);
+
+    printf(&quot;Enter your full name: &quot;);
+    getchar();
+    fgets(name, sizeof(name), stdin);
+    name[strlen(name) - 1] = &#x27;\0&#x27;;
+
+    printf(&quot;\n&quot;);
+    printf(&quot;%s\n&quot;, name);
+    printf(&quot;%d\n&quot;, age);
+    printf(&quot;%.2f\n&quot;, gpa);
+    printf(&quot;%c\n&quot;, grade);
+
+    return 0;
+}</code></pre></div><div style="display:contents" dir="ltr"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="20315dbf-b6a2-8077-82bd-f1ee495a1080"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><div style="display:contents" dir="auto"><p id="20315dbf-b6a2-8047-b880-f4859273b3d4" class="">One very important thing to keep in mind is that to use the getchar() only when the string has preceding inputs from the user else it will skip the first character the user inputs</p></div></div></figure></div></div></div></div></div><div style="display:contents" dir="auto"><p id="1fb15dbf-b6a2-808a-86ea-e3c978305df4" class=""> </p></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Operators</summary><div class="indented"><div style="display:contents" dir="auto"><p id="dc22ff97-fd21-4a51-9d90-de09b3993932" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Arithmetic Operators</span></strong></mark><strong> 🔢</strong></p></div><div style="display:contents" dir="auto"><ol type="1" id="4a7a7a46-3bae-42cc-8d3f-af5a5befa213" class="numbered-list" start="1"><li>Addition (+) </li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="49b4d634-a898-4203-8075-fe988a9d86d3" class="numbered-list" start="2"><li>Subtraction (-) </li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2ebfaa68-51a7-4265-84ba-d633332b6231" class="numbered-list" start="3"><li>Multiplication (*)</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="d5b43c5d-5cc8-4308-960b-1d6fcf931480" class="numbered-list" start="4"><li>Division (/) </li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="02f0b557-9fc1-45d5-9d53-5534a2994a9e" class="numbered-list" start="5"><li>Modulo (%)</li></ol></div><div style="display:contents" dir="auto"><p id="e291fe0b-a122-403f-8583-9cde85efcd94" class="">
+</p></div><div style="display:contents" dir="auto"><p id="580897d3-ae62-42f4-a359-b2ac758ccf6f" class="">Let’s see them in action 👇</p></div><div style="display:contents" dir="auto"><pre id="4cb4ca6a-cb18-4f6e-a1b3-fc4ddfd36264" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt; 
+#include &lt;stdlib.h&gt;
+
+int main(void){
+    float num1 = 29.00;
+    float num2 = 11.00;
+    printf(&quot;Addition: %f\n&quot;, num1 + num2);
+    printf(&quot;Subtraction: %f\n&quot;, num1 - num2);
+    printf(&quot;Multiplication: %f\n&quot;, num1 * num2);
+    printf(&quot;Division: %f\n&quot;, num1 / num2);
+    printf(&quot;Modulus: %d\n&quot;, (int)num1 % (int)num2); 
+    return 0; 
+}</code></pre></div><div style="display:contents" dir="auto"><div id="c25817de-9c4a-432e-ab9f-6fc4d8d8fd61" class="column-list"><div style="display:contents" dir="auto"><div id="3f94c4ad-6fc1-4aac-83c9-1a429eb50294" style="width:56.25%" class="column"><div style="display:contents" dir="auto"><p id="a588e827-2cd2-4464-8694-0a772835f54e" class="">Ok quite a few things to discuss here, let’s over them one by one </p></div><div style="display:contents" dir="auto"><p id="3e4d67d1-d904-49a4-bbbb-aa1d19936547" class="">‘<mark class="highlight-teal"><strong>+</strong></mark>’,’<mark class="highlight-teal"><strong>-</strong></mark>’,’<mark class="highlight-teal"><strong>*</strong></mark>’,’<mark class="highlight-teal"><strong>/</strong></mark>’ work as expected no surprises there but you might have noticed “<mark class="highlight-teal"><strong>%f\n</strong></mark>” tag in all but one <mark class="highlight-teal"><strong>printf </strong></mark>statements, these are <mark class="highlight-purple">placeholders </mark>for the variable you want to output. The <mark class="highlight-teal"><strong>%f </strong></mark>specifies the variable type to be inserted there and as mentioned earlier <mark class="highlight-teal"><strong>\n </strong></mark>just enters a new line</p></div><div style="display:contents" dir="auto"><p id="d70eb03f-355c-4be4-94c6-ab74eb2542bb" class="">For the uninformed the ‘<mark class="highlight-teal">%</mark>’ or the modulo operator returns the remainder when a is divided by b in a%b</p></div></div></div><div style="display:contents" dir="auto"><div id="cdb07216-6de7-4bdf-b541-86f1ca2ffd41" style="width:43.75%" class="column"><div style="display:contents" dir="ltr"><figure id="880d0030-871e-46b6-8ff9-634a767413fc" class="image"><a href="C/Untitled%205.png"><img style="width:336px" src="C/Untitled%205.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="48afe6b3-de27-4a6c-96c5-7845501f3289" class="">
+</p></div></div></div></div></div><div style="display:contents" dir="auto"><p id="89a5c8ed-690a-4375-b247-91e14856b6bc" class="">Now for the modulo operator the following has been given:<br/>(<mark class="highlight-teal">int</mark>)num1 % (<mark class="highlight-teal">int</mark>)num2 ; the (<mark class="highlight-teal">int</mark>) is used to convert the variable type of num1 and num2 to <mark class="highlight-teal">int </mark>type because the modulo operator only accepts integer values</p></div><div style="display:contents" dir="auto"><p id="4e4bb149-72be-4aec-a6c9-eab03466b22f" class="">Now in the execution terminal I have introduced a new keyword <mark class="highlight-teal"><strong>time </strong></mark>, to be honest this has got nothing to do with and you can perfectly do away with just <mark class="highlight-teal"><strong>./*.exe </strong></mark>but I like to know how well my code is performing hence the usage.</p></div><div style="display:contents" dir="auto"><hr id="519f3855-d23a-4d7c-9791-6715e5a7d9c4"/></div><div style="display:contents" dir="auto"><p id="ab37f8e3-a973-4f40-bb70-228879a4867e" class="">
+</p></div><div style="display:contents" dir="auto"><p id="5056345e-3166-4e9e-866a-583b86326166" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Relational Operators</span></strong></mark> </p></div><div style="display:contents" dir="auto"><ol type="1" id="ef54dcab-c0f8-403f-8869-234b960b5ed7" class="numbered-list" start="1"><li>==</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="f6ed2070-f680-4868-b4f8-c4aa30c01514" class="numbered-list" start="2"><li>!=</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b80ebd95-b1c3-4458-9ad2-5d44c8f70a50" class="numbered-list" start="3"><li>&gt;,&lt;,&gt;=,&lt;=</li></ol></div><div style="display:contents" dir="auto"><p id="d2e07829-433e-43ad-a0c4-71fe6b6d495f" class="">I guess this is pretty much self explanatory so I am just skip this<br/>Well one thing I would like to address is why 2 =’s ? Well the answer is really simple the developers in the earlier days had already used up the single ‘=’ for assignment of values hence we had to use ‘==’</p></div><div style="display:contents" dir="auto"><hr id="ae4ec89e-ba18-4c2d-88ce-554bf744b58d"/></div><div style="display:contents" dir="auto"><p id="3070c405-c86e-4121-91eb-ac6fe147a520" class="">
+</p></div><div style="display:contents" dir="auto"><p id="2d580b0c-7925-453a-a373-958cb5de9c37" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Logical Operators</span></strong></mark></p></div><div style="display:contents" dir="auto"><ol type="1" id="13f7c214-1fd0-4d20-868a-d62ea6ce3be3" class="numbered-list" start="1"><li>AND (&amp;&amp;) : Returns true/1 if both the conditions are true </li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2fdc8b93-14ea-4a66-b4be-66db8ca6d320" class="numbered-list" start="2"><li>OR (||) : Returns true/1 when either of the conditions are true</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="fbb88ec8-3ab1-48ce-bf7b-c3a186815c97" class="numbered-list" start="3"><li>NOT (!) : Returns true/1 when the condition is fault</li></ol></div><div style="display:contents" dir="auto"><p id="93556716-becc-40bd-895e-fde7b5f49faa" class="">Again pretty self-explanatory </p></div><div style="display:contents" dir="auto"><hr id="9ba837f3-96b2-4eca-8d5f-60d34cbbe2d9"/></div><div style="display:contents" dir="auto"><p id="1a108e35-18c6-44f7-bae6-395a731d3e99" class="">
+</p></div><div style="display:contents" dir="auto"><p id="aeacfd70-f567-472c-9322-0c062ddecb46" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Bitwise Operator</span></strong></mark></p></div><div style="display:contents" dir="auto"><ol type="1" id="4025176b-9523-4f6c-a0ce-86a19503b065" class="numbered-list" start="1"><li>AND (&amp;)</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="af1dddd6-ec11-4fc9-b456-50139a5d824e" class="numbered-list" start="2"><li>OR (|)</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="91915de3-6571-4675-b635-8d8a9d843ce9" class="numbered-list" start="3"><li>XOR (^)</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="4b322103-e7ab-4a65-b12c-a2ee8ea47022" class="numbered-list" start="4"><li>NOT (~)</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="bb80e462-0784-41e7-b0fb-b96d33fbc6d2" class="numbered-list" start="5"><li>LHS/RHS (&lt;&lt;,&gt;&gt;)</li></ol></div><div style="display:contents" dir="auto"><pre id="fb41f6ae-14f3-4095-8a2f-a9506a4aabb1" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt; 
+#include &lt;stdlib.h&gt;
+
+int main(void){
+    int num1 = 29.00; //binary 11101
+    int num2 = 11.00; //binary 1011
+    printf(&quot;%d\n&quot;, num1 &amp; num2); //binary 1001
+    printf(&quot;%d\n&quot;, num1 | num2); //binary 11111
+    printf(&quot;%d\n&quot;, num1 ^ num2); //binary 11010
+    printf(&quot;%d\n&quot;, ~num1); //binary -11010
+    printf(&quot;%d\n&quot;, ~num2); //binary -11011
+    printf(&quot;%d\n&quot;, num1 &lt;&lt; 2); //binary 1110100
+    printf(&quot;%d\n&quot;, num1 &gt;&gt; 2); //binary 111
+    return 0; 
+}</code></pre></div><div style="display:contents" dir="auto"><div id="d591d784-b774-4f69-8bff-128dd1043820" class="column-list"><div style="display:contents" dir="auto"><div id="db92153f-82fc-4a16-a921-be9a93b3cb87" style="width:50%" class="column"><div style="display:contents" dir="auto"><p id="c2de8ddb-c44a-4b76-9ce9-620b0a645b70" class="">Bitwise operations are performed on the binary base of the input , let’s go over them on by one:</p></div><div style="display:contents" dir="auto"><p id="5514baa9-065f-44d0-9eb7-619efb26e24a" class=""><mark class="highlight-teal"><strong>&amp; </strong></mark>is the binary AND it returns 1 only when both the inputs are 1 and 0 other wise, in other words A <mark class="highlight-teal">&amp; </mark>B → A <mark class="highlight-teal">*</mark> B in binary.<br/></p></div><div style="display:contents" dir="auto"><p id="3f41cd18-9f25-4f1c-8fc1-6889146b9aba" class="">‘<mark class="highlight-teal"><strong>|</strong></mark>’ is the binary OR which returns when either of the input is 1 , 0 otherwise, in other words A <mark class="highlight-teal">| </mark>B → A <mark class="highlight-teal">+ </mark>B in binary</p></div></div></div><div style="display:contents" dir="auto"><div id="55617243-10a1-4fad-b4f8-d04a1c63b75d" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="43ae9a27-6ce8-4951-933c-3799995e2310" class="image"><a href="C/Untitled%206.png"><img style="width:303.0022277832031px" src="C/Untitled%206.png"/></a></figure></div></div></div></div></div><div style="display:contents" dir="auto"><p id="70f04c2b-356c-427a-ba03-a52b706e27c2" class=""><mark class="highlight-teal"><strong>^ </strong></mark>is the binary exclusive OR returns 1 only when one and only one of the input is 1, returns 0 otherwise</p></div><div style="display:contents" dir="auto"><p id="f8e81c60-31a3-4166-989f-7d964216b93e" class=""><mark class="highlight-teal"><strong>~ </strong></mark>is the binary NOT, it flips the digits , <mark class="highlight-yellow_background">why do you think ~ of 29 is -30 and not 226? I will answer that later !</mark> </p></div><div style="display:contents" dir="auto"><p id="60ff9070-63b8-4204-a6ef-f1b942738606" class=""><mark class="highlight-teal"><strong>&lt;&lt;</strong></mark>,<mark class="highlight-teal"><strong>&gt;&gt; </strong></mark>are Left hand shifts and Right hand shifts respectively ,  they shift each bit of a given input a unit left or right add an integer after it specifies how many times the operation has to be preformed. Interestingly a neat equivalence can be drawn from the these operators — LHS is equivalent to multiplication by 2 and RHS is equivalent to division by 2 . Think about it, shifting place in binary is just shifting to another power of 2</p></div><div style="display:contents" dir="auto"><p id="4150cd22-aeb1-46e9-9a7d-9c9f604cf3fa" class="">But another detail you might notice the command: 29 <mark class="highlight-teal">&lt;&lt; </mark>2 results in 7 not 7.25, why is this?</p></div><div style="display:contents" dir="auto"><blockquote id="973e15eb-c9b7-4328-a4ea-975640237c28" class="">can we use these bitwise operations on letter and special character? think ASCII</blockquote></div><div style="display:contents" dir="auto"><hr id="531f0f8e-308b-42ee-8e2d-85309970bd4b"/></div><div style="display:contents" dir="auto"><p id="599629c7-4a39-496a-bf90-1fd700572a86" class="">
+</p></div><div style="display:contents" dir="auto"><p id="2fcf72b0-3215-4338-955a-d39d5a837768" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Assignment Operations</span></strong></mark></p></div><div style="display:contents" dir="auto"><ol type="1" id="aad48271-55d6-422a-8194-5b97ea5b7701" class="numbered-list" start="1"><li>= </li></ol></div><div style="display:contents" dir="auto"><p id="02507f01-d610-45be-975b-12f00273848e" class="">Yes! that’s it! well to be completely honest that is not true but the rest can be derived by combining ‘<mark class="highlight-teal">=</mark>’ with Arithmetic and Bit-wise operators, here’s how:</p></div><div style="display:contents" dir="auto"><p id="1d223997-6a75-4ae9-96cf-21bc88819d20" class="">num <mark class="highlight-teal">+</mark>= 2 → num = num <mark class="highlight-teal">+</mark> 2<br/>num <mark class="highlight-teal">*</mark>= 2 → num = num <mark class="highlight-teal">*</mark> 2<br/>num <mark class="highlight-teal">%</mark>= 2 → num = num<mark class="highlight-teal">%</mark>2</p></div><div style="display:contents" dir="auto"><p id="9d02d75b-7cf2-4eb0-aa47-0bb7019aaa73" class="">See it’s so simple! and the same can be done with Bit-wise operators:</p></div><div style="display:contents" dir="auto"><p id="2bcd0a8c-8669-45b8-90f9-699fb547703f" class="">a <mark class="highlight-teal">&amp;</mark>= b → a = a <mark class="highlight-teal">&amp; </mark>b<br/>a <mark class="highlight-teal">|</mark>= b → a = a <mark class="highlight-teal">| </mark>b<br/>a <mark class="highlight-teal">^</mark>= b → a = a <mark class="highlight-teal">^ </mark>b</p></div><div style="display:contents" dir="auto"><p id="31d6f973-e4db-4dbf-948b-85ff5726b3c9" class="">With the same principle it can be extended to all the other operators</p></div><div style="display:contents" dir="auto"><hr id="c8831391-eb03-4e98-9bb2-81ddb93988ab"/></div><div style="display:contents" dir="auto"><p id="b9b32b36-667a-44fd-b09d-73ac720e002b" class="">
+</p></div><div style="display:contents" dir="auto"><p id="5cf6eea4-4101-4cff-a851-7fad7fd2c64d" class="">Besides these there is another set of operators called <mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Ternary Operators</span></strong></mark> , about which I will discuss under the Loops section</p></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Loops 🔁</summary><div class="indented"><div style="display:contents" dir="auto"><p id="dae9b179-d732-4103-9dc5-32996e311536" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">If-Else Loop</span></strong></mark></p></div><div style="display:contents" dir="auto"><pre id="d458a9ca-7e9e-4e87-90f4-279d48a59198" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+    int a = 5;
+    int b = 6;
+    if(a &lt; b) {
+        printf(&quot;a is less than b\n&quot;);
+    } else if (a == b) {
+        printf(&quot;a is equal to b\n&quot;);
+    } else {
+        printf(&quot;a is greater than b\n&quot;);
+    }
+
+    return 0;
+}</code></pre></div><div style="display:contents" dir="auto"><div id="f9d19a7f-a86b-4010-a4b8-403d13c3a01b" class="column-list"><div style="display:contents" dir="auto"><div id="970f2e10-88d2-4d0e-876b-a3da23defe41" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="a2b776bc-cdae-40db-9d88-b7bdd63ef72d" class="image"><a href="C/Untitled%207.png"><img style="width:315.5px" src="C/Untitled%207.png"/></a></figure></div></div></div><div style="display:contents" dir="auto"><div id="25aa2da1-5982-4487-8203-10596ecf61a7" style="width:50%" class="column"><div style="display:contents" dir="auto"><p id="cf6c04e4-fcd8-4b2a-8973-3b17f63e627d" class=""><mark class="highlight-teal"><strong>If-else</strong></mark> loop sequentially goes through checking each condition and executes the ones which are true, the <mark class="highlight-teal"><strong>else</strong></mark> statement is executed when none of the foregoing condition are met, you might have noticed that the else statement is not followed by any condition.</p></div></div></div></div></div><div style="display:contents" dir="auto"><p id="15a0f487-30b1-432c-b33d-93318c61b9af" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Switch</span></strong></mark></p></div><div style="display:contents" dir="auto"><pre id="3ab3a7a3-6e81-4048-8854-fd9ecc4836de" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+    char grade = &#x27;B&#x27;;
+
+    switch (grade) {
+        case &#x27;A&#x27;:
+            printf(&quot;Excellent!\n&quot;);
+            break;
+        case &#x27;B&#x27;:
+            printf(&quot;Well done!\n&quot;);
+            break;
+        case &#x27;C&#x27;:
+            printf(&quot;You passed!\n&quot;);
+            break;
+        case &#x27;D&#x27;:
+            printf(&quot;You failed!\n&quot;);
+            break;
+        case &#x27;F&#x27;:
+            printf(&quot;You flunked the exam!\n&quot;);
+            break;
+        default:
+            printf(&quot;Invalid grade\n&quot;);
+            break;
+    }
+
+    return 0;
+}</code></pre></div><div style="display:contents" dir="auto"><div id="b5e50fd7-8395-4ab3-b159-dfc1ebbe32ef" class="column-list"><div style="display:contents" dir="auto"><div id="6ce434fa-3182-4e8f-833d-22004b3e1060" style="width:50%" class="column"><div style="display:contents" dir="auto"><p id="ef5f0a1c-4052-4cbb-8344-c1a6175edab9" class="">The <mark class="highlight-teal"><strong>switch</strong></mark> statement can be used in place of <mark class="highlight-teal"><strong>if-else</strong></mark> in senarios where one paticular variable/constant has to be compared with a myriad of different value</p></div><div style="display:contents" dir="auto"><p id="d54dc2db-2263-4f43-a8f5-60b8fefd082c" class="">An intresting this to note is that the <mark class="highlight-teal"><strong>switch </strong></mark>is significantly faster than the <mark class="highlight-teal"><strong>if-else </strong></mark>statement , and hence should be used wherever and whenever it can be used</p></div></div></div><div style="display:contents" dir="auto"><div id="5ff57498-6574-4be8-ab10-afae804ac310" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="1608d4ff-f57a-41cb-aac8-68597ef4a3da" class="image"><a href="C/Untitled%208.png"><img style="width:315.5px" src="C/Untitled%208.png"/></a></figure></div></div></div></div></div><div style="display:contents" dir="auto"><p id="e5878b3a-af97-41ba-a27c-ba4152f32860" class="">An important keyword is the <mark class="highlight-teal"><strong>break</strong></mark> statement, once called it exits the loop. Here we have used <mark class="highlight-teal"><strong>break </strong></mark>to avoid executing all the commands after the true condition, had it not been present all the code below “Well done!” would have been executed.</p></div><div style="display:contents" dir="auto"><p id="f36e5991-60b7-48d1-991d-138c8d4cd810" class="">Here we will comapare the speed at which these loops operate: </p></div><div style="display:contents" dir="auto"><p id="74d852cc-1d7c-4326-8ad6-d162944d11f0" class="">I wrote a simple code to figure out the value of a from a list of 100 natural numbers,first I used <mark class="highlight-teal"><strong>if-else </strong></mark>statement after which I did the same thing with <mark class="highlight-teal"><strong>switch </strong></mark>statement 👇</p></div><div style="display:contents" dir="auto"><div id="9e723138-913f-4d86-81cb-4cf146880cab" class="column-list"><div style="display:contents" dir="auto"><div id="1cd704e6-2efa-4317-be31-8b1b6c99e2f5" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="ffa77099-42ea-4880-baab-a65fbbf4f6ba" class="image"><a href="C/Untitled%209.png"><img style="width:315.5px" src="C/Untitled%209.png"/></a></figure></div></div></div><div style="display:contents" dir="auto"><div id="9612ea25-609e-4150-a22d-ed864b0d0c60" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="207ced67-4b6f-4018-87b8-01c63cd487ff" class="image"><a href="C/Untitled%2010.png"><img style="width:315.5px" src="C/Untitled%2010.png"/></a></figure></div></div></div></div></div><div style="display:contents" dir="auto"><p id="feee35ea-a0e7-4e31-a73a-71a1ef518c0b" class="">Although the difference is sub 20-30 hundereths of a seconds, the difference can escalte quickly in larger and more complex programs</p></div><div style="display:contents" dir="auto"><p id="da8db56b-d615-4558-9c1a-0682a2006c63" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">For Loop</span></strong></mark></p></div><div style="display:contents" dir="auto"><pre id="c5ce71a2-44f3-4eb0-a1af-fb088b79bd53" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+
+int main(void) {
+    for(int i = 0; i &lt; 10; i++) {
+        printf(&quot;%i\n&quot;, i);
+    }  
+    return 0;
+}</code></pre></div><div style="display:contents" dir="auto"><div id="031ce144-53e5-4a63-982c-1d7af6e450b9" class="column-list"><div style="display:contents" dir="auto"><div id="f12d5b04-165a-4be5-9ef0-80441d092b70" style="width:50%" class="column"><div style="display:contents" dir="auto"><p id="188fb80c-abd3-4e5a-9d05-4223b3125070" class="">The <mark class="highlight-teal"><strong>For loop</strong></mark> is the best, 😄 ok let me clarify. Here’s how a for loop works first the condition is checked, this might seem trivial to point but this is come to come handy later on. After the the condition returns true the code is executed. That is the basic overview now let’s look closer — the basic structure of a typical <mark class="highlight-teal"><strong>for loop </strong></mark>is:<br/><mark class="highlight-teal"><strong>for(</strong></mark><mark class="highlight-yellow"><strong>initialize</strong></mark><mark class="highlight-teal"><strong>;</strong></mark><mark class="highlight-yellow"><strong>condition</strong></mark><mark class="highlight-teal"><strong>;</strong></mark><mark class="highlight-yellow"><strong>increment</strong></mark><mark class="highlight-teal"><strong>){</strong></mark><mark class="highlight-yellow"><strong>code</strong></mark><mark class="highlight-teal"><strong>}</strong></mark>  </p></div></div></div><div style="display:contents" dir="auto"><div id="affadb29-ae87-4b01-92bf-82a24a6e8e8b" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="f5041c18-99ab-4cea-8d28-b0cb373a15a2" class="image"><a href="C/Untitled%2011.png"><img style="width:281.97265625px" src="C/Untitled%2011.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="9f0e19e2-fb41-4ea3-b5dc-97561e406f29" class="">
+</p></div></div></div></div></div><div style="display:contents" dir="auto"><p id="67601ce8-d6c0-4678-8da4-8aed1fb6be82" class="">The <mark class="highlight-yellow"><strong>intialize </strong></mark>statement acts as a starting point for the loop, <mark class="highlight-yellow"><strong>condition </strong></mark>statement is the actual condition which will be checked each time the loop runs and the <mark class="highlight-yellow"><strong>increament</strong></mark> statement can be an increament or decreament or anything the point is it forwards the loop.</p></div><div style="display:contents" dir="auto"><blockquote id="2f395932-22f9-41b0-93a0-08cffd1f1924" class="">Presence of each statement is not mandatory however the presecnce of the three ‘<mark class="highlight-yellow"><strong>;</strong></mark>’ is mandatory also you cannot switch up the order of <mark class="highlight-yellow"><strong>initialize condition </strong></mark>and <mark class="highlight-yellow"><strong>increament </strong></mark>— each “section” is reserved for each respectively , however you can leave them blank. The following 3 codes ouput the same result - carefully look at the <mark class="highlight-teal"><strong>for loop</strong></mark></blockquote></div><div style="display:contents" dir="auto"><pre id="006b16d2-d0af-4a77-9842-446f286d4fc4" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+int main(void) {
+    int i = 0;
+    for(;;) {  
+        if (i &gt;= 10) break;  
+        printf(&quot;%i\n&quot;, i);
+        i++;  
+    }
+    return 0;
+}
+</code></pre></div><div style="display:contents" dir="auto"><p id="74f7a8a5-9f07-42d0-b55a-44a0f37433ad" class="">👆 <mark class="highlight-teal"><strong>for loop </strong></mark>without <mark class="highlight-yellow"><strong>initialize</strong></mark>,<mark class="highlight-yellow"><strong> condition</strong></mark> or<mark class="highlight-yellow"><strong> increment</strong></mark></p></div><div style="display:contents" dir="auto"><pre id="12d46a6e-fcf4-4ae5-9564-2e4b121c82ec" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+int main(void) {
+    int i = 0;
+    for(; i &lt; 10;) {
+        printf(&quot;%i\n&quot;, i);
+        i++; 
+    }
+    return 0;
+}
+</code></pre></div><div style="display:contents" dir="auto"><p id="94d8fc80-e77d-4b9e-af29-381dd76b3965" class="">👆 <mark class="highlight-teal"><strong>for loop </strong></mark>without <mark class="highlight-yellow"><strong>initialize</strong></mark> or<mark class="highlight-yellow"><strong> increment</strong></mark></p></div><div style="display:contents" dir="auto"><pre id="edb67906-362a-4b86-8efd-193e679782b1" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+int main(void) {
+    int i = 0;
+    for(; i &lt; 10; i++) {
+        printf(&quot;%i\n&quot;, i);
+    }
+    return 0;
+}
+</code></pre></div><div style="display:contents" dir="auto"><p id="f8959327-5007-4587-b4d7-f1e5d94e1646" class="">👆 <mark class="highlight-teal"><strong>for loop </strong></mark>without <mark class="highlight-yellow"><strong>initialize </strong></mark>, 👈 hey look the Irish Flag 🇮🇪, btw I am not Irish</p></div><div style="display:contents" dir="auto"><p id="cd850d89-f15c-4c5f-825c-6f602016f076" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">While Loop</span></strong></mark></p></div><div style="display:contents" dir="auto"><pre id="100ec73e-fb01-46e2-89db-a6679a89b358" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+
+int main(void) {
+    int i = 0;
+    while(i &lt; 10) {
+        printf(&quot;%i\n&quot;, i);
+        i++;
+    }   
+    return 0;
+}
+</code></pre></div><div style="display:contents" dir="auto"><div id="2749232d-da53-46df-b6e6-8314ea041529" class="column-list"><div style="display:contents" dir="auto"><div id="f1dda182-7f7e-409a-9eb4-588db133d1c9" style="width:50%" class="column"><div style="display:contents" dir="ltr"><figure id="2219de07-18f5-4c4e-9ddb-c5afd7e48fc0" class="image"><a href="C/Untitled%2012.png"><img style="width:239.4965362548828px" src="C/Untitled%2012.png"/></a></figure></div></div></div><div style="display:contents" dir="auto"><div id="932454a3-fcf2-45f6-945c-3dd6eaa4adcf" style="width:50%" class="column"><div style="display:contents" dir="auto"><p id="5d8553ac-1b02-4781-8334-f7e525437474" class="">The <mark class="highlight-teal"><strong>while loop </strong></mark>has close resemblance to the <mark class="highlight-teal"><strong>for loop </strong></mark>however they vary quite once you understand them. For starters the <mark class="highlight-teal"><strong>while loop </strong></mark>executes the code before it checks the condition so even when if the conditions is false it executes atleast once. Another thing you might have noticed is that it only takes the condition rest you need to handle else where</p></div></div></div></div></div><div style="display:contents" dir="auto"><p id="ce8bc139-ec2b-4d7d-bbf6-5b617436f7da" class="">It is recommended that you use <mark class="highlight-teal"><strong>while loop </strong></mark>when the number of iterations is not known and use <mark class="highlight-teal"><strong>for loop </strong></mark>when it is known</p></div><div style="display:contents" dir="auto"><hr id="b2240400-bfb1-40b9-9be4-ed2f375d8e53"/></div><div style="display:contents" dir="auto"><p id="37da54f3-852c-4ba2-8fb7-585ff0fd9242" class="">So that is all the types of loops you need to know right now but we still need to discuss 3 things:</p></div><div style="display:contents" dir="auto"><ol type="1" id="deede650-1aca-488f-b024-d5da0df7edf9" class="numbered-list" start="1"><li>Ternary operators</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="9076d72a-0172-4fea-bd64-993abe4ffc12" class="numbered-list" start="2"><li>Nested loops</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="cf695fca-0c1b-4cb1-80e3-ea1212b8a2ae" class="numbered-list" start="3"><li>Frequent structures</li></ol></div><div style="display:contents" dir="auto"><p id="8f9905b0-c259-419c-8d26-63649906c108" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Ternary Operators</span></strong></mark></p></div><div style="display:contents" dir="auto"><pre id="336c6555-412b-442f-9e00-7d7be3658818" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+int main() {
+    int age = 18;
+    char *category;
+
+    category = (age &lt; 13) ? &quot;Child&quot; :
+               (age &gt;= 13 &amp;&amp; age &lt; 20) ? &quot;Teenager&quot; :
+               (age &gt;= 20 &amp;&amp; age &lt; 65) ? &quot;Adult&quot; :
+               &quot;Senior&quot;;
+
+    printf(&quot;The category is %s\n&quot;, category);
+
+    return 0;
+}
+</code></pre></div><div style="display:contents" dir="auto"><p id="9e15e579-65f9-4900-9cd7-59b3c022a1ec" class=""><mark class="highlight-teal"><strong>Ternary operators</strong></mark> are used for conciseness in places where a true/false type statement needs to be checked, it can be used in place of the  <mark class="highlight-teal"><strong>if-else </strong></mark>and<mark class="highlight-teal"><strong> switch loops</strong></mark>. The basic structure is :</p></div><div style="display:contents" dir="auto"><p id="233bca28-8a77-4d7c-a959-b04bfdfcebe5" class=""><code>condition1 ? expression_if_true : condition2 ? expression_if_true : expression_if_false;</code> </p></div><div style="display:contents" dir="auto"><p id="fc6d5bae-0d8f-40d0-8c85-502c9a289412" class="">Another advantage of <mark class="highlight-teal"><strong>Ternary operators </strong></mark> is that they can be used inline :</p></div><div style="display:contents" dir="auto"><p id="64d682cf-7699-4404-aa07-bff4432e2580" class=""><code>printf(&quot;The number is %s\n&quot;, (number % 2 == 0) ? &quot;even&quot; : &quot;odd&quot;);</code> 👈 this will output the same result as</p></div><div style="display:contents" dir="auto"><pre id="e94ca9e8-65c0-4d3e-8f59-989d9b52cdb2" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">if(number%2 == 0){
+		printf(&quot;The number is even\n&quot;)
+} else {
+		printf(&quot;The number is odd\n&quot;)
+}</code></pre></div><div style="display:contents" dir="auto"><p id="5ae25aa7-089c-418f-8bb4-b8c72760d19f" class="">Yet another way they can compact our code is using <mark class="highlight-purple">nesting </mark>but we will discuss that under next sections</p></div><div style="display:contents" dir="auto"><p id="ab5188a5-8abc-4428-b407-da7a2c32b454" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Nested Loops</span></strong></mark></p></div><div style="display:contents" dir="auto"><p id="d8f631ac-df9d-4687-b6ed-3dc1e5f9f646" class=""><mark class="highlight-teal"><strong>Nested loops</strong></mark> are exactly what they sound like - loops running inside another loops, this provides a whole another dimesion of tools to play with </p></div><div style="display:contents" dir="auto"><pre id="f145cfdd-f9cb-41fd-acb1-db1a53648946" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+
+int main(void) {
+ for(int i = 0; i &lt; 10; i++) {
+     for (int j = 0; j &lt; 10; j++)
+     {
+        printf(&quot;#&quot;);
+     }
+     printf(&quot;\n&quot;);
+ }  
+    return 0;
+}</code></pre></div><div style="display:contents" dir="auto"><div id="cb6be6e3-97e2-4a1c-9932-62d7b3d01c9f" class="column-list"><div style="display:contents" dir="auto"><div id="a663b9da-43d7-47d7-80b6-5c2e8ad86f25" style="width:62.5%" class="column"><div style="display:contents" dir="auto"><p id="e25e3282-3ed6-4466-b5d9-e1d44f157733" class="">Here we can see a <mark class="highlight-teal"><strong>Nested for loop </strong></mark>in action, the first <mark class="highlight-teal"><strong>for </strong></mark>defines the number of rows and the second <mark class="highlight-teal"><strong>for </strong></mark>defines the number of columns — notice the positioning of <mark class="highlight-teal"><strong>printf </strong></mark>statement with <mark class="highlight-teal"><strong>\n </strong></mark>it is outside the second <mark class="highlight-teal"><strong>for </strong></mark>but inside the first one, this in effect enters a new line every the second <mark class="highlight-teal"><strong>for </strong></mark>has completed execution. Following is another example of a nested <mark class="highlight-teal"><strong>if-else </strong></mark>inside <mark class="highlight-teal"><strong>for loop </strong></mark>:</p></div></div></div><div style="display:contents" dir="auto"><div id="f30ec244-2b20-491e-9cd6-5d2acb56d73c" style="width:37.50000000000001%" class="column"><div style="display:contents" dir="ltr"><figure id="51ea7304-260e-477d-92fd-585e97ea3b6c" class="image"><a href="C/Untitled%2013.png"><img style="width:336px" src="C/Untitled%2013.png"/></a></figure></div></div></div></div></div><div style="display:contents" dir="auto"><pre id="a7878050-a408-48ad-9ea2-f1c1949d18e8" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+int main(void) {
+    for (int i = 0; i &lt; 5; i++) {
+        if (i % 2 == 0) {
+            printf(&quot;Even row, printing #\n&quot;);
+            for (int j = 0; j &lt; 5; j++) {
+                printf(&quot;#&quot;);
+            }
+            printf(&quot;\n&quot;);
+        } else {
+            printf(&quot;Odd row, printing -\n&quot;);
+            for (int j = 0; j &lt; 5; j++) {
+                printf(&quot;-&quot;);
+            }
+            printf(&quot;\n&quot;);
+        }
+    }
+    return 0;
+}
+</code></pre></div><div style="display:contents" dir="auto"><p id="b90afc94-ee45-4883-842e-5737a1de4a1e" class="">Now for <mark class="highlight-teal"><strong>nested ternary operators</strong></mark>, the following piece of code:<br/><code>max = (a &gt; b) ? (a &gt; c ? a : c) : (b &gt; c ? b : c);</code> is equivalent to </p></div><div style="display:contents" dir="auto"><pre id="0a1a0de6-7584-4d80-a172-442622619be9" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all"> if (a &gt; b) {
+        if (a &gt; c) {
+            max = a;
+        } else {
+            max = c;
+        }
+    } else {
+        if (b &gt; c) {
+            max = b;
+        } else {
+            max = c;
+        }
+    }</code></pre></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Functions 👾</summary><div class="indented"><div style="display:contents" dir="auto"><p id="10fc37b0-d4bd-4b90-8744-c167274cb35c" class="">Functions are reusable sections of code which can be invoked(<mark class="highlight-gray_background">called</mark>) - As simple as that! A general rule that I like to follow is convert any piece of code I use more than thrice into a function. First we will see a basic function - it’s structure, implementation, uses etc the new will try to optimize the readability using the function prototypes.</p></div><div style="display:contents" dir="auto"><div id="1fc15dbf-b6a2-8092-98d6-ffa6570cc42f" class="column-list"><div style="display:contents" dir="auto"><div id="1fc15dbf-b6a2-80ac-8978-f074f4a3e0e4" style="width:56.25%" class="column"><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-808e-8d07-cb22b634eb46" class="">Ok there are multiple things to breakdown here - </p></div><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-8064-afa8-d6cd04f7f278" class="">As we can see I have declared a function named <code>func</code> with accepts <em><mark class="highlight-blue">int</mark></em><em> </em>type parameters , these are the data which the function operates on when called. Within the main function we have called the function with the argument arg. Keep in mind that the function has to be passed the same data type which has been declared.</p></div><div style="display:contents" dir="ltr"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="1fc15dbf-b6a2-80a8-ab00-d4c9abc4d20d"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-8011-89b9-f0d548f16f83" class="">The void keyword defines that the functions returns NULL</p></div></div></figure></div><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-801a-8ee1-daa4aafea47e" class="">The <mark class="highlight-blue">void</mark> can be changed for any type of datatype which you expect the function to return</p></div><div style="display:contents" dir="auto"><hr id="1fc15dbf-b6a2-805c-aed1-ed630b2bd47c"/></div><div style="display:contents" dir="auto"><pre id="1fc15dbf-b6a2-8045-acb2-d26c26291eab" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+double sqr(double num);
+//function prototype
+
+int main(void){
+
+    double a = 0;
+    printf(&quot;Enter the number: &quot;);
+    scanf(&quot;%lf&quot;, &amp;a);
+
+    double result = sqr(a);
+    printf(&quot;%.2lf&quot;, result);
+
+    return 0;
+}
+
+double sqr(double num){
+
+    double result = num * num;
+    return result;
+
+}</code></pre></div></div></div><div style="display:contents" dir="auto"><div id="1fc15dbf-b6a2-8090-a4a3-f1a14e16da77" style="width:43.74999999999999%" class="column"><div style="display:contents" dir="auto"><pre id="1fc15dbf-b6a2-8047-8514-e9a468fec32b" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+void func(int parameters) {
+	/*code*/
+};
+
+int main(void){
+
+	int arg;
+	func(arg);
+	
+	return 0;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-80eb-835e-ca615fa47bf0" class="">
+</p></div><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-8096-96cb-dd9838783df3" class="">Let’s kill 2 birds with one stone - learn about the function prototypes and the <mark class="highlight-blue">return</mark> keywords </p></div><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-8036-8df7-dfcead5073a5" class="">The basic problem we encounter is that the compiler need to know about the function before we can call it but this lead to a whole list of functions before the main function but we would like the main function to be the foremost hence to overcome this  problem we use function prototypes. It let’s us use a function before it is defined. Here <code>double sqr(double num);</code> is the function prototype for the <code>sqr</code> function. After the main function we can go ahead and define all the various functions</p></div><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-807c-a81d-e7542f9aacd0" class="">Now the return keyword just tells the function what to out - that’s literally it.</p></div><div style="display:contents" dir="ltr"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="1fc15dbf-b6a2-8003-8f91-ecdb954b2675"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-8052-93d3-ff869cb81104" class="">The boilerplate <code>return 0;</code> does the same thing it  returns an <em><mark class="highlight-blue">int</mark></em><em> </em>0 to let the machine that the code has been done executing</p></div></div></figure></div></div></div></div></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Scope </summary><div class="indented"><div style="display:contents" dir="auto"><p id="fb83fe21-4fa9-4a19-9a15-c7739748a233" class="">In C, the <mark class="highlight-teal"><strong>scope</strong></mark> of a variable determines where the variable can be accessed within a program. Understanding scope is crucial for writing correct and maintainable code. Basically its the “scope” of a variable’s reach. Variables <strong>can</strong> have the same name if the are in different scopes</p></div><div style="display:contents" dir="auto"><ol type="1" id="1c541657-d271-4596-9205-b7a2237b9e45" class="numbered-list" start="1"><li>Block Scope</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="cebf2b4d-54ef-4c78-ad97-d68f6292c6c1" class="numbered-list" start="2"><li>Function Scope</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="dc3526a6-921b-460c-8447-65c6c3fc13fc" class="numbered-list" start="3"><li>File Scope</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="99073074-6c5d-477a-a6fa-24c5dffd1f8a" class="numbered-list" start="4"><li>Prototype Scope</li></ol></div><div style="display:contents" dir="auto"><p id="90b33203-bd9b-4f4f-9a41-e997eeb5330e" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Block Scope</span></strong></mark></p></div><div style="display:contents" dir="auto"><pre id="a388d9ed-0422-4cb5-bd2b-4c8e89f976d9" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">int main(void) {
+    int a = 10; // &#x27;a&#x27; has block scope within main
+
+    if (a &gt; 5) {
+        int b = 20; // &#x27;b&#x27; has block scope within the if statement
+        printf(&quot;%d\n&quot;, b); // This is valid
+    }
+
+    // printf(&quot;%d\n&quot;, b);This would be invalid as &#x27;b&#x27; is not accessible
+    return 0;
+}
+</code></pre></div><div style="display:contents" dir="auto"><p id="a233741d-13db-4935-ae40-99fd3b910861" class="">Variables declared within a block (i.e., within <strong>{}</strong>) have block scope. They are only accessible within that block and are not visible outside of it.</p></div><div style="display:contents" dir="auto"><p id="7dd23ae8-11f9-487b-8284-1fd356b49dda" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Function Scope</span></strong></mark></p></div><div style="display:contents" dir="auto"><pre id="58194ad5-3a15-45d3-9505-fe0bbf476b4d" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+void example(void) {
+    int x = 10;
+    goto label; // This is valid
+
+    {
+        label:
+        printf(&quot;Inside label\n&quot;);
+    }
+}
+
+int main(void) {
+    example();
+    return 0;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="0fc554fe-5bbb-412b-b006-e40eb7b13120" class="">Labels (used with <mark class="highlight-teal"><strong>goto</strong></mark>) have function scope. They are accessible anywhere within the function they are declared in, regardless of block boundaries.</p></div><div style="display:contents" dir="auto"><p id="cbc67993-239b-4542-9fcb-8148d7ad28ef" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">File Scope</span></strong></mark></p></div><div style="display:contents" dir="auto"><pre id="ecac92ae-74fe-42d8-9da5-30f90a63f8b4" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+int global_var = 100; // &#x27;global_var&#x27; has file scope
+
+void foo(void) {
+    printf(&quot;%d\n&quot;, global_var); // This is valid
+}
+
+int main(void) {
+    printf(&quot;%d\n&quot;, global_var); // This is valid
+    return 0;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="3b58ed9a-0fdc-4536-8a8e-334c44bebfb7" class="">Variables declared outside of any function (at the top level of a file) have file scope. They are accessible from the point of declaration to the end of the file</p></div><div style="display:contents" dir="auto"><pre id="98d2bb41-c0b3-4732-9485-30c653c1442c" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+static int static_var = 200; /* &#x27;static_var&#x27; has file scope but
+															is only visible in this file*/
+
+void foo(void) {
+    printf(&quot;%d\n&quot;, static_var); // This is valid
+}
+
+int main(void) {
+    printf(&quot;%d\n&quot;, static_var); // This is valid
+    return 0;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="593d7b6f-0549-403d-9a36-7814ffda7784" class="">To limit the visibility of such variables to the file in which they are declared, the <mark class="highlight-teal"><strong>static</strong></mark> keyword is used.</p></div><div style="display:contents" dir="auto"><p id="890cb756-0868-4743-9f22-f071cc0e4498" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Prototype File</span></strong></mark></p></div><div style="display:contents" dir="auto"><p id="1c7c0d85-82d2-48b2-b4ca-641037f60797" class="">Variables declared in the parameter list of a function prototype have prototype scope. This scope is limited to the function&#x27;s parameter list.These parameter names are only placeholders in the prototype; they don&#x27;t have any effect outside this context.</p></div><div style="display:contents" dir="auto"><pre id="2ed4f9f9-1229-4f97-adef-0e3fd30f9774" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">void func(int a, int b); // &#x27;a&#x27; and &#x27;b&#x27; have prototype scope</code></pre></div><div style="display:contents" dir="auto"><p id="36d95900-6ee9-4bde-a29e-189096424ca9" class=""><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Storage Classes and Scope</span></strong></mark></p></div><div style="display:contents" dir="auto"><p id="7ac06939-32ab-4d94-a9aa-c9cbcb43585f" class="">The storage class of a variable affects its scope and lifetime. The main storage classes in C are <strong>auto</strong>, <strong>register</strong>, <strong>static</strong>, and <strong>extern</strong>.</p></div><div style="display:contents" dir="auto"><ol type="1" id="9597cd73-e40a-4829-b21f-7713059744a9" class="numbered-list" start="1"><li><mark class="highlight-teal"><strong>auto</strong></mark>: This is the default storage class for local variables. They have block scope and automatic storage duration.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="d59fe7b8-6d92-4c72-9df2-ca1d6ede2952" class="numbered-list" start="2"><li><mark class="highlight-teal"><strong>register</strong></mark>: Suggests that the variable be stored in a CPU register if possible. It also has block scope and automatic storage duration.</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="2f2962bf-4cd4-4e25-9bb5-bf5809acbb8e" class="numbered-list" start="3"><li><mark class="highlight-teal"><strong>static</strong></mark>: Extends the lifetime of a variable to the entire program execution, but limits its scope depending on where it is declared:<div style="display:contents" dir="auto"><ul id="ad7d77ce-7d8f-4a33-acdd-55e04d451525" class="bulleted-list"><li style="list-style-type:disc">If declared inside a function, it retains its value between function calls but is only accessible within that function (block scope with static storage duration).</li></ul></div><div style="display:contents" dir="auto"><ul id="e5639370-d02f-4585-b819-1feb6ca383e2" class="bulleted-list"><li style="list-style-type:disc">If declared at the file level, it is accessible only within that file (file scope with static storage duration).</li></ul></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="b698d88b-b2c2-4ed9-a71c-ebb7cdef80c9" class="numbered-list" start="4"><li><mark class="highlight-teal"><strong>extern</strong></mark>: Declares a global variable or function in another file. It tells the compiler that the variable or function is defined in another file. It has file scope.</li></ol></div><div style="display:contents" dir="auto"><pre id="1cb331a4-e947-4e5c-860a-f585cdd29b56" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+int global_var = 100; // File scope
+
+void foo(void) {
+    static int static_var = 200; /* Block scope but static
+																    storage duration*/
+    printf(&quot;%d\n&quot;, static_var);
+    static_var++;
+}
+
+int main(void) {
+    extern int global_var; /*References the global variable
+													   declared above*/
+    printf(&quot;%d\n&quot;, global_var);
+    foo();
+    foo();
+    return 0;
+}
+</code></pre></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Arrays</summary><div class="indented"><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-806c-b37b-f0476882ea87" class="">Arrays are a collection of variables with a pre defined size<br/>We can initiate arrays using the following syntax:<br/><code>int numbers[]= {1,2,3,4,5};</code> . However if we try to print this array we get the following result</p></div><div style="display:contents" dir="ltr"><figure id="1fc15dbf-b6a2-8022-99f5-cc14f031d635" class="image" style="text-align:center"><a href="C/image%201.png"><img style="width:332.94921875px" src="C/image%201.png"/></a></figure></div><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-80ad-9bd1-f85250e0dd9f" class="">Any guess what is this random number we get? It’s actually the <mark class="highlight-gray_background">pointer </mark>for the array - which is a topic we will cover later on<br/>To print the elements of the array properly we need to mention which index are we talking about:<br/><code>printf(&quot;%d&quot;, numbers[0]);</code> This will display the first element of our array</p></div><div style="display:contents" dir="ltr"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="1fc15dbf-b6a2-8065-ba1e-cd19c9b58b20"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-802d-bbe0-e9f7ed4b2cab" class="">In C we can pass out of bounds values for an array’s index (such as 5 onwards in this case) which will output garbage values - In most languages we do have certain guard rails to prevent this but we dont have that luxury in C</p></div></div></figure></div><div style="display:contents" dir="auto"><div id="1fc15dbf-b6a2-80de-bc3e-e1365e544877" class="column-list"><div style="display:contents" dir="auto"><div id="1fc15dbf-b6a2-80be-9e74-e086bf49792d" style="width:37.5%" class="column"><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-80fa-ab2d-d13bc7e1b1cf" class="">In this code we use the for loop to print out all the elements of the array and in the next part we see how a string is also an array. We can treat a string exactly as an array manipulating it as we do with arrays.</p></div><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-80d2-b2e3-c81d127a1574" class="">One piece of code with I want to talk about here is the <code>i &lt; sizeof(array)/sizeof(array[0])</code> </p></div><div style="display:contents" dir="auto"><p id="1fc15dbf-b6a2-808b-82f7-cee979941ad9" class=""><mark class="highlight-blue">sizeof</mark>(array) gives the size in bytes it is divided by <mark class="highlight-blue">sizeof</mark>(array[0]) to get the number of elements</p></div></div></div><div style="display:contents" dir="auto"><div id="1fc15dbf-b6a2-80f5-b13d-c981cc0365f0" style="width:62.5%" class="column"><div style="display:contents" dir="auto"><pre id="1fc15dbf-b6a2-80a5-aaa8-c287863764da" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+int main(void) {
+
+    int array[5] = {1, 2, 3, 4, 5};
+
+    for (int i = 0; i &lt; sizeof(array)/sizeof(array[0]); i++) {   
+        printf(&quot;%d\n&quot;, array[i]);
+    }
+
+    char name[] = &quot;Bro Code&quot;;
+    printf(&quot;%c\n&quot;, name[4]);
+    printf(&quot;%s\n&quot;, name);
+    printf(&quot;%d\n&quot;,sizeof(name));
+    return 0;
+}</code></pre></div></div></div></div></div><div style="display:contents" dir="auto"><p id="1fd15dbf-b6a2-806b-a2c8-e573a08aa3d5" class=""><mark class="highlight-teal_background"><span style="border-bottom:0.05em solid">2D Arrays</span></mark></p></div><div style="display:contents" dir="auto"><p id="1fd15dbf-b6a2-80ca-95be-f52350fc0aaa" class="">2D arrays can be thought of as an array of arrays. It is initialized as <code>int numbers[][2] = { {1,2}, {2,3} };</code> we use 2 [] to signify it being a 2D array. Another thing to notice that we have declared the size for the second [] but not the first - this is a necessity required by C - we can leave out the size of rows but for columns it’s a must</p></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">TypeDef</summary><div class="indented"><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-8083-84d0-e8d0436a2f5d" class="">Typedef gives a sot of nickname to an existing type which makes the code more readable </p></div><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-8033-9b9e-da75c8532a1c" class=""><code>typedef int Number;</code>  👈 This will let us declare <em>int </em>using Numbers a better usecase of the typedef keyword would be renaming char to make it more readable and work more like most programming languages <code>typedef char string[50];</code> 👈 this will let us declare strings without that pesky syntyax we could just do <code>string name = &quot;Hello World!&quot;;</code> and it would work pefectly fine</p></div><div style="display:contents" dir="ltr"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="1fe15dbf-b6a2-804a-98cc-e7d0d2b62b95"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-8017-a7b4-ccfb8c1f748c" class="">Here we had defined the size of the string to be 50 however if we use a pointer we can get away without specifying one<br/><code>typedef char* string;</code></p></div></div></figure></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Enums </summary><div class="indented"><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-80b6-be29-ea8620556ac3" class=""><mark class="highlight-teal"><strong>Enums</strong></mark> are user defines data type that consists of a set of named integer constants hence replacing numbers by strings making the code more readable</p></div><div style="display:contents" dir="auto"><div id="1fe15dbf-b6a2-8087-a92d-c191defd7d66" class="column-list"><div style="display:contents" dir="auto"><div id="1fe15dbf-b6a2-80ad-8fc3-ed88487b214d" style="width:43.75%" class="column"><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-808e-89c1-de567513ad24" class="">The basic syntax to declare enums is </p></div><div style="display:contents" dir="auto"><pre id="1fe15dbf-b6a2-8007-9a5d-e53bbf8ea533" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+enum Day{ 
+		SUNDAY, MONDAY, TUESDAY
+};
+
+int main(void){
+
+		enum Day today = SUNDAY;
+
+return 0;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-8050-9b00-db2c0c7a89c4" class="">But we can use the <em><mark class="highlight-blue">typedef </mark></em>keyword to avoid typing out enum everytime saving time and making the code more readable</p></div><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-80f1-8209-fbfe5fe95773" class="">In an enum the <mark class="highlight-orange_background">first element is always initaitized as 0</mark> and the 1 and so on however even can initiatized the first element to be anything. Another thing note is that <mark class="highlight-orange_background">all elements of an enum should be capitalized</mark>.</p></div></div></div><div style="display:contents" dir="auto"><div id="1fe15dbf-b6a2-8022-b9f1-d4091aa5adbb" style="width:56.25%" class="column"><div style="display:contents" dir="auto"><pre id="1fe15dbf-b6a2-8082-86da-ebb96078effd" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+typedef enum{
+    MONDAY,TUESDAY,WEDNESDAY,THRUSDAY,FRIDAY,SATURDAY,SUNDAY
+}Day;
+
+int daysleft(int day);
+
+int main (void){
+
+    Day today = SUNDAY;
+
+    printf(&quot;Days left in this week: %d&quot;,daysleft(today));
+
+    return 0;
+}
+
+int daysleft(int day){
+
+    int result = 6 - day;
+    return  result;
+
+}</code></pre></div><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-802f-bd07-f3f84ca70c61" class="">In this code we use a function <code>daysleft</code> to let the user know how many days are left in the week</p></div></div></div></div></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Structs</summary><div class="indented"><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-80ce-9d5f-ec259611a559" class=""><mark class="highlight-teal"><strong>Struct</strong></mark> are custom containers which contains multiple peices of related information, you can think of them as a blueprint of a structure. We can use them as a custom variable which can encode multiple related peices of information.</p></div><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-8071-a0d0-d00a94ac4aec" class="">If this isnt your first time learning a programming language there is a chance you might have already equated this with <mark class="highlight-teal"><strong>objects</strong></mark> of other languages</p></div><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-80d2-ba5b-c4e0167b9694" class="">We can initialize a struct using the following syntax:</p></div><div style="display:contents" dir="auto"><pre id="1fe15dbf-b6a2-8079-be39-de709683a3cd" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">typedef struct {
+	
+	int a;
+	int b;
+	char c[16];
+	
+}Name;</code></pre></div><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-8001-9d7f-cab37cdee477" class="">Here we can define the struct without using the <em><mark class="highlight-blue">typedef</mark></em> keyword but the you would have type out struct everytime you want use so I would reccomend using it exclusively with <em><mark class="highlight-blue">typedef</mark></em></p></div><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-809b-b30e-c9475bb0452f" class="">
+</p></div><div style="display:contents" dir="auto"><div id="1fe15dbf-b6a2-8040-93b5-cf53b5ddfcf5" class="column-list"><div style="display:contents" dir="auto"><div id="1fe15dbf-b6a2-80bf-9736-e228ee14f24c" style="width:50%" class="column"><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-8009-9798-cb6a57d3bde3" class="">To get the value of a paticular element from a struct we use the following syntax 👉</p></div></div></div><div style="display:contents" dir="auto"><div id="1fe15dbf-b6a2-80ea-9551-cbf541bb71e1" style="width:50%" class="column"><div style="display:contents" dir="auto"><pre id="1fe15dbf-b6a2-803e-adc4-e363bf4bd15b" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">printf(&quot;%d\n&quot;, Name.a);</code></pre></div><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-80af-89bb-c258e351bb20" class="">
+</p></div></div></div></div></div><div style="display:contents" dir="auto"><p id="1fe15dbf-b6a2-8020-82b0-ea746f06b093" class="">With this code we aim to declare different students with thier respective names, ages, GPAs and wheter or not they are full time or not.</p></div><div style="display:contents" dir="auto"><pre id="1fe15dbf-b6a2-8020-a285-d027bae60023" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+#include &lt;stdbool.h&gt;
+
+typedef struct {
+
+    char name[50];
+    int age;
+    float gpa;
+    bool isFullTime;
+
+}Student;
+
+void printStudent(Student student);
+
+int main(void){
+
+    Student student1 = {&quot;Ash&quot;, 15 , 4, false};
+    Student student2 = {&quot;Misty&quot;, 15 , 4, true};
+    Student student3 = {&quot;Brock&quot;, 20 , 4, true};
+    
+    printStudent(student1);
+    printStudent(student2);
+    printStudent(student3);
+    
+    return 0;
+}
+
+void printStudent(Student student){
+    printf(&quot;Name: %s\n&quot;, student.name);
+    printf(&quot;Age: %d\n&quot;, student.age);
+    printf(&quot;GPA: %.2f\n&quot;, student.gpa);
+    printf(&quot;Fulltime? : %s\n&quot;, (student.isFullTime) ? &quot;Yes&quot; : &quot;No&quot;);
+    printf(&quot;\n&quot;);
+    
+} </code></pre></div><div style="display:contents" dir="auto"><p id="20015dbf-b6a2-8023-bb65-fdcfa9f27a2b" class="">
+</p></div><div style="display:contents" dir="auto"><p id="20015dbf-b6a2-80e1-9629-efd7308d3b76" class=""><mark class="highlight-gray_background"><strong><span style="border-bottom:0.05em solid">Array of Structs</span></strong></mark></p></div><div style="display:contents" dir="auto"><p id="20015dbf-b6a2-8051-a0fc-e17fd64eda43" class="">Instead of using using the printf statement each time to display the data of each student we can recall the 3 times rule and employ arrays and for loop to display the student info 👇</p></div><div style="display:contents" dir="auto"><pre id="20015dbf-b6a2-800d-8950-e6808d980f63" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+#include &lt;stdbool.h&gt;
+
+typedef struct {
+
+    char name[50];
+    int age;
+    float gpa;
+    bool isFullTime;
+
+}Student;
+
+void printStudent(Student student);
+
+int main(void){
+
+    Student students[] = {{&quot;Ash&quot;, 15 , 4, false},
+                          {&quot;Misty&quot;, 15 , 4, true},
+                          {&quot;Brock&quot;, 20 , 4, true}};
+
+
+    for ( int i = 0; i &lt; sizeof(students)/sizeof(students[0]); i++){
+            printStudent(students[i]);
+    };
+       
+    return 0;
+}
+
+void printStudent(Student student){
+    printf(&quot;Name: %s\n&quot;, student.name);
+    printf(&quot;Age: %d\n&quot;, student.age);
+    printf(&quot;GPA: %.2f\n&quot;, student.gpa);
+    printf(&quot;Fulltime? : %s\n&quot;, (student.isFullTime) ? &quot;Yes&quot; : &quot;No&quot;);
+    printf(&quot;\n&quot;);
+    
+}</code></pre></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">File Manipulations </summary><div class="indented"><div style="display:contents" dir="auto"><p id="20015dbf-b6a2-8081-bab4-ffe3a98c7ca9" class="">C has in built functions for file manupulation with 3 modes:</p></div><div style="display:contents" dir="auto"><ol type="1" id="20315dbf-b6a2-8036-9854-d6334b57fe48" class="numbered-list" start="1"><li>w 👉 write mode </li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="20315dbf-b6a2-8079-b1b5-d34f8687c61c" class="numbered-list" start="2"><li>a 👉 append mode (unlike write mode doesn’t overwrite existing data)</li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="20315dbf-b6a2-8018-882b-f0e42c7f2afe" class="numbered-list" start="3"><li>r 👉 read mode</li></ol></div><div style="display:contents" dir="auto"><p id="20315dbf-b6a2-80c2-8b00-d8ec4f9d9600" class="">To open a file we use the following syntax:</p></div><div style="display:contents" dir="auto"><pre id="20315dbf-b6a2-80d7-a69e-cd78dfd40cf8" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">char mode = &#x27;a&#x27;;
+char file_mode[2];
+
+file_mode[0] = mode;
+file_mode[1] = &#x27;\0&#x27;;
+
+FILE *pfile = fopen(&quot;address.txt&quot;, file_mode);
+			/*code*/
+fclose(pfile);</code></pre></div><div style="display:contents" dir="auto"><p id="20315dbf-b6a2-80ab-a0b8-f853bfef97b9" class="">We could have simplified it a lot more and avoided the use of 2 extra variables and just written <code>FILE *pfile = fopen(&quot;address.txt&quot;, &#x27;a&#x27;);</code> but I would reccomend this structure as you can take in user input by asking the user for the value of the mode variable</p></div><div style="display:contents" dir="auto"><p id="20315dbf-b6a2-8059-8f87-cd6a24656ede" class=""><code>fclose(pfile);</code> just makes sures you have closed the file after use</p></div><div style="display:contents" dir="auto"><pre id="20315dbf-b6a2-8030-ae8f-f34c8b3dad15" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">fprintf(pfile, &quot;\n%s&quot;, text);</code></pre></div><div style="display:contents" dir="auto"><p id="20315dbf-b6a2-8019-9dc2-f0e14263dbc7" class="">We use <code>fprintf</code> to print our text in the file. Now let’s try to figure out the following peice of code</p></div><div style="display:contents" dir="auto"><pre id="20315dbf-b6a2-8044-a7c1-cd5ed8a67b72" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main(void) {
+    char text[64];
+    char mode;
+    char file_mode[2];
+
+    printf(&quot;Enter mode (a = append, w = overwrite): &quot;);
+    scanf(&quot; %c&quot;, &amp;mode);
+
+    if (mode != &#x27;a&#x27; &amp;&amp; mode != &#x27;w&#x27;) {
+        printf(&quot;Invalid mode.\n&quot;);
+        return 1;
+    }
+
+    file_mode[0] = mode;
+    file_mode[1] = &#x27;\0&#x27;;
+
+    FILE *pfile = fopen(&quot;text.txt&quot;, file_mode);
+
+    if (pfile == NULL) {
+        printf(&quot;Error opening file\n&quot;);
+        return 1;
+    }
+
+    printf(&quot;Enter your full text: &quot;);
+    getchar(); 
+    fgets(text, sizeof(text), stdin);
+
+    if (text[strlen(text) - 1] == &#x27;\n&#x27;) {
+        text[strlen(text) - 1] = &#x27;\0&#x27;;
+    }
+
+    fprintf(pfile, &quot;\n%s&quot;, text);
+
+    fclose(pfile);
+    return 0;
+}</code></pre></div><div style="display:contents" dir="auto"><p id="20315dbf-b6a2-8014-b0a0-e6c6279bc9ab" class="">It’s a pretty basic code which justs takes inputs from the user and prints it into the file.</p></div><div style="display:contents" dir="auto"><p id="20315dbf-b6a2-80d7-bce9-fbafc231cfa5" class="">Now let’s see how to read a file:</p></div><div style="display:contents" dir="auto"><div id="20315dbf-b6a2-8049-b1c8-f4245b42704f" class="column-list"><div style="display:contents" dir="auto"><div id="20315dbf-b6a2-8038-a86c-da67bd224e42" style="width:25%" class="column"><div style="display:contents" dir="auto"><p id="20315dbf-b6a2-8034-abb1-e3b2ea33858d" class="">The major takeaway is the use of buffer to store the data from the file and display it on the terminal. We use the fgets function to take the data from the file and store it in buffer.</p></div></div></div><div style="display:contents" dir="auto"><div id="20315dbf-b6a2-808c-b20b-c21029452688" style="width:75%" class="column"><div style="display:contents" dir="auto"><pre id="20315dbf-b6a2-8079-8f94-e5c6717424fb" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+
+int main(){
+
+    FILE  *pfile = fopen(&quot;text.txt&quot;, &quot;r&quot;);
+    char buffer[1024] = {0};
+
+    if (pfile == NULL){
+        printf(&quot;Error&quot;);
+        return 1;
+    }
+
+    while(fgets(buffer, sizeof(buffer), pfile) != NULL){
+        printf(&quot;%s&quot;, buffer);
+    }
+
+    fclose(pfile);
+
+    return 0;
+}</code></pre></div></div></div></div></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0">Libraries</summary><div class="indented"><div style="display:contents" dir="auto"><p id="23d15dbf-b6a2-8053-adec-f6cfb0eba29e" class=""><mark class="highlight-brown_background"><strong><span style="border-bottom:0.05em solid">termios.h</span></strong></mark></p></div><div style="display:contents" dir="auto"><ul id="23d15dbf-b6a2-804a-996a-cf8837e06358" class="bulleted-list"><li style="list-style-type:disc"><code>tcgetattr()</code>  : </li></ul></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.25em;line-height:1.3;margin:0"><mark class="highlight-purple_background"><strong><span style="border-bottom:0.05em solid">Frequent Structures</span></strong></mark></summary><div class="indented"><div style="display:contents" dir="auto"><p id="862bb74a-c049-46fd-b209-44e9c0f02424" class="">This section will list couple of useful structure which are versatile and can be used in a myriad of different situations, this by no means an exhaustive list but just a starting point to build your own repertoire </p></div><div style="display:contents" dir="auto"><ol type="1" id="8c9b7745-440c-4a7f-a2cf-c71089893839" class="numbered-list" start="1"><li><mark class="highlight-default"><strong><span style="border-bottom:0.05em solid">User Exit</span></strong></mark></li></ol></div><div style="display:contents" dir="auto"><div id="7eef486d-84de-4cfd-9204-491369d97be5" class="column-list"><div style="display:contents" dir="auto"><div id="9f4682c0-aacd-42d6-87f4-5f36c467329a" style="width:43.75%" class="column"><div style="display:contents" dir="auto"><p id="435cae66-4f94-4310-b729-6354419c43e7" class="">This is a very simple structure which let’s the user interact with the as long as the user wishes. This is obtained by initializing a <mark class="highlight-teal"><strong>char</strong></mark> ‘mode’ and using the <mark class="highlight-teal"><strong>scanf</strong></mark><strong> </strong>statement to input the desired value. Next we check if mode is equal to ‘E’ ( for Exit ) using a <strong>ternary </strong>operator and if it is we break from the loop, If its not the flow continues to use the <mark class="highlight-teal"><strong>switch</strong></mark><strong> </strong>statement to execute the correct set of code. This will run infinitely until the user wants to exit. The value passed in <mark class="highlight-teal"><strong>while loop</strong></mark><strong> </strong>is 1, and as 1 will always be equal to 1 the loop never ends </p></div></div></div><div style="display:contents" dir="auto"><div id="6a8bbcb2-6733-41d5-a547-24572c91feee" style="width:56.25%" class="column"><div style="display:contents" dir="auto"><pre id="8afdf0dd-a9b4-4f2a-ba33-55815b121226" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">while(1){
+	char mode;
+	scanf(&quot; %c&quot;,mode)
+	
+	mode == &#x27;E&#x27;? break : 0;
+	
+	switch (mode) {
+		case A:
+			/* code */
+		case B:
+			/* code */
+		default:
+			Invalid Input
+	}
+}</code></pre></div></div></div></div></div><div style="display:contents" dir="auto"><ol type="1" id="b17f9b6c-467f-4e81-83df-88d5f48028ce" class="numbered-list" start="2"><li><mark class="highlight-default"><strong><span style="border-bottom:0.05em solid">Pseudo-random Number Generator</span></strong></mark><div style="display:contents" dir="auto"><p id="1fb15dbf-b6a2-8059-804e-e657ec260964" class="">This uses the time as a seed to generate a seemingly random number</p></div><div style="display:contents" dir="auto"><pre id="1fb15dbf-b6a2-8074-bc63-c83b3455f140" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;time.h&gt;
+
+int main(){
+
+    srand(time(NULL));
+
+    int min = 50;
+    int max = 100;
+
+    int randomNum = (rand() % (max - min + 1)) + min;
+
+    printf(&quot;%d&quot;, randomNum);
+
+    return 0;
+}</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><ol type="1" id="1fd15dbf-b6a2-80b3-8959-ee36f7789f42" class="numbered-list" start="3"><li><strong><span style="border-bottom:0.05em solid">Input List of strings</span></strong><div style="display:contents" dir="auto"><pre id="1fd15dbf-b6a2-8005-82bd-d4087d068469" class="code code-wrap"><code class="language-c" style="white-space:pre-wrap;word-break:break-all">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int manin(void) {
+
+		char names[4][25] = {0};
+		
+		for(int i = 0; i &lt;sizeof(names)/sizeof(names[0], stdin){
+				printf(&quot;Enter a name: &quot;);
+				fgets(names[i], sizeof(names[i]), stdin);
+				names[i][strlen(names[i]) - 1] = &#x27;\0&#x27;;
+				}
+
+return 0;
+}</code></pre></div></li></ol></div><div style="display:contents" dir="auto"><p id="1fb15dbf-b6a2-8010-8305-cd2aa2d327f5" class="">
+</p></div></div></details></div><div style="display:contents" dir="auto"><p id="20015dbf-b6a2-8052-88b0-d507b34f6aa6" class="">
+</p></div><div style="display:contents" dir="auto"><p id="20015dbf-b6a2-8027-a488-fe3b0408b50a" class="">
+</p></div><div style="display:contents" dir="auto"><hr id="20015dbf-b6a2-806c-b502-d986899ac33e"/></div><div style="display:contents" dir="auto"><blockquote id="20015dbf-b6a2-80b0-b66a-fc20f85db10e" class="">So that’s it! Yes really that almost all you need to know to write your own programs in C, Yes yes I know “But where are the pointers and malloc and stuff??” I felt that they are such an important topic that they deserve a website of their own. I will try to explain pointers and such in C with great detail , employing Assembly to give you a much deeper understanding of the topic. I will also discuss the various types of data structures and their underlying concepts.</blockquote></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

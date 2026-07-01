@@ -1,0 +1,20 @@
+---
+import type { TopicDefinition } from '../lib/content';
+
+interface Props {
+  topic: TopicDefinition;
+  noteCount?: number;
+}
+
+const { topic, noteCount = 0 } = Astro.props;
+const { title, slug, description, icon } = topic;
+---
+
+<a class="topic-card" href={`/topics/${slug}/`}>
+  <div class="topic-card__topline">
+    {icon && <span class="topic-card__icon" aria-hidden="true">{icon}</span>}
+    <span class="topic-card__count">{noteCount} notes</span>
+  </div>
+  <h2>{title}</h2>
+  <p>{description}</p>
+</a>

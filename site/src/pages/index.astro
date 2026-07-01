@@ -1,0 +1,112 @@
+---
+import SiteHeader from '@components/SiteHeader.astro';
+import TopicCard from '@components/TopicCard.astro';
+import NoteCard from '@components/NoteCard.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getMergedNotes, getTopics } from '../lib/content';
+
+const topics = getTopics();
+const notes = await getMergedNotes();
+
+const noteCounts = new Map<string, number>();
+for (const note of notes) {
+  noteCounts.set(note.data.topic, (noteCounts.get(note.data.topic) ?? 0) + 1);
+}
+
+const featuredNotes = notes
+  .filter((note) => note.data.pinned)
+  .sort((a, b) => {
+    if (a.data.order !== b.data.order) return a.data.order - b.data.order;
+    return a.data.title.localeCompare(b.data.title);
+  })
+  .slice(0, 4);
+
+const recentNotes = [...notes]
+  .sort((a, b) => {
+    const updatedDelta = b.data.updatedAt.getTime() - a.data.updatedAt.getTime();
+    if (updatedDelta !== 0) return updatedDelta;
+    return a.data.title.localeCompare(b.data.title);
+  })
+  .slice(0, 4);
+---
+
+<BaseLayout>
+  <SiteHeader />
+  <main>
+    <section class="landing-hero" aria-labelledby="home-heading">
+      <div class="landing-hero__content">
+        <p class="kicker">Technical knowledge base</p>
+        <h1 id="home-heading">Nihal's Notes</h1>
+        <p class="lede">
+          Calm, fast technical notes for systems programming, networking, and Python — imported with HTML fidelity and curated for serious recall.
+        </p>
+        <div class="hero-actions" data-pagefind-ignore="all">
+          <a class="primary-link" href="/search/">Search notes</a>
+          <a class="secondary-link" href="/topics/">Browse topics</a>
+        </div>
+      </div>
+      <div class="hero-panel" aria-label="Knowledge base summary">
+        <span class="hero-panel__eyebrow">Indexed</span>
+        <strong>{notes.length}</strong>
+        <span>public notes across {topics.length} topics</span>
+      </div>
+    </section>
+
+    <section aria-labelledby="featured-heading">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">Featured</p>
+          <h2 id="featured-heading">Pinned notes</h2>
+        </div>
+        <a href="/notes/">View all notes</a>
+      </div>
+      {
+        featuredNotes.length > 0 ? (
+          <div class="note-grid">
+            {featuredNotes.map((note) => <NoteCard note={note} />)}
+          </div>
+        ) : (
+          <p class="empty-state">No pinned notes yet. Set <code>pinned: true</code> in <code>src/data/notes-metadata.json</code> to feature notes here.</p>
+        )
+      }
+    </section>
+
+    <section aria-labelledby="recent-heading">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">Discovery</p>
+          <h2 id="recent-heading">Recent notes</h2>
+        </div>
+        <a href="/notes/">Browse notes</a>
+      </div>
+      {
+        recentNotes.length > 0 ? (
+          <div class="note-grid">
+            {recentNotes.map((note) => <NoteCard note={note} />)}
+          </div>
+        ) : (
+          <p class="empty-state">No public notes yet. Import notes, then unhide reviewed entries in the metadata studio.</p>
+        )
+      }
+    </section>
+
+    <section aria-labelledby="topics-heading">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">Major areas</p>
+          <h2 id="topics-heading">Major topics</h2>
+        </div>
+        <a href="/topics/">View all topics</a>
+      </div>
+      {
+        topics.length > 0 ? (
+          <div class="topic-grid">
+            {topics.map((topic) => <TopicCard topic={topic} noteCount={noteCounts.get(topic.slug) ?? 0} />)}
+          </div>
+        ) : (
+          <p class="empty-state">No topics yet. Add topic definitions in <code>src/data/topics.json</code>.</p>
+        )
+      }
+    </section>
+  </main>
+</BaseLayout>

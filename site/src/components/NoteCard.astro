@@ -1,0 +1,23 @@
+---
+import type { MergedNote } from '../lib/content';
+
+interface Props {
+  note: MergedNote;
+}
+
+const { note } = Astro.props;
+const { title, slug, summary, tags, pinned, updatedAt, icon, coverImage } = note.data;
+---
+
+<a class="note-card" href={`/notes/${slug}/`}>
+  {coverImage && <img class="note-card__cover" src={coverImage} alt="" loading="lazy" />}
+  <div class="note-card__meta">
+    {pinned && <span>Pinned</span>}
+    <time datetime={updatedAt.toISOString()}>{updatedAt.toLocaleDateString('en-IN')}</time>
+  </div>
+  <h3>{icon && <span aria-hidden="true">{icon} </span>}{title}</h3>
+  <p>{summary}</p>
+  <ul aria-label="Tags">
+    {tags.map((tag) => <li>{tag}</li>)}
+  </ul>
+</a>

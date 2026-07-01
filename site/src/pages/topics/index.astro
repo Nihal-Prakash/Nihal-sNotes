@@ -1,0 +1,72 @@
+---
+import SiteHeader from '@components/SiteHeader.astro';
+import TopicCard from '@components/TopicCard.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getMergedNotes, getTopics } from '../../lib/content';
+
+const topics = getTopics();
+const notes = await getMergedNotes();
+const noteCounts = new Map<string, number>();
+for (const note of notes) {
+  noteCounts.set(note.data.topic, (noteCounts.get(note.data.topic) ?? 0) + 1);
+}
+---
+
+<BaseLayout title="Topics | Nihal's Notes">
+  <SiteHeader />
+  <main data-topic-index>
+    <p class="kicker">Topic index</p>
+    <h1>Topics</h1>
+    <p class="lede">Browse the public technical map. Filter is client-side and matches topic titles only.</p>
+
+    <div class="discovery-controls" aria-label="Topic filtering controls">
+      <label class="control-field" for="topic-search">
+        <span>Filter topics</span>
+        <input id="topic-search" type="search" placeholder="Try: networking" autocomplete="off" data-topic-search />
+      </label>
+      <p class="results-count" data-topic-count>{topics.length} topics</p>
+    </div>
+
+    {
+      topics.length > 0 ? (
+        <div class="topic-grid" data-topic-list>
+          {topics.map((topic) => (
+            <div class="filter-item" data-topic-item data-title={topic.title.toLowerCase()}>
+              <TopicCard topic={topic} noteCount={noteCounts.get(topic.slug) ?? 0} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="empty-state">No topics yet. Add topic definitions in <code>src/data/topics.json</code>.</p>
+      )
+    }
+    <p class="empty-state" data-topic-empty hidden>No topics match that filter. Tight loop: delete a few characters.</p>
+  </main>
+
+  <script>
+    const root = document.querySelector('[data-topic-index]');
+    const input = root?.querySelector('[data-topic-search]');
+    const items = Array.from(root?.querySelectorAll('[data-topic-item]') ?? []);
+    const count = root?.querySelector('[data-topic-count]');
+    const empty = root?.querySelector('[data-topic-empty]');
+
+    const updateTopicFilter = () => {
+      if (!(input instanceof HTMLInputElement)) return;
+      const query = input.value.trim().toLowerCase();
+      let visible = 0;
+
+      for (const item of items) {
+        if (!(item instanceof HTMLElement)) continue;
+        const title = item.dataset.title ?? '';
+        const matches = title.includes(query);
+        item.hidden = !matches;
+        if (matches) visible += 1;
+      }
+
+      if (count) count.textContent = `${visible} ${visible === 1 ? 'topic' : 'topics'}`;
+      if (empty instanceof HTMLElement) empty.hidden = visible !== 0 || items.length === 0;
+    };
+
+    input?.addEventListener('input', updateTopicFilter);
+  </script>
+</BaseLayout>

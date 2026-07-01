@@ -1,0 +1,27 @@
+---
+import NoteCard from '@components/NoteCard.astro';
+import SiteHeader from '@components/SiteHeader.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getMergedNotes } from '../../lib/content';
+
+const notes = (await getMergedNotes()).sort((a, b) => {
+  if (a.data.pinned !== b.data.pinned) return a.data.pinned ? -1 : 1;
+  if (a.data.order !== b.data.order) return a.data.order - b.data.order;
+  return b.data.updatedAt.getTime() - a.data.updatedAt.getTime();
+});
+---
+
+<BaseLayout title="Notes | Nihal's Notes">
+  <SiteHeader />
+  <main>
+    <p class="kicker">All notes</p>
+    <h1>Notes</h1>
+    {notes.length > 0 ? (
+      <div class="note-grid">
+        {notes.map((note) => <NoteCard note={note} />)}
+      </div>
+    ) : (
+      <p class="empty-state">No public notes yet. Use the metadata studio to review and unhide imported notes.</p>
+    )}
+  </main>
+</BaseLayout>
