@@ -122,12 +122,12 @@
     "39015dbfb6a280c3a435fd12723351eb": {
       "slug": "c-17",
       "title": "C++17",
-      "sourceFile": "imports/_extracted/00df60f2-493b-42eb-84f5-3eb8a8a64aa4-exportblock-f256ad78-30c4-4ca4-817b-a8990645f105/exportblock-f256ad78-30c4-4ca4-817b-a8990645f105-part-1/C++17 39015dbfb6a280c3a435fd12723351eb.html",
-      "sourceHash": "3fc7ba2b5aa08f0fb25c6f4d9d496dfbb63d4962d5ac1b400da2610c0ee12c78",
+      "sourceFile": "imports/_extracted/3bd67ae1-5e74-4f79-89c0-b78a1324ef08-exportblock-cef0efa3-4cdb-4a81-923d-cce89d41e9c8/exportblock-cef0efa3-4cdb-4a81-923d-cce89d41e9c8-part-1/C++17 39015dbfb6a280c3a435fd12723351eb.html",
+      "sourceHash": "bf745307d4821856f19a33b3bb3fbc39e1ed62158fa91d4b9c8cc1c35a1a43c0",
       "htmlPath": "src/content/html-notes/c-17.html",
       "notePath": "src/content/notes/c-17.md",
       "assets": [],
-      "lastImportedAt": "2026-07-02T06:33:49.787Z"
+      "lastImportedAt": "2026-07-02T06:54:16.496Z"
     }
   },
   "slugs": {
@@ -135,5 +135,5 @@
     "memory-and-address-in-c": "20015dbfb6a2804b88e2db41a30b0823",
     "c-17": "39015dbfb6a280c3a435fd12723351eb"
   },
-  "updatedAt": "2026-07-01T03:10:58.004Z"
+  "updatedAt": "2026-07-02T06:54:16.496Z"
 }
