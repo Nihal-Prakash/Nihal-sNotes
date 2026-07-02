@@ -32,6 +32,22 @@
     "icon": "",
     "reviewNeeded": false
   },
+  "c-17": {
+    "title": "C++17",
+    "topic": "c-cpp",
+    "tags": [
+      "c-cpp",
+      "c",
+      "cpp"
+    ],
+    "summary": "Imported Notion note: C++17.",
+    "pinned": false,
+    "order": 999,
+    "hidden": false,
+    "coverImage": "",
+    "icon": "",
+    "reviewNeeded": false
+  },
   "memory-and-address-in-c": {
     "title": "Memory and Address in C",
     "topic": "c-cpp",

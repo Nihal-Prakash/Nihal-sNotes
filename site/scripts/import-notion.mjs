@@ -54,13 +54,15 @@ function readArg(name, fallback) {
 
 async function main() {
   const sourceRoot = path.resolve(SITE_ROOT, options.sourceDir);
-  await extractZipImports(sourceRoot);
-  const [manifest, existingNotes, htmlFiles, metadata] = await Promise.all([
+  const extractedRoots = await extractZipImports(sourceRoot);
+  const [manifest, existingNotes, sourceHtmlFiles, extractedHtmlFileLists, metadata] = await Promise.all([
     readManifest(),
     readExistingNotes(),
     findHtmlFiles(sourceRoot),
+    Promise.all(extractedRoots.map((root) => findHtmlFiles(root))),
     readMetadata(),
   ]);
+  const htmlFiles = uniquePaths([...sourceHtmlFiles, ...extractedHtmlFileLists.flat()]);
   const nextMetadata = structuredClone(metadata);
 
   const nextManifest = structuredClone(manifest);
@@ -412,7 +414,7 @@ function fallbackBody(title, sourceRel) {
 }
 
 async function extractZipImports(sourceRoot) {
-  if (!fsSync.existsSync(sourceRoot)) return;
+  if (!fsSync.existsSync(sourceRoot)) return [];
   const zipFiles = [];
   async function walk(dir) {
     let entries;
@@ -426,9 +428,13 @@ async function extractZipImports(sourceRoot) {
   }
   await walk(sourceRoot);
 
+  const extractedRoots = [];
   for (const zipPath of zipFiles.sort((a, b) => a.localeCompare(b))) {
-    await extractZipRecursive(zipPath, path.join(EXTRACTED_IMPORTS_DIR, slugify(path.basename(zipPath, '.zip'))));
+    const targetDir = path.join(EXTRACTED_IMPORTS_DIR, slugify(path.basename(zipPath, '.zip')));
+    await extractZipRecursive(zipPath, targetDir);
+    extractedRoots.push(targetDir);
   }
+  return extractedRoots;
 }
 
 async function extractZipRecursive(zipPath, targetDir) {
@@ -479,6 +485,10 @@ async function findHtmlFiles(root) {
   }
   await walk(root);
   return found.sort((a, b) => a.localeCompare(b));
+}
+
+function uniquePaths(paths) {
+  return [...new Set(paths)].sort((a, b) => a.localeCompare(b));
 }
 
 async function readManifest() {
