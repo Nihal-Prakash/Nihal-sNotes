@@ -1,4 +1,19 @@
 {
+  "backend": {
+    "title": "Backend",
+    "topic": "networking",
+    "tags": [
+      "Web",
+      "backend"
+    ],
+    "summary": "Theoritical overview of Backend technologies",
+    "pinned": false,
+    "order": 999,
+    "hidden": false,
+    "coverImage": "",
+    "icon": "",
+    "reviewNeeded": false
+  },
   "byte-order": {
     "title": "Byte Order",
     "topic": "networking",
