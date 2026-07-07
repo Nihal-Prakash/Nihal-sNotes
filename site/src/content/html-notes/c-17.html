@@ -81,6 +81,86 @@ NonMov.cpp:7:3: note: declared here
 NonMov.cpp:20:37: note: use ‘-fdiagnostics-all-candidates’ to display considered candidates
    20 |   auto largeNonMoveableObj = make(90);
       |                                     ^</code></pre></div></div><hr id="39015dbf-b6a2-8039-9f88-e1c85b28b8e0" dir="auto"/><h3 id="39115dbf-b6a2-80fc-bebd-f3b13c5d4936" style="display:inline-block" dir="auto"><strong><span style="border-bottom:0.05em solid">Updated Value Categories</span></strong></h3><p id="39115dbf-b6a2-80c1-ac32-f6644c4590d3" class="" dir="auto">Realted with <mark class="highlight-purple" data-notion-highlight="purple">Copy Elision</mark><mark class="highlight-default" data-notion-highlight="default">, C++17 gave proposed defenitions updates for glvalue and prvalue:</mark></p><ol type="1" id="39115dbf-b6a2-80f0-8e71-f5188eed5f09" class="numbered-list" start="1" dir="auto"><li><mark class="highlight-teal" data-notion-highlight="teal"><strong>glvalue </strong></mark>: expression whose evaluation computes the location of an object, bit-feild, or function</li></ol><ol type="1" id="39115dbf-b6a2-80f3-9a55-cf994ca3863e" class="numbered-list" start="2" dir="auto"><li><mark class="highlight-teal" data-notion-highlight="teal"><strong>prvalue</strong></mark> : expression whose evaluation initialises an object, bit-feild, or function, or operand of an opeartor.</li></ol><p id="39115dbf-b6a2-8035-a4d4-ef55b6b8826b" class="" dir="auto">In C++17 Copy Elision/deffered tempoaray Materialization happens when:</p><ol type="1" id="39115dbf-b6a2-803a-b4f1-de8f2e087b80" class="numbered-list" start="1" dir="auto"><li>in initialisation of an object from a <mark class="highlight-teal" data-notion-highlight="teal">prvalue</mark>: <code>Type t = T()</code> </li></ol><ol type="1" id="39115dbf-b6a2-80fd-b898-e28d972de831" class="numbered-list" start="2" dir="auto"><li>in a function call where the function returns a <mark class="highlight-teal" data-notion-highlight="teal">prvalue</mark></li></ol><aside class="block-color-gray_background callout" data-notion-callout="" data-notion-callout-icon="💡" data-notion-callout-background="gray_background" style="white-space:pre-wrap;display:flex" id="39115dbf-b6a2-801c-b9f5-d2cb033d6be5" dir="ltr"><div style="font-size:1.5em"><span class="icon" data-emoji="💡"></span></div><div style="width:100%"><p id="39115dbf-b6a2-805a-9603-c58a7ddd3f46" class="" dir="auto">C++98/03 had only <mark class="highlight-teal" data-notion-highlight="teal"><strong>lvalue</strong></mark> and <mark class="highlight-teal" data-notion-highlight="teal"><strong>rvalue</strong></mark>, C++11 extended to <mark class="highlight-teal" data-notion-highlight="teal"><strong>xvalue</strong></mark>, <mark class="highlight-teal" data-notion-highlight="teal"><strong>prvalue</strong></mark> and <mark class="highlight-teal" data-notion-highlight="teal"><strong>glvalue</strong></mark></p></div></aside><hr id="39115dbf-b6a2-80cf-bc39-e3aceeb662c1" dir="auto"/><h3 id="39115dbf-b6a2-8016-9531-ea533bb1a959" style="display:inline-block" dir="auto"><strong><span style="border-bottom:0.05em solid">Dynamic Memory Allocation for Over-Aligned Data</span></strong></h3><p id="39115dbf-b6a2-8041-a527-e8f22f93ec9f" class="" dir="auto">We can use <code>alignas</code>  keyword to over-align but as so C++11/14 there was no guarantee that memory will be aligned after <code>new[]</code> , often wee had to run routines like <code>std::aligned_alloc()</code>  or <code>_aliged_malloc()</code>  for alignment preservation. But with C++17 :</p><pre id="39115dbf-b6a2-80e1-ba51-f529cec10559" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">void* operator new(size_t, align_val_t);
-void operator delete(void*, size_t, align_val_t);</code></pre></div></details><details open="" class="" dir="auto"><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><h2 id="39115dbf-b6a2-8045-be1c-f78dd495f422" style="display:inline-block">General Language Features</h2></summary><div class="indented"><p id="39115dbf-b6a2-803d-9fc0-e9d088fb292d" class="" dir="auto">
-</p></div></details></div></details><p id="39115dbf-b6a2-8043-a923-df23b6e177ae" class="" dir="auto">
+void operator delete(void*, size_t, align_val_t);</code></pre></div></details><details open="" class="" dir="auto"><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><h2 id="39115dbf-b6a2-8045-be1c-f78dd495f422" style="display:inline-block">General Language Features</h2></summary><div class="indented"><h3 id="39615dbf-b6a2-8052-a687-c291083777f7" style="display:inline-block" dir="auto"><strong><span style="border-bottom:0.05em solid">Init Statement for </span></strong><code>if</code><strong><span style="border-bottom:0.05em solid">  and </span></strong><code>switch</code></h3><div id="39615dbf-b6a2-8073-a53e-c1c234f9fb5d" class="column-list" data-notion-column-list="" dir="auto"><div id="39615dbf-b6a2-8000-bb13-f5dfc5c6c882" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><p id="39615dbf-b6a2-80c9-bbe5-de432be832d8" class="" dir="auto">Previously for scoped iterators,</p><pre id="39615dbf-b6a2-80b6-a1e1-c85a2792e8f9" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">{
+  auto val = GetVal();
+  if (condition(val)) {
+    //success
+  } else {
+    //failure
+  }
+}
+
+//example
+const std::string myString = &quot;Hello World to C++17&quot;;
+
+{
+  const auto pos = myString.find(&quot;Hello&quot;);
+  if (pos != std::string::npos) 
+    std::cout &lt;&lt; pos &lt;&lt; &quot;Hello\n&quot;;
+}
+
+{
+  const auto pos = myString.find(&quot;World&quot;);
+  if (pos != std::string::npos) 
+    std::cout &lt;&lt; pos &lt;&lt; &quot;World\n&quot;;
+}</code></pre></div><div id="39615dbf-b6a2-80a7-bc38-f20f91b701c8" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><p id="39615dbf-b6a2-80f8-a5a7-d52575c21b52" class="" dir="auto">With C++17,</p><pre id="39615dbf-b6a2-80fa-9846-d074cea17c57" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">if (auto val = Getval(); condition(val)) {
+  //success 
+} else {
+  //failure
+}
+
+//example 
+const std::string myString = &quot;Hello World to C++17&quot;;
+
+if (const auto pos = myString.find(&quot;Hello&quot;); pos != std::string::npos) {
+    std::cout &lt;&lt; pos &lt;&lt; &quot;Hello\n&quot;;
+} 
+if (const auto pos = myString.find(&quot;World&quot;); pos != std::string::npos) {
+    std::cout &lt;&lt; pos &lt;&lt; &quot;World\n&quot;;
+} </code></pre><p id="39615dbf-b6a2-805c-8134-fd33a2c27860" class="" dir="auto">The <code>pos</code>  variable is limited to the if/switch statement scope.</p></div></div><hr id="39615dbf-b6a2-801a-a8b1-e6d6cc239d1d" dir="auto"/><p id="39615dbf-b6a2-80fb-83a6-d72fc08b7e02" class="" dir="auto">
+</p><h3 id="39615dbf-b6a2-8006-92c9-eeb53c8b9721" style="display:inline-block" dir="auto"><strong><span style="border-bottom:0.05em solid">Inline Variables</span></strong></h3><p id="39615dbf-b6a2-8032-b5a5-cd0108b0b5c5" class="" dir="auto">C++17 allows <code>static inline</code>  for variables as for <code>inline</code>  functions, and can hence be defined in multiple translation units.</p><div id="39615dbf-b6a2-80b7-9f5a-e0ca73cf31f7" class="column-list" data-notion-column-list="" dir="auto"><div id="39615dbf-b6a2-80d9-8d79-f2b2fe6aabcf" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><figure id="39615dbf-b6a2-80e2-801d-f1d8fe00ace6" data-notion-code-syntax="cpp"><pre class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">class MyClass {
+public:
+    static inline int Seed();
+};
+
+inline int MyClass::Seed() {
+    static const int seed = rand();
+    return seed;
+}</code></pre><figcaption>C++11/14 requiring declaration inside the class and  defenition outside</figcaption></figure></div><div id="39615dbf-b6a2-8071-b586-d4c792d0d7b3" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><pre id="39615dbf-b6a2-80f2-8bb4-e9d006528933" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">class MyClass {
+public:
+    static inline const int sValue = 777;
+};
+
+//Example
+class MyClass {
+public:
+    static inline int seed = rand();
+};</code></pre></div></div><hr id="39615dbf-b6a2-802f-b4aa-fc23f73f3246" dir="auto"/><p id="39615dbf-b6a2-80a1-92a3-f42057387373" class="" dir="auto">
+</p><h3 id="39615dbf-b6a2-80a5-87b1-de3d99621b49" style="display:inline-block" dir="auto"><code>constexpr</code> <strong><span style="border-bottom:0.05em solid">Lambda expressions</span></strong></h3><div id="39615dbf-b6a2-80f2-ace8-dbaf1a55c9c8" class="column-list" data-notion-column-list="" dir="auto"><div id="39615dbf-b6a2-80c9-92e0-fb0e071bf1ce" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><pre id="39615dbf-b6a2-80fa-a384-eeaf82092a27" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">int main (int argc, char *argv[]) {
+  constexpr auto SquareLambda = [] (int n) {return n*n;};
+  static_assert(SquareLambda(3) == 9, &quot;&quot;);
+  return 0;
+}
+</code></pre></div><div id="39615dbf-b6a2-8032-b05f-d733653aedb9" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><p id="39615dbf-b6a2-8001-9206-d922a64250d0" class="" dir="auto">Limitations:</p><ul id="39615dbf-b6a2-80e8-a330-faba38aa1436" class="bulleted-list" dir="auto"><li style="list-style-type:disc">cannot be <code>virtual</code> </li></ul><ul id="39615dbf-b6a2-808d-93fd-dce99ea59402" class="bulleted-list" dir="auto"><li style="list-style-type:disc">return and parameter types to be <mark class="highlight-purple" data-notion-highlight="purple">literal type</mark></li></ul><ul id="39615dbf-b6a2-80a7-acb7-c44234d70d89" class="bulleted-list" dir="auto"><li style="list-style-type:disc">function bodies cannot contain : <mark class="highlight-purple" data-notion-highlight="purple">asm</mark> definition, a <code>goto</code> statement, <code>try-block</code> , or a variable that is non-literal type or <code>static</code>  or <mark class="highlight-purple" data-notion-highlight="purple">thread</mark> storage duration</li></ul><p id="39615dbf-b6a2-8050-bb79-c7bcc770c455" class="" dir="auto">
+</p></div></div><hr id="39615dbf-b6a2-8099-ba76-ef00ceb2dbfe" dir="auto"/><p id="39615dbf-b6a2-8042-b9f1-e221cdde7d8d" class="" dir="auto">
+</p><h3 id="39615dbf-b6a2-8064-9fcd-ec198355407f" style="display:inline-block" dir="auto"><strong><span style="border-bottom:0.05em solid">Capturing </span></strong><code><strong>[*this]</strong></code><strong><span style="border-bottom:0.05em solid"> in Lambda Expressions</span></strong></h3><p id="39615dbf-b6a2-809b-a49d-cdc6ca1e1966" class="" dir="auto">C++17 added <code>[*this]</code></p><p id="39615dbf-b6a2-80f6-8b94-d29d50d51856" class="" dir="auto">This captures a <strong>copy of the whole object</strong>, not just the pointer.</p><p id="39615dbf-b6a2-8063-8265-cf4c42c4449e" class="" dir="auto">Example:</p><pre id="39615dbf-b6a2-8041-b7d1-ff55bba255d5" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">autolam = [*this] {
+    std::cout&lt;&lt;s&lt;&lt;&#x27;\n&#x27;;
+};</code></pre><p id="39615dbf-b6a2-8086-915b-c282847a6043" class="" dir="auto">Now the lambda owns its own copied <code>Baz</code> object.</p><p id="39615dbf-b6a2-801e-a861-dab826c1a7bd" class="" dir="auto">Conceptually:</p><pre id="39615dbf-b6a2-80d7-9731-f617c3946a3f" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">structLambda {
+Baz copied_object;
+
+voidoperator()()const {
+        std::cout&lt;&lt;copied_object.s&lt;&lt;&#x27;\n&#x27;;
+    }
+};</code></pre><p id="39615dbf-b6a2-80bc-81a7-f8f152c87579" class="" dir="auto">So this becomes safe:</p><pre id="39615dbf-b6a2-8079-b95d-ee667b6d61f6" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">autof1 =Baz{&quot;ala&quot;}.foo();
+f1();</code></pre><p id="39615dbf-b6a2-80b6-ac0c-de57ab0a4744" class="" dir="auto">because the lambda has its own copy of <code>Baz</code>.</p><hr id="39615dbf-b6a2-8071-8536-de6ef623ef60" dir="auto"/><p id="39615dbf-b6a2-804e-8393-fa9af27e542f" class="" dir="auto">
+</p><h3 id="39615dbf-b6a2-806a-82b3-c84a15ba6f51" style="display:inline-block" dir="auto"><strong><span style="border-bottom:0.05em solid">Nested Namespaces</span></strong></h3><p id="39615dbf-b6a2-8015-af8b-e2829b79788b" class="" dir="auto">With C++17 nested namespaces can be written more compactly as</p><pre id="39615dbf-b6a2-80f2-9ea0-fc86858eebe2" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">namespace MySuperCompany::SceretProject::SafetySystem {
+	class SuperArmour {
+		//....
+	};
+	class SuperShield {
+		//....
+	};
+}</code></pre><hr id="39615dbf-b6a2-80ab-b735-d6d371818672" dir="auto"/><p id="39615dbf-b6a2-8063-8d27-f7deb796e81a" class="" dir="auto">
+</p><p id="39615dbf-b6a2-8043-a586-c3a55662d7cd" class="" dir="auto">
+</p></div></details></div></details><p id="39615dbf-b6a2-8046-ab40-dee8b3003700" class="" dir="auto">
 </p></div></article>
