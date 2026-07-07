@@ -138,13 +138,24 @@
       "notePath": "src/content/notes/backend.md",
       "assets": [],
       "lastImportedAt": "2026-07-06T11:31:41.060Z"
+    },
+    "39515dbfb6a280b592dbe96bf778917c": {
+      "slug": "python-intermidiate",
+      "title": "Python Intermidiate",
+      "sourceFile": "imports/_extracted/2274da98-6ceb-4af1-9a96-3cd8c23ebdb5-exportblock-3f427e53-b1b9-4f69-9e1a-1dfb3dbeea30/exportblock-a4d27025-5443-40f3-bffa-c76d89156ddf-part-1/Python Intermidiate 39515dbfb6a280b592dbe96bf778917c.html",
+      "sourceHash": "b8a5cc1fce76c09f9b7814226265b71fae3792165fd41f99f8ff36b267928f51",
+      "htmlPath": "src/content/html-notes/python-intermidiate.html",
+      "notePath": "src/content/notes/python-intermidiate.md",
+      "assets": [],
+      "lastImportedAt": "2026-07-07T02:50:33.511Z"
     }
   },
   "slugs": {
     "c": "e68a50627edb4ab491035244e389b9dd",
     "memory-and-address-in-c": "20015dbfb6a2804b88e2db41a30b0823",
     "c-17": "39015dbfb6a280c3a435fd12723351eb",
-    "backend": "39115dbfb6a28090bb81f6339b34d8d4"
+    "backend": "39115dbfb6a28090bb81f6339b34d8d4",
+    "python-intermidiate": "39515dbfb6a280b592dbe96bf778917c"
   },
-  "updatedAt": "2026-07-01T03:10:58.004Z"
+  "updatedAt": "2026-07-02T06:54:16.496Z"
 }

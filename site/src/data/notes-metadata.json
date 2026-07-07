@@ -55,7 +55,7 @@
       "c",
       "cpp"
     ],
-    "summary": "All you need to know about C++17",
+    "summary": "All you need to know about C++17. Follows the book C++17 in detail by Bartłomiej Filipek.",
     "pinned": false,
     "order": 999,
     "hidden": false,
@@ -75,6 +75,21 @@
     "summary": "C memory and address notes covering variables, address-of, memory representation, and pointer foundations.",
     "pinned": false,
     "order": 20,
+    "hidden": false,
+    "coverImage": "",
+    "icon": "",
+    "reviewNeeded": false
+  },
+  "python-intermidiate": {
+    "title": "Python Intermidiate",
+    "topic": "python",
+    "tags": [
+      "python",
+      "intermidiate"
+    ],
+    "summary": "Some intermidiate concepts and features of Python. Follows the book Fluent Python by Luciano Ramalho 2nd Ed.",
+    "pinned": false,
+    "order": 999,
     "hidden": false,
     "coverImage": "",
     "icon": "",
