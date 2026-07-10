@@ -34,5 +34,119 @@ class Coordinates:
 class DemoNTClass(typing.namedTuple):
 	a: int
 	b: float = 1.1 
-	c = &#x27;strings&#x27;</code></pre></div></div></div></aside><hr id="39515dbf-b6a2-8029-a350-d01175bc56a2" dir="auto"/><p id="39515dbf-b6a2-802d-bd6d-f4365be111b7" class="" dir="auto">
-</p></div></details></div></details></div></article>
+	c = &#x27;strings&#x27;</code></pre></div></div></div></aside><p id="39615dbf-b6a2-801a-a401-cb6d01a116a2" class="" dir="auto">
+</p></div></details><details open="" class="" dir="auto"><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><h2 id="39615dbf-b6a2-8082-8d52-e1d191cd3cf9" style="display:inline-block">Obj. Reference, Mutability and Recycling</h2></summary><div class="indented"><p id="39615dbf-b6a2-80cb-81d6-ca3770df8455" class="" dir="auto">Variables are not boxes , they are labels associated with objects. This can be illustrated with the following: </p><pre id="39615dbf-b6a2-80b5-8284-fbdbdfeaf70f" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&gt;&gt;&gt;a = [1,2,3]
+&gt;&gt;&gt;b = a
+&gt;&gt;&gt;a.append(4)
+&gt;&gt;&gt;b
+[1,2,3,4]</code></pre><p id="39615dbf-b6a2-8088-b1f6-de7408271863" class="" dir="auto">Because variables are mere labels, nothing prevents an object from having several labels assigned to it, which is called <mark class="highlight-purple" data-notion-highlight="purple">aliasing</mark>.</p><div id="39615dbf-b6a2-8078-9da1-dbf6614c5c2d" class="column-list" data-notion-column-list="" dir="auto"><div id="39615dbf-b6a2-803d-9118-e41df73d1bd6" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><pre id="39615dbf-b6a2-801a-a179-dbba0095e2c8" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&gt;&gt;&gt; charles = {&#x27;name&#x27;: &#x27;Charles L. Dodgson&#x27;, &#x27;born&#x27;: 1832}
+&gt;&gt;&gt; lewis = charles
+&gt;&gt;&gt; lewis is charles
+True
+&gt;&gt;&gt; id(lewis), id(charles)
+(140124663838912, 140124663838912)</code></pre></div><div id="39615dbf-b6a2-8082-9eee-f9e53f4e3417" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><pre id="39615dbf-b6a2-8089-8355-e0f5edd1e059" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">&gt;&gt;&gt; alex = {&#x27;name&#x27;: &#x27;Charles L. Dodgson&#x27;, &#x27;born&#x27;: 1832}
+&gt;&gt;&gt; alex == charles
+True
+&gt;&gt;&gt; alex is charles
+False</code></pre></div></div><aside class="block-color-gray_background callout" data-notion-callout="" data-notion-callout-icon="💡" data-notion-callout-background="gray_background" style="white-space:pre-wrap;display:flex" id="39615dbf-b6a2-80f5-8a84-d47b5a049398" dir="ltr"><div style="font-size:1.5em"><span class="icon" data-emoji="💡"></span></div><div style="width:100%"><p id="39615dbf-b6a2-805d-b71c-c9b7beecb925" class="" dir="auto"><code>==</code>  compares the values of the object whereas <code>is</code>  compares Object Ids</p></div></aside><h3 id="39715dbf-b6a2-80ae-8828-e46d3ea96211" class="" dir="auto"><strong><span style="border-bottom:0.05em solid">Del and Garbage Collections</span></strong></h3><blockquote id="39715dbf-b6a2-80f8-a393-cbacf861b296" class="" dir="auto">Objects are never explicitly destroyed, however, when they become unreachable they may be garbage collected</blockquote><ol type="1" id="39715dbf-b6a2-8014-8a08-cc05b17d0fd7" class="numbered-list" start="1" dir="auto"><li><code>del</code>  is a statement and not a function. There is a special <code>__del__</code>  method which is invoked by the Python interpreter  when an instance is about to be destroyed to give it a chance to release external resources.</li></ol><ol type="1" id="39715dbf-b6a2-807b-88d7-cc4fc0280edf" class="numbered-list" start="2" dir="auto"><li><code>del</code>  deletes refernces not objects, that is for the garbage collector to handle. </li></ol><p id="39715dbf-b6a2-8044-b3f7-dc220e5d13c1" class="" dir="auto">
+</p></div></details></div></details><details open="" class="" dir="auto"><summary style="font-weight:600;font-size:1.875em;line-height:1.3;margin:0"><h1 id="39815dbf-b6a2-80d6-941c-ccaf81ac49cb" style="display:inline-block">Functions as Objects</h1></summary><div class="indented"><details open="" class="" dir="auto"><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><h2 id="39815dbf-b6a2-80b4-8e26-e4e59317dfbd" style="display:inline-block">Functions as First-Class objects</h2></summary><div class="indented"><p id="39815dbf-b6a2-80f9-8752-c2947dab7bad" class="" dir="auto"><mark class="highlight-purple" data-notion-highlight="purple">First Class Objects</mark> are those which:</p><ol type="1" id="39815dbf-b6a2-8029-987e-c56d097d0aad" class="numbered-list" start="1" dir="auto"><li>Created ar runtime </li></ol><ol type="1" id="39815dbf-b6a2-802a-9336-fd7c5e17fb1b" class="numbered-list" start="2" dir="auto"><li>Assigned to a variable or element in data structure</li></ol><ol type="1" id="39815dbf-b6a2-8056-8851-c732a60680cf" class="numbered-list" start="3" dir="auto"><li>Passed as an arguement  to a function</li></ol><ol type="1" id="39815dbf-b6a2-80e1-a5d4-fc29c00ab588" class="numbered-list" start="4" dir="auto"><li>Returned as the result of a function</li></ol><div id="39815dbf-b6a2-809f-ac06-d4d493959833" class="column-list" data-notion-column-list="" dir="auto"><div id="39815dbf-b6a2-803d-baa6-dc73dac0b37a" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><pre id="39815dbf-b6a2-806f-b2fd-e0cb4b840aa2" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def factorial(n):
+    &quot;&quot;&quot;returns factorial of n&quot;&quot;&quot;
+    return 1 if n &lt; 2 else n * factorial(n-1)
+
+print(factorial(11))
+print(factorial.__doc__)
+print(type(factorial))
+
+fact = factorial
+print(fact(5))
+
+print(list(map(factorial, range(11))))</code></pre></div><div id="39815dbf-b6a2-803e-8eb9-c504024422de" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><pre id="39815dbf-b6a2-805d-b7a7-c2f3a07a8719" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">❱❱❱ python3 FunctionsAsFirstClassObjects.py
+39916800
+returns factorial of n
+&lt;class &#x27;function&#x27;&gt;
+120
+[1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800]</code></pre><p id="39815dbf-b6a2-8095-b9d3-efb62f7b48cd" class="" dir="auto">The example demostrates the Object attributes of a function.</p></div></div><p id="39615dbf-b6a2-8047-afd4-c485cda8c7e2" class="" dir="auto"><strong><span style="border-bottom:0.05em solid">Higher order Functions</span></strong></p><p id="39815dbf-b6a2-8074-a702-fa71b5404a85" class="" dir="auto">A function that takes function as an arguement or returns a function as the result is a <mark class="highlight-purple" data-notion-highlight="purple">higher order function</mark>.</p><p id="39815dbf-b6a2-8097-ad65-de07aff00827" class="" dir="auto"><strong><span style="border-bottom:0.05em solid">Anonymous Functions</span></strong></p><p id="39815dbf-b6a2-80b5-94f0-c5d8c750c1e4" class="" dir="auto">The <code>lambda</code>  keyword creates an anonymous function within a Python expression. However the simple syntax of the Pyhton limits the body of <code>lambda</code>  functions to be pure expressions meaning it cannot contain other Python statements such as <code>while</code> , <code>try</code>  etc, or assignments. The new assignment operator <code>:=</code> can be used.</p><div id="39815dbf-b6a2-8048-8cb9-c4d0397db797" class="column-list" data-notion-column-list="" dir="auto"><div id="39815dbf-b6a2-8066-a0a0-fb2bcbe2e273" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><pre id="39815dbf-b6a2-803a-9578-ec94970d0056" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">words = [&quot;stone&quot;, &quot;river&quot;, &quot;light&quot;, &quot;phone&quot;, &quot;garden&quot;, &quot;night&quot;, &quot;cloud&quot;, &quot;bone&quot;, &quot;silver&quot;, &quot;bright&quot;]
+print(sorted(words, key = lambda rhy: rhy[::-1]))</code></pre></div><div id="39815dbf-b6a2-8064-a7ce-e04ea3f1f911" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><pre id="39815dbf-b6a2-80e2-ab4b-d3b4358f73cb" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">❱❱❱ python3 SimpleLambda.py
+[&#x27;cloud&#x27;, &#x27;bone&#x27;, &#x27;phone&#x27;, &#x27;stone&#x27;, &#x27;garden&#x27;, &#x27;river&#x27;, &#x27;silver&#x27;, &#x27;light&#x27;, &#x27;night&#x27;, &#x27;bright&#x27;]
+[15:10:33] [cost 0.021s] python3 SimpleLambda.py</code></pre></div></div><p id="39815dbf-b6a2-80b7-942a-d78c198113f6" class="" dir="auto"><strong><span style="border-bottom:0.05em solid">Callable Objects</span></strong></p><ol type="1" id="39815dbf-b6a2-80c2-8477-eb75006e11bc" class="numbered-list" start="1" dir="auto"><li>User-defined Functions : <code>def</code> statements or <code>lambda</code> expressions</li></ol><ol type="1" id="39815dbf-b6a2-806c-904b-f4da08870997" class="numbered-list" start="2" dir="auto"><li>Built-in Functions : C implementations such as <code>len</code> or <code>time.strftime</code> </li></ol><ol type="1" id="39815dbf-b6a2-8087-8fd8-e241d55404bd" class="numbered-list" start="3" dir="auto"><li>Built-in Methods </li></ol><ol type="1" id="39815dbf-b6a2-805f-adf8-cc07e331d990" class="numbered-list" start="4" dir="auto"><li>Methods</li></ol><ol type="1" id="39815dbf-b6a2-8045-be5a-f18156137e21" class="numbered-list" start="5" dir="auto"><li>Classes : runs the <code>__new__</code>  and then <code>__init__</code>  and finally returning the insdtance to the caller</li></ol><ol type="1" id="39815dbf-b6a2-80a7-a9f7-c8408f5efaab" class="numbered-list" start="6" dir="auto"><li>Class Instances : invokes the <code>__call__</code>  method</li></ol><ol type="1" id="39815dbf-b6a2-80b9-af0c-f1bf7ff129c6" class="numbered-list" start="7" dir="auto"><li><mark class="highlight-purple" data-notion-highlight="purple">Generator Functions</mark> : functions or methods using the <code>yeild</code>  keyword</li></ol><ol type="1" id="39815dbf-b6a2-80f9-b25d-f9e2dd2cafc0" class="numbered-list" start="8" dir="auto"><li><mark class="highlight-purple" data-notion-highlight="purple">Native coroutine Functions</mark> : functions or methods defined with <code>async def</code> </li></ol><ol type="1" id="39815dbf-b6a2-80e1-86d2-e043c5a3a448" class="numbered-list" start="9" dir="auto"><li><mark class="highlight-purple" data-notion-highlight="purple">Asynchronous generator Functions</mark> : functions or methods defined using <code>async def</code>  and containing <code>yeild</code> (Py3.6) </li></ol><p id="39815dbf-b6a2-803f-ae3f-edfaefad8273" class="" dir="auto">
+</p><div id="39815dbf-b6a2-8058-9cdf-cc6a205d7aa0" class="column-list" data-notion-column-list="" dir="auto"><div id="39815dbf-b6a2-801b-a3b4-eb88210b0958" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><pre id="39815dbf-b6a2-80c7-8d2b-f38b3bc65162" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">def tag(name, /, *content, class_=None, **attrs):
+    &quot;&quot;&quot;Generate one or more HTML tags&quot;&quot;&quot;
+    if class_ is not None:
+        attrs[&quot;class&quot;] = class_
+
+    attr_pairs = (
+        f&#x27; {attr}=&quot;{value}&quot;&#x27;
+        for attr, value in sorted(attrs.items())
+    )
+    attr_str = &quot;&quot;.join(attr_pairs)
+
+    if content:
+        elements = (
+            f&quot;&lt;{name}{attr_str}&gt;{c}&lt;/{name}&gt;&quot;
+            for c in content
+        )
+        return &quot;\n&quot;.join(elements)
+    else:
+        return f&quot;&lt;{name}{attr_str} /&gt;&quot;
+
+print(&quot;1.&quot;)
+print(&quot;tag(&#x27;br&#x27;)&quot;)
+print(tag(&quot;br&quot;))
+print()
+
+print(&quot;2.&quot;)
+print(&quot;tag(&#x27;p&#x27;, &#x27;hello&#x27;)&quot;)
+print(tag(&quot;p&quot;, &quot;hello&quot;))
+print()
+
+print(&quot;print(tag(&#x27;p&#x27;, &#x27;hello&#x27;, &#x27;world&#x27;))&quot;)
+print(tag(&quot;p&quot;, &quot;hello&quot;, &quot;world&quot;))
+print()
+
+print(&quot;3.&quot;)
+print(&quot;tag(&#x27;p&#x27;, &#x27;hello&#x27;, id=33)&quot;)
+print(tag(&quot;p&quot;, &quot;hello&quot;, id=33))
+print()
+
+print(&quot;4.&quot;)
+print(&quot;print(tag(&#x27;p&#x27;, &#x27;hello&#x27;, &#x27;world&#x27;, class_=&#x27;sidebar&#x27;))&quot;)
+print(tag(&quot;p&quot;, &quot;hello&quot;, &quot;world&quot;, class_=&quot;sidebar&quot;))
+print()
+
+print(&quot;5.&quot;)
+my_tag = {
+    &quot;name&quot;: &quot;img&quot;,
+    &quot;title&quot;: &quot;Sunset Boulevard&quot;,
+    &quot;src&quot;: &quot;sunset.jpg&quot;,
+    &quot;class&quot;: &quot;framed&quot;,
+}
+
+tag_name = my_tag.pop(&quot;name&quot;)
+
+print(tag(tag_name, **my_tag))
+</code></pre></div><div id="39815dbf-b6a2-8014-a065-d7244b2cc13d" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><pre id="39815dbf-b6a2-80a0-813e-dc43ca933d11" class="code code-wrap" data-notion-code-syntax="python"><code class="language-python" style="white-space:pre-wrap;word-break:break-all">❱❱❱ python3 HTMLattributes.py
+1.
+tag(&#x27;br&#x27;)
+&lt;br /&gt;
+
+2.
+tag(&#x27;p&#x27;, &#x27;hello&#x27;)
+&lt;p&gt;hello&lt;/p&gt;
+
+print(tag(&#x27;p&#x27;, &#x27;hello&#x27;, &#x27;world&#x27;))
+&lt;p&gt;hello&lt;/p&gt;
+&lt;p&gt;world&lt;/p&gt;
+
+3.
+tag(&#x27;p&#x27;, &#x27;hello&#x27;, id=33)
+&lt;p id=&quot;33&quot;&gt;hello&lt;/p&gt;
+
+4.
+print(tag(&#x27;p&#x27;, &#x27;hello&#x27;, &#x27;world&#x27;, class_=&#x27;sidebar&#x27;))
+&lt;p class=&quot;sidebar&quot;&gt;hello&lt;/p&gt;
+&lt;p class=&quot;sidebar&quot;&gt;world&lt;/p&gt;
+
+5.
+&lt;img class=&quot;framed&quot; src=&quot;sunset.jpg&quot; title=&quot;Sunset Boulevard&quot; /&gt;</code></pre><p id="39815dbf-b6a2-802d-8d0b-c10cbe8be610" class="" dir="auto">The use of <code>*</code>  and <code>**</code>  allows to unpack iterables and mappings into separate arguements. </p><p id="39815dbf-b6a2-8009-b2b0-e0e7c0ef38a1" class="" dir="auto">Use of  <code>/</code> allows for positional only arguement passing into the function, the arguements strictly to the right of the <code>/</code>  are postionally independent.</p></div></div></div></details></div></details><p id="39815dbf-b6a2-80bf-8c71-ff53bba6c8df" class="" dir="auto">
+</p><p id="39815dbf-b6a2-803b-8dff-fd58421ab219" class="" dir="auto">
+</p></div></article>

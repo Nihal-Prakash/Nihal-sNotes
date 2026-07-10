@@ -5,93 +5,93 @@
     "e68a50627edb4ab491035244e389b9dd": {
       "slug": "c",
       "title": "C",
-      "sourceFile": "imports/fidelity-test/html/C e68a50627edb4ab491035244e389b9dd.html",
+      "sourceFile": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C e68a50627edb4ab491035244e389b9dd.html",
       "sourceHash": "87480e1bd6dca846e95d8b53d0c00f6a30757616cb92a1706a34139ed60c5bb2",
       "htmlPath": "src/content/html-notes/c.html",
       "notePath": "src/content/notes/c.md",
       "assets": [
         {
-          "source": "imports/fidelity-test/html/C/3bb03773-b7fc-4807-a1a2-e53d3b02372e.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/3bb03773-b7fc-4807-a1a2-e53d3b02372e.png",
           "output": "public/assets/imported/c/3bb03773-b7fc-4807-a1a2-e53d3b02372e.png",
           "hash": "f1318f008ecdce3f6d6765a6557d92e3e87545be4217304f1f715a563f7f09a1"
         },
         {
-          "source": "imports/fidelity-test/html/C/image 1.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/image 1.png",
           "output": "public/assets/imported/c/image 1.png",
           "hash": "78acbd5843604f1d86f9bfecf5fe687f49a2788fa09f00f3a924f3891359054c"
         },
         {
-          "source": "imports/fidelity-test/html/C/image.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/image.png",
           "output": "public/assets/imported/c/image.png",
           "hash": "28177ad187296c2f3dba73766d502be20c5360270f8b012e52f481c1cc21d841"
         },
         {
-          "source": "imports/fidelity-test/html/C/Untitled 1.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/Untitled 1.png",
           "output": "public/assets/imported/c/Untitled 1.png",
           "hash": "9659b0a2d6a9b19724b4760821d310de4af3b6fdf421a5a44fb4b276b4e16425"
         },
         {
-          "source": "imports/fidelity-test/html/C/Untitled 10.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/Untitled 10.png",
           "output": "public/assets/imported/c/Untitled 10.png",
           "hash": "0d8f38c1c6ab6bec42fb4c5dac05050c05fb91fd974ec3d5b17e8957455d2ae8"
         },
         {
-          "source": "imports/fidelity-test/html/C/Untitled 11.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/Untitled 11.png",
           "output": "public/assets/imported/c/Untitled 11.png",
           "hash": "80f9bc9927a39abdfa041edca528e2d07f01ef5dbc1544d89f112bbeff73fd51"
         },
         {
-          "source": "imports/fidelity-test/html/C/Untitled 12.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/Untitled 12.png",
           "output": "public/assets/imported/c/Untitled 12.png",
           "hash": "ada1212d338889aadcc929e8ef385984e3ca94b870dc8e06b8b4de25f58f08b5"
         },
         {
-          "source": "imports/fidelity-test/html/C/Untitled 13.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/Untitled 13.png",
           "output": "public/assets/imported/c/Untitled 13.png",
           "hash": "effa44433c607e4360157530906b71762a10e578907b2b1f8e3b983e62756cca"
         },
         {
-          "source": "imports/fidelity-test/html/C/Untitled 2.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/Untitled 2.png",
           "output": "public/assets/imported/c/Untitled 2.png",
           "hash": "67f2ad9e68651f6a559475b0c00b97fe490ebd193903c700a1e7e47e813763b4"
         },
         {
-          "source": "imports/fidelity-test/html/C/Untitled 3.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/Untitled 3.png",
           "output": "public/assets/imported/c/Untitled 3.png",
           "hash": "1f46614439cde25e31aaeec83ac6f9edbb3ffeaf6f47204f51ffdcfb70663973"
         },
         {
-          "source": "imports/fidelity-test/html/C/Untitled 4.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/Untitled 4.png",
           "output": "public/assets/imported/c/Untitled 4.png",
           "hash": "9b9b058e44bbb5673581ce9b590bcded958cd8adb69a6ef9d34c1bce3b98c2ec"
         },
         {
-          "source": "imports/fidelity-test/html/C/Untitled 5.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/Untitled 5.png",
           "output": "public/assets/imported/c/Untitled 5.png",
           "hash": "45b4f827e24bd48b6d4a797c9854ef3fe7d53037c1d79e89772f07e8d1c21883"
         },
         {
-          "source": "imports/fidelity-test/html/C/Untitled 6.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/Untitled 6.png",
           "output": "public/assets/imported/c/Untitled 6.png",
           "hash": "e287cb043c7f17d37e46e80089d3d76410da0889ddcd5d112923daf35df00add"
         },
         {
-          "source": "imports/fidelity-test/html/C/Untitled 7.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/Untitled 7.png",
           "output": "public/assets/imported/c/Untitled 7.png",
           "hash": "226409cb86b9e85e9623f340c72fecb92c53005f13bd382c898f2aab47ab38e5"
         },
         {
-          "source": "imports/fidelity-test/html/C/Untitled 8.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/Untitled 8.png",
           "output": "public/assets/imported/c/Untitled 8.png",
           "hash": "479c1443878e86bebc4a20931ad4c94e4f765d42e714bec0ddcccf3b4df280f6"
         },
         {
-          "source": "imports/fidelity-test/html/C/Untitled 9.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/Untitled 9.png",
           "output": "public/assets/imported/c/Untitled 9.png",
           "hash": "ca4ece5b958ded4866aa656cb3588085e721e052e041df657d4bfd041bd82af6"
         },
         {
-          "source": "imports/fidelity-test/html/C/Untitled.png",
+          "source": "imports/_extracted/1bd25551-624a-4f21-be64-d261a85c7b84-exportblock-b3e96243-e705-485d-97cd-7758f4b749ee/exportblock-b3e96243-e705-485d-97cd-7758f4b749ee-part-1/C/Untitled.png",
           "output": "public/assets/imported/c/Untitled.png",
           "hash": "df6e7c7ed5aba44f981dbe16feb0154dea325b3c84adac3f583b3c141c80625b"
         }
@@ -142,12 +142,12 @@
     "39515dbfb6a280b592dbe96bf778917c": {
       "slug": "python-intermidiate",
       "title": "Python Intermidiate",
-      "sourceFile": "imports/_extracted/2274da98-6ceb-4af1-9a96-3cd8c23ebdb5-exportblock-3f427e53-b1b9-4f69-9e1a-1dfb3dbeea30/exportblock-a4d27025-5443-40f3-bffa-c76d89156ddf-part-1/Python Intermidiate 39515dbfb6a280b592dbe96bf778917c.html",
-      "sourceHash": "b8a5cc1fce76c09f9b7814226265b71fae3792165fd41f99f8ff36b267928f51",
+      "sourceFile": "imports/_extracted/113c7eae-177a-48c5-ae8c-88bfd3b41852-exportblock-7b4b2e4f-03aa-4c96-bc9c-59b1356a832a/exportblock-7b4b2e4f-03aa-4c96-bc9c-59b1356a832a-part-1/Python Intermidiate 39515dbfb6a280b592dbe96bf778917c.html",
+      "sourceHash": "6bc841250b658f550f9301f4542584b52fdee227b048a40750584d0d9962ce7b",
       "htmlPath": "src/content/html-notes/python-intermidiate.html",
       "notePath": "src/content/notes/python-intermidiate.md",
       "assets": [],
-      "lastImportedAt": "2026-07-07T02:50:33.511Z"
+      "lastImportedAt": "2026-07-09T11:14:47.627Z"
     }
   },
   "slugs": {
@@ -157,5 +157,5 @@
     "backend": "39115dbfb6a28090bb81f6339b34d8d4",
     "python-intermidiate": "39515dbfb6a280b592dbe96bf778917c"
   },
-  "updatedAt": "2026-07-07T12:45:51.745Z"
+  "updatedAt": "2026-07-09T11:14:47.627Z"
 }

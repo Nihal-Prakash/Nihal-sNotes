@@ -62,7 +62,7 @@ async function main() {
     Promise.all(extractedRoots.map((root) => findHtmlFiles(root))),
     readMetadata(),
   ]);
-  const htmlFiles = uniquePaths([...sourceHtmlFiles, ...extractedHtmlFileLists.flat()]);
+  const htmlFiles = await selectNewestHtmlFilesBySourceId(uniquePaths([...sourceHtmlFiles, ...extractedHtmlFileLists.flat()]));
   const nextMetadata = structuredClone(metadata);
 
   const nextManifest = structuredClone(manifest);
@@ -469,6 +469,47 @@ async function extractZipRecursive(zipPath, targetDir) {
     const nestedTarget = path.join(path.dirname(nestedZip), slugify(path.basename(nestedZip, '.zip')));
     await extractZipRecursive(nestedZip, nestedTarget);
   }
+}
+
+async function selectNewestHtmlFilesBySourceId(paths) {
+  const bySourceId = new Map();
+
+  for (const sourcePath of paths) {
+    const sourceRel = toPosix(path.relative(SITE_ROOT, sourcePath));
+    const rawHtml = await fs.readFile(sourcePath, 'utf8');
+    const sourceId = extractSourceId(sourcePath, rawHtml, sourceRel);
+    const stat = await fs.stat(sourcePath);
+    const candidate = { sourcePath, sourceRel, sourceId, mtimeMs: stat.mtimeMs, size: stat.size, priority: importCandidatePriority(sourceRel) };
+    const candidates = bySourceId.get(sourceId) ?? [];
+    candidates.push(candidate);
+    bySourceId.set(sourceId, candidates);
+  }
+
+  const selected = [];
+  for (const [sourceId, candidates] of bySourceId) {
+    candidates.sort((a, b) => compareImportCandidate(b, a));
+    const [winner, ...duplicates] = candidates;
+    selected.push(winner);
+    for (const duplicate of duplicates) {
+      report.skipped.push(`${duplicate.sourceRel} -> duplicate sourceId ${sourceId}; using preferred export ${winner.sourceRel}`);
+    }
+  }
+
+  return selected
+    .sort((a, b) => a.sourcePath.localeCompare(b.sourcePath))
+    .map((candidate) => candidate.sourcePath);
+}
+
+function compareImportCandidate(a, b) {
+  if (a.priority !== b.priority) return a.priority - b.priority;
+  if (a.mtimeMs !== b.mtimeMs) return a.mtimeMs - b.mtimeMs;
+  if (a.size !== b.size) return a.size - b.size;
+  return a.sourcePath.localeCompare(b.sourcePath);
+}
+
+function importCandidatePriority(sourceRel) {
+  // Fixture exports are useful for fidelity checks, but should never overwrite real daily imports.
+  return sourceRel.includes('/fidelity-test/') ? 0 : 1;
 }
 
 async function findHtmlFiles(root) {
