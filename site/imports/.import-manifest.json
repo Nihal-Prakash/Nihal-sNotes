@@ -122,12 +122,12 @@
     "39015dbfb6a280c3a435fd12723351eb": {
       "slug": "c-17",
       "title": "C++17",
-      "sourceFile": "imports/_extracted/d5b62987-b21f-4969-a4c4-f3038c0075d9-exportblock-402e397d-5b93-45c6-a8df-34e74e18e4de/exportblock-402e397d-5b93-45c6-a8df-34e74e18e4de-part-1/C++17 39015dbfb6a280c3a435fd12723351eb.html",
-      "sourceHash": "1bc930467de1448a3d191c05402477e8cf1bcee310b988b509716edd15f8e637",
+      "sourceFile": "imports/_extracted/86058ed0-e59f-4d95-9a80-2789a70ba3c0-exportblock-f89d44d2-a079-41ad-9ad4-7aa4f264dd58/exportblock-f89d44d2-a079-41ad-9ad4-7aa4f264dd58-part-1/C++17 39015dbfb6a280c3a435fd12723351eb.html",
+      "sourceHash": "66410b7a4a45b6d8111231adab9fad7002db2e0c806b5d27fb372094a6fa68fd",
       "htmlPath": "src/content/html-notes/c-17.html",
       "notePath": "src/content/notes/c-17.md",
       "assets": [],
-      "lastImportedAt": "2026-07-07T12:45:51.745Z"
+      "lastImportedAt": "2026-07-12T09:18:30.518Z"
     },
     "39115dbfb6a28090bb81f6339b34d8d4": {
       "slug": "backend",
@@ -157,5 +157,5 @@
     "backend": "39115dbfb6a28090bb81f6339b34d8d4",
     "python-intermidiate": "39515dbfb6a280b592dbe96bf778917c"
   },
-  "updatedAt": "2026-07-09T11:14:47.627Z"
+  "updatedAt": "2026-07-12T09:18:30.518Z"
 }

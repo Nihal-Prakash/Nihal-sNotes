@@ -56,7 +56,7 @@
       "cpp"
     ],
     "summary": "All you need to know about C++17. Follows the book C++17 in detail by Bartłomiej Filipek.",
-    "pinned": false,
+    "pinned": true,
     "order": 999,
     "hidden": false,
     "coverImage": "",
@@ -88,7 +88,7 @@
       "intermidiate"
     ],
     "summary": "Some intermidiate concepts and features of Python. Follows the book Fluent Python by Luciano Ramalho 2nd Ed.",
-    "pinned": false,
+    "pinned": true,
     "order": 999,
     "hidden": false,
     "coverImage": "",
@@ -105,7 +105,7 @@
       "signals"
     ],
     "summary": "C server notes focused on process cleanup, SIGCHLD handling, waitpid, sockaddr setup, getaddrinfo, sockets, bind, listen, accept, and fork-based request handling.",
-    "pinned": true,
+    "pinned": false,
     "order": 10,
     "hidden": false,
     "coverImage": "",
