@@ -14,7 +14,8 @@
     "metadata:studio": "node scripts/metadata-studio.mjs",
     "metadata:validate": "node scripts/metadata-validate.mjs",
     "preview": "astro preview",
-    "check:deploy": "npm run metadata:validate && npm run build"
+    "check:deploy": "npm run metadata:validate && npm run build",
+    "check:update": "npm run import:notion:dry && npm run import:notion && npm run check:deploy && npm run preview"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.0",

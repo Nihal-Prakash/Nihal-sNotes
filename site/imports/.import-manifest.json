@@ -122,12 +122,12 @@
     "39015dbfb6a280c3a435fd12723351eb": {
       "slug": "c-17",
       "title": "C++17",
-      "sourceFile": "imports/_extracted/86058ed0-e59f-4d95-9a80-2789a70ba3c0-exportblock-f89d44d2-a079-41ad-9ad4-7aa4f264dd58/exportblock-f89d44d2-a079-41ad-9ad4-7aa4f264dd58-part-1/C++17 39015dbfb6a280c3a435fd12723351eb.html",
-      "sourceHash": "66410b7a4a45b6d8111231adab9fad7002db2e0c806b5d27fb372094a6fa68fd",
+      "sourceFile": "imports/_extracted/1a31c6a0-b226-4571-bc20-5dee2ba27bff-exportblock-a911a6b1-409c-4beb-b1e9-fdceb53716a1/exportblock-8326cb9d-9432-4b65-a923-0cd52f8791c4-part-1/C++17 39015dbfb6a280c3a435fd12723351eb.html",
+      "sourceHash": "7c031bb300c0d40682c7d84752dd0782a2c3f3e2280fae9e1134a244e3f66034",
       "htmlPath": "src/content/html-notes/c-17.html",
       "notePath": "src/content/notes/c-17.md",
       "assets": [],
-      "lastImportedAt": "2026-07-12T09:18:30.518Z"
+      "lastImportedAt": "2026-07-14T15:53:09.146Z"
     },
     "39115dbfb6a28090bb81f6339b34d8d4": {
       "slug": "backend",
@@ -142,12 +142,12 @@
     "39515dbfb6a280b592dbe96bf778917c": {
       "slug": "python-intermidiate",
       "title": "Python Intermidiate",
-      "sourceFile": "imports/_extracted/1a31c6a0-b226-4571-bc20-5dee2ba27bff-exportblock-a911a6b1-409c-4beb-b1e9-fdceb53716a1/exportblock-2cba1aa5-df98-4732-9f68-90d994542a93-part-1/Python Intermidiate 39515dbfb6a280b592dbe96bf778917c.html",
-      "sourceHash": "a005486d1731dacd2086ac21ebb61b6f6c6beb491bf82b08ef0bfd574c29591f",
+      "sourceFile": "imports/_extracted/113c7eae-177a-48c5-ae8c-88bfd3b41852-exportblock-7b4b2e4f-03aa-4c96-bc9c-59b1356a832a/exportblock-7b4b2e4f-03aa-4c96-bc9c-59b1356a832a-part-1/Python Intermidiate 39515dbfb6a280b592dbe96bf778917c.html",
+      "sourceHash": "6bc841250b658f550f9301f4542584b52fdee227b048a40750584d0d9962ce7b",
       "htmlPath": "src/content/html-notes/python-intermidiate.html",
       "notePath": "src/content/notes/python-intermidiate.md",
       "assets": [],
-      "lastImportedAt": "2026-07-13T16:26:12.309Z"
+      "lastImportedAt": "2026-07-14T15:53:09.140Z"
     }
   },
   "slugs": {
@@ -157,5 +157,5 @@
     "backend": "39115dbfb6a28090bb81f6339b34d8d4",
     "python-intermidiate": "39515dbfb6a280b592dbe96bf778917c"
   },
-  "updatedAt": "2026-07-13T16:26:12.309Z"
+  "updatedAt": "2026-07-14T15:53:09.146Z"
 }

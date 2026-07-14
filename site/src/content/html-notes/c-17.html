@@ -160,7 +160,7 @@ f1();</code></pre><p id="39615dbf-b6a2-80b6-ac0c-de57ab0a4744" class="" dir="aut
 	class SuperShield {
 		//....
 	};
-}</code></pre><hr id="39615dbf-b6a2-80ab-b735-d6d371818672" dir="auto"/></div></details><details open="" class="" dir="auto"><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><h2 id="39715dbf-b6a2-8085-b2c9-c8e148e7d746" style="display:inline-block">Templates</h2></summary><div class="indented"><h3 id="39715dbf-b6a2-8030-b6c4-ee37d19f4fcd" class="" dir="auto"><strong><span style="border-bottom:0.05em solid">Class Template Arguement Deduction (CTAD)</span></strong></h3><p id="39715dbf-b6a2-80c1-9865-d181afd059c4" class="" dir="auto">From C++17 the conformant compiler will nicely deduce the templat parameter typesfrom class templates also.</p><pre id="39715dbf-b6a2-80f3-a2e6-df4cd980eac9" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">using namespace std::string_literals;
+}</code></pre><hr id="39615dbf-b6a2-80ab-b735-d6d371818672" dir="auto"/></div></details><details open="" class="" dir="auto"><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><h2 id="39715dbf-b6a2-8085-b2c9-c8e148e7d746" style="display:inline-block">Templates</h2></summary><div class="indented"><h3 id="39715dbf-b6a2-8030-b6c4-ee37d19f4fcd" class="" dir="auto"><strong><span style="border-bottom:0.05em solid">Class Template Arguement Deduction (CTAD)</span></strong></h3><p id="39715dbf-b6a2-80c1-9865-d181afd059c4" class="" dir="auto">From C++17 the conformant compiler will nicely deduce the template parameter typesfrom class templates also.</p><pre id="39715dbf-b6a2-80f3-a2e6-df4cd980eac9" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">using namespace std::string_literals;
 std::pair myPair{42, &quot;hello world&quot;s};
 
 auto otherPair = std::pair{42, &quot;Hello&quot;s};
@@ -301,5 +301,119 @@ sum of 10 and 20 is 30
 
 [14:41:07] [~/Desktop/Code/Books/CPP17/StandardLibrary] ❱❱❱ ./std::optionalParsing_intsFromCmdLine.exe a 20
 cannot convert &#x27;a&#x27; to int</code></pre><p id="39b15dbf-b6a2-8030-9a85-d57d2e76b109" class="" dir="auto">
-</p></div></div></div></details></div></details><p id="39615dbf-b6a2-8046-ab40-dee8b3003700" class="" dir="auto">
+</p></div></div></div></details><details open="" class="" dir="auto"><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><h2 id="39c15dbf-b6a2-80f2-80a6-c7a093baba00" style="display:inline-block"><span style="border-bottom:0.05em solid">std::variant</span></h2></summary><div class="indented"><p id="39c15dbf-b6a2-80c6-8d2f-e923b50a88c9" class="" dir="auto">Before C++17 for a type-safe union we had to use <code>boost::variant</code>  or another third-party library.</p><div id="39d15dbf-b6a2-80e5-9458-d84ed6e1e8e5" class="column-list" data-notion-column-list="" dir="auto"><div id="39d15dbf-b6a2-80cf-920f-c7d68a0ab8cd" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><pre id="39d15dbf-b6a2-8012-9d92-f82e4a2aed84" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;variant&gt;
+
+using namespace std;
+
+struct PrintVisitor {
+  void operator()(int i) { cout &lt;&lt; &quot;int: &quot; &lt;&lt; i &lt;&lt; &#x27;\n&#x27;; }
+  void operator()(float f) { cout &lt;&lt; &quot;flaot: &quot; &lt;&lt; f &lt;&lt; &#x27;\n&#x27;; }
+  void operator()(const string &amp;s) { cout &lt;&lt; &quot;string: &quot; &lt;&lt; s &lt;&lt; &#x27;\n&#x27;; }
+};
+
+int main(int argc, char *argv[]) {
+  variant&lt;int, float, string&gt; intFloatString;
+  static_assert(variant_size_v&lt;decltype(intFloatString)&gt; == 3);
+
+  visit(PrintVisitor{}, intFloatString);
+
+  cout &lt;&lt; &quot;index = &quot; &lt;&lt; intFloatString.index() &lt;&lt; endl;
+  intFloatString = 100.0f;
+  cout &lt;&lt; &quot;index = &quot; &lt;&lt; intFloatString.index() &lt;&lt; endl;
+  intFloatString = &quot;hello world&quot;;
+  cout &lt;&lt; &quot;index = &quot; &lt;&lt; intFloatString.index() &lt;&lt; endl;
+
+  if (const auto intPtr = get_if&lt;int&gt;(&amp;intFloatString))
+    cout &lt;&lt; &quot;int: &quot; &lt;&lt; *intPtr &lt;&lt; &#x27;\n&#x27;;
+  else if (const auto floatPtr = get_if&lt;float&gt;(&amp;intFloatString))
+    cout &lt;&lt; &quot;float: &quot; &lt;&lt; *floatPtr &lt;&lt; &#x27;\n&#x27;;
+
+  if (holds_alternative&lt;int&gt;(intFloatString))
+    cout &lt;&lt; &quot;the variant holds an int\n&quot;;
+  else if (holds_alternative&lt;float&gt;(intFloatString))
+    cout &lt;&lt; &quot;the variant holds an float\n&quot;;
+  else if (holds_alternative&lt;string&gt;(intFloatString))
+    cout &lt;&lt; &quot;the variant holds an string\n&quot;;
+
+  try {
+    auto f = get&lt;float&gt;(intFloatString);
+    cout &lt;&lt; &quot;float&quot; &lt;&lt; f &lt;&lt; &#x27;\n&#x27;;
+  } catch (bad_variant_access &amp;) {
+    cout &lt;&lt; &quot;no float at this moment\n&quot;;
+  }
+
+  return 0;
+}</code></pre><figure id="39d15dbf-b6a2-802d-bfae-fe5d4550a45d" data-notion-code-syntax="cpp"><pre class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">❱❱❱ ./a.out
+int: 0
+index = 0
+index = 1
+index = 2
+the variant holds an string
+no float at this moment</code></pre><figcaption>Output for <code>std::variant</code>  Demo</figcaption></figure><hr id="39d15dbf-b6a2-808d-9456-e92fa5c40b68" dir="auto"/><p id="39d15dbf-b6a2-80be-af57-c8a2453423b0" class="" dir="auto"><code>std::get&lt;T&gt;</code> directly retrieves the stored value as type <code>T</code>.</p><p id="39d15dbf-b6a2-80a0-a566-dfffbaa99f09" class="" dir="auto">It succeeds only when <code>T</code> is currently active.</p><p id="39d15dbf-b6a2-8058-8d20-f48dddb7c15e" class="" dir="auto">The variant currently contains a <code>string</code>, not a <code>float</code>, so <code>get&lt;float&gt;(intFloatString)</code>fails.</p><p id="39d15dbf-b6a2-8089-b68b-f2994c5d134e" class="" dir="auto"><code>std::get</code> does not:</p><ul id="39d15dbf-b6a2-80d0-8f20-f856f179d17c" class="bulleted-list" dir="auto"><li style="list-style-type:disc">convert the string into a float</li></ul><ul id="39d15dbf-b6a2-80a2-9c41-c661ee917955" class="bulleted-list" dir="auto"><li style="list-style-type:disc">return a default value</li></ul><ul id="39d15dbf-b6a2-8025-b8e6-c465ebfb6727" class="bulleted-list" dir="auto"><li style="list-style-type:disc">return <code>nullptr</code></li></ul><p id="39d15dbf-b6a2-801f-8538-ed19862b53b2" class="" dir="auto">Instead, it throws <code>std::bad_variant_access</code>.</p><p id="39d15dbf-b6a2-800b-96a6-ec331bdfcb4e" class="" dir="auto">If the variant contained a float, <code>std::get&lt;float&gt;</code> would return a reference to the stored float. In this code, <code>auto f</code> then copies that float into <code>f</code>.</p><hr id="39d15dbf-b6a2-80af-a2a7-ee0d0f49ed4d" dir="auto"/><p id="39d15dbf-b6a2-801d-acb7-d7c52c534496" class="" dir="auto"><code>std::bad_variant_access</code> is the exception thrown when variant access is inconsistent with the active alternative.</p><p id="39d15dbf-b6a2-80f0-b5f5-fa1e39423397" class="" dir="auto">In this program, it is thrown because the code requests a <code>float</code> while the variant contains a <code>string</code>.</p><p id="39d15dbf-b6a2-80c4-b2be-c749823afe1a" class="" dir="auto">The usual style is <code>catch (const bad_variant_access&amp;)</code></p><p id="39d15dbf-b6a2-8006-91e5-f4001d19bdc6" class="" dir="auto">Catching by const reference avoids copying and prevents accidental modification of the exception object.</p><hr id="39d15dbf-b6a2-8019-9cd8-da7eb7703115" dir="auto"/><h1 id="39d15dbf-b6a2-8071-9fd7-d2b4df6f4fd1" class="" dir="auto">Main Difference Between the Access Methods</h1><table id="39d15dbf-b6a2-80d1-8297-c91472137457" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="39d15dbf-b6a2-8096-abfd-cc68c9a1bead" dir="ltr"><th id="W[HX" class="simple-table-header-color simple-table-header">Operation</th><th id="OEBA" class="simple-table-header-color simple-table-header">Purpose</th><th id="K|J;" class="simple-table-header-color simple-table-header">Failure behaviour</th></tr></thead><tbody><tr id="39d15dbf-b6a2-8006-a2f1-e1565013f302" dir="ltr"><td id="W[HX" class=""><code>index()</code></td><td id="OEBA" class="">Get the active alternative&#x27;s position</td><td id="K|J;" class="">No type access</td></tr><tr id="39d15dbf-b6a2-8080-94d1-c0b3c39d43b0" dir="ltr"><td id="W[HX" class=""><code>holds_alternative&lt;T&gt;</code></td><td id="OEBA" class="">Check whether <code>T</code> is active</td><td id="K|J;" class="">Returns <code>false</code></td></tr><tr id="39d15dbf-b6a2-80d9-94ff-dedeb298b66b" dir="ltr"><td id="W[HX" class=""><code>get_if&lt;T&gt;</code></td><td id="OEBA" class="">Safely access <code>T</code></td><td id="K|J;" class="">Returns <code>nullptr</code></td></tr><tr id="39d15dbf-b6a2-80a9-a6bc-f7f94d176728" dir="ltr"><td id="W[HX" class=""><code>get&lt;T&gt;</code></td><td id="OEBA" class="">Directly access <code>T</code></td><td id="K|J;" class="">Throws <code>bad_variant_access</code></td></tr><tr id="39d15dbf-b6a2-805d-8a5c-c18e73eb8ff1" dir="ltr"><td id="W[HX" class=""><code>visit</code></td><td id="OEBA" class="">Run type-specific logic for the active value</td><td id="K|J;" class="">Dispatches to the matching callable</td></tr></tbody></table><p id="39d15dbf-b6a2-8072-88bd-ffc54116d06f" class="" dir="auto">The overall program demonstrates the main ways to inspect and process a <code>std::variant</code>: visitor-based dispatch, index inspection, safe pointer access, Boolean type checks, and exception-based direct access.</p><p id="39d15dbf-b6a2-80b1-baf5-dfa3d2fc1cf2" class="" dir="auto">
+</p><p id="39d15dbf-b6a2-80c4-b5b7-c42f76d3071e" class="" dir="auto">
+</p></div><div id="39d15dbf-b6a2-80f8-9fa1-c0bb0140883d" style="width:50%" class="column" data-notion-column-ratio="0.5" dir="auto"><h2 id="39d15dbf-b6a2-802a-9b0b-ea43e27d0fe2" class="" dir="auto"><code>std::variant</code> <strong><span style="border-bottom:0.05em solid">Demo</span></strong> </h2><p id="39d15dbf-b6a2-80cf-9fab-e785d5e06a95" class="" dir="auto"><code>PrintVisitor</code> is a <strong>visitor object</strong> used with <code>std::visit</code>.</p><p id="39d15dbf-b6a2-80a8-bb84-e95dcee06133" class="" dir="auto">It overloads <code>operator()</code> for:</p><ul id="39d15dbf-b6a2-8008-a2fd-e7f8bded8590" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>int</code></li></ul><ul id="39d15dbf-b6a2-80d6-b330-fc68512a981d" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>float</code></li></ul><ul id="39d15dbf-b6a2-809b-9261-e88a35398e29" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>std::string</code></li></ul><p id="39d15dbf-b6a2-804b-839a-d4f0450fcd5d" class="" dir="auto">This allows the same object to handle different types. When the visitor receives a value, normal C++ overload resolution selects the matching <code>operator()</code>.</p><p id="39d15dbf-b6a2-8021-9baf-e20253cb19cb" class="" dir="auto">The string is accepted as <code>const string&amp;</code> to avoid copying it.</p><hr id="39d15dbf-b6a2-80fb-8d5a-f0ced9d7b4b2" dir="auto"/><p id="39d15dbf-b6a2-8067-baa5-cfd3f8d07f26" class="" dir="auto"><code>std::variant</code> is a <strong>type-safe discriminated union</strong>.</p><p id="39d15dbf-b6a2-8060-badc-cf6c6b44993d" class="" dir="auto">It can store exactly one value from a fixed list of types:</p><table id="39d15dbf-b6a2-80fe-ac38-f4af82cabd0d" class="simple-table" dir="ltr"><thead class="simple-table-header"><tr id="39d15dbf-b6a2-8004-bb43-ee1976bd535e" dir="ltr"><th id="F}_M" class="simple-table-header-color simple-table-header">Index</th><th id="{s;&gt;" class="simple-table-header-color simple-table-header">Type</th></tr></thead><tbody><tr id="39d15dbf-b6a2-801f-abd5-d1315fdaed73" dir="ltr"><td id="F}_M" class=""><code>0</code></td><td id="{s;&gt;" class=""><code>int</code></td></tr><tr id="39d15dbf-b6a2-804b-8ef9-e4b09ed3ec3f" dir="ltr"><td id="F}_M" class=""><code>1</code></td><td id="{s;&gt;" class=""><code>float</code></td></tr><tr id="39d15dbf-b6a2-8060-8f83-ddc6081fe0d7" dir="ltr"><td id="F}_M" class=""><code>2</code></td><td id="{s;&gt;" class=""><code>string</code></td></tr></tbody></table><p id="39d15dbf-b6a2-8061-b953-f9367abefc53" class="" dir="auto">Unlike a C-style <code>union</code>, <code>std::variant</code> keeps track of which member is currently active.</p><p id="39d15dbf-b6a2-80f5-bc13-df946a88a7e5" class="" dir="auto">The active type may change during the lifetime of the object</p><p id="39d15dbf-b6a2-8046-8df2-fb85fed3c914" class="" dir="auto">When the type changes, the old object is destroyed and the new object is constructed inside the variant&#x27;s internal storage.</p><h4 id="39d15dbf-b6a2-80f0-ac76-cafde0b29669" class="" dir="auto"><span style="border-bottom:0.05em solid">Default construction</span></h4><p id="39d15dbf-b6a2-806c-adc0-c97907ea4b21" class="" dir="auto">Because no initial value is supplied, the variant default-constructs its <strong>first alternative</strong>.</p><p id="39d15dbf-b6a2-80be-b2da-fa1512a58db5" class="" dir="auto">A default-constructed variant is therefore not “empty” unless its first alternative represents an empty state, such as <code>std::monostate</code>.</p><hr id="39d15dbf-b6a2-80d8-b2f4-d0024917497f" dir="auto"/><p id="39d15dbf-b6a2-80ce-8e90-ea74d4e0e4e7" class="" dir="auto"><code>variant_size_v </code>returns the number of alternatives in variant type <code>T</code>.</p><p id="39d15dbf-b6a2-80b5-8ecd-c185ba36541a" class="" dir="auto"><code>static_assert</code> requires its condition to be true during compilation.</p><p id="39d15dbf-b6a2-802a-8e13-c452d0d4e743" class="" dir="auto">If the condition were false, compilation would fail. It produces no runtime code and has no runtime cost.</p><p id="39d15dbf-b6a2-8091-ae0c-ce1bceb58751" class="" dir="auto"><code>std::visit</code> applies a callable object to the value currently stored inside a variant.</p><p id="39d15dbf-b6a2-80ea-99f6-c15cbed2cae0" class="" dir="auto">Therefore, <code>std::visit</code> effectively performs <code>PrintVisitor{}(0);</code></p><p id="39d15dbf-b6a2-8007-955e-fa518a371a36" class="" dir="auto">The important idea is that <code>std::visit</code> performs <mark class="highlight-purple" data-notion-highlight="purple">runtime type dispatch</mark><strong> with compile-time type safety</strong>:</p><ul id="39d15dbf-b6a2-80b4-9de1-c16be6904af3" class="bulleted-list" dir="auto"><li style="list-style-type:disc">the active alternative is identified at runtime</li></ul><ul id="39d15dbf-b6a2-80c6-bb17-d578769e1bc2" class="bulleted-list" dir="auto"><li style="list-style-type:disc">the matching callable overload is selected from code verified at compile time</li></ul><p id="39d15dbf-b6a2-80bb-b7f6-c9871f0f5411" class="" dir="auto">The visitor must be callable for every variant alternative that may be passed to it. Otherwise, the call to <code>std::visit</code> does not compile.</p><hr id="39d15dbf-b6a2-80ac-89af-c529f898fd8f" dir="auto"/><p id="39d15dbf-b6a2-8091-b56c-eec31b28587e" class="" dir="auto"><code>std::get_if&lt;T&gt;</code> safely checks whether the variant currently contains <code>T</code>.</p><p id="39d15dbf-b6a2-802e-9dc3-c9e56da55a3e" class="" dir="auto">It returns:</p><ul id="39d15dbf-b6a2-80f1-b9bb-c14913103458" class="bulleted-list" dir="auto"><li style="list-style-type:disc">a pointer to the stored value if <code>T</code> is active</li></ul><ul id="39d15dbf-b6a2-8054-90c6-d6057327c9c4" class="bulleted-list" dir="auto"><li style="list-style-type:disc"><code>nullptr</code> if another alternative is active</li></ul><p id="39d15dbf-b6a2-8018-a0ac-f06dc5f6e125" class="" dir="auto">has a return type similar to <code>int*</code></p><p id="39d15dbf-b6a2-8078-bd71-fb136537b968" class="" dir="auto">Since the variant currently contains a string:</p><pre id="39d15dbf-b6a2-8082-9ece-d070f1a73460" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">get_if&lt;int&gt;(&amp;intFloatString)   // nullptr
+get_if&lt;float&gt;(&amp;intFloatString) // nullptr</code></pre><p id="39d15dbf-b6a2-805b-b7f5-cfb738b3187a" class="" dir="auto">Therefore, neither branch prints anything.</p><p id="39d15dbf-b6a2-80b1-9d69-eeb27d448962" class="" dir="auto">In <code>const auto intPtr = get_if&lt;int&gt;(&amp;intFloatString);</code></p><p id="39d15dbf-b6a2-800e-b71b-c65af0f89d7d" class="" dir="auto"><code>auto</code> becomes <code>int*</code>.</p><p id="39d15dbf-b6a2-80ff-9ba3-d8997099f913" class="" dir="auto">The leading <code>const</code> applies to the pointer itself <code>int* const intPtr</code></p><p id="39d15dbf-b6a2-80bd-b832-c76cd4650943" class="" dir="auto">It does not make the integer const.</p><p id="39d15dbf-b6a2-8001-a52b-f235892d3767" class="" dir="auto"><code>std::holds_alternative&lt;T&gt;</code> returns a Boolean indicating whether <code>T</code> is the active alternative.</p><p id="39d15dbf-b6a2-800e-8ce7-f086c809aed3" class="" dir="auto">At this point:</p><pre id="39d15dbf-b6a2-80a2-92a4-de308504a34c" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">holds_alternative&lt;int&gt;(intFloatString)    // false
+holds_alternative&lt;float&gt;(intFloatString)  // false
+holds_alternative&lt;string&gt;(intFloatString) // true</code></pre><p id="39d15dbf-b6a2-80d5-94e7-c2b339f9a937" class="" dir="auto">Therefore, the string branch executes.</p><p id="39d15dbf-b6a2-8041-9c0c-f36f614fe841" class="" dir="auto"><code>holds_alternative&lt;T&gt;</code> is useful when only the type needs to be checked and the value itself is not required.</p><p id="39d15dbf-b6a2-80a2-8766-c1ab1d381724" class="" dir="auto">It is conceptually similar to comparing the index <code>intFloatString.index() == 2</code></p><p id="39d15dbf-b6a2-8069-a1a4-dfb065f60c6b" class="" dir="auto">but it is clearer and does not depend on the ordering of alternatives.</p><p id="39d15dbf-b6a2-80ea-b917-cd02cd5e152d" class="" dir="auto">The type passed to <code>holds_alternative&lt;T&gt;</code> must appear exactly once in the variant&#x27;s type list.</p></div></div><hr id="39d15dbf-b6a2-8037-8690-d2fd8ee116b7" dir="auto"/><p id="39d15dbf-b6a2-8003-a7ef-fb9d013b2afe" class="" dir="auto"><strong><span style="border-bottom:0.05em solid">Creation</span></strong>:</p><p id="39d15dbf-b6a2-8096-9eed-ec295deb4c24" class="" dir="auto">By default, a variant object is initialised with the first type</p><ul id="39d15dbf-b6a2-8099-b232-e821cafcd813" class="bulleted-list" dir="auto"><li style="list-style-type:disc">If the type doesnt have a <mark class="highlight-purple" data-notion-highlight="purple">default construtor </mark>will lead to compilation error, can use <code>std::monostate</code>  to overcome this and indicate an empty variant</li></ul><p id="39d15dbf-b6a2-80a5-bb34-ff20e141e17b" class="" dir="auto">While initialisign with a value, <mark class="highlight-purple" data-notion-highlight="purple">best matching </mark>type is used</p><ul id="39d15dbf-b6a2-8009-acc9-cbd3d5d88581" class="bulleted-list" dir="auto"><li style="list-style-type:disc">in case of ambiguity <code>std::in_place_index</code>  to explicitly mention what type should be used</li></ul><p id="39d15dbf-b6a2-801d-a27e-ee0f3abbf479" class="" dir="auto"><code>std::in_place</code>  allows to create more complex types and passes more parameters to the constructors</p><pre id="39d15dbf-b6a2-8086-ad24-ed275f1bdb80" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">std::variant&lt;std::vector&lt;int&gt;, std::string&gt; vecStr {
+	std::in_place_index&lt;0&gt;, {1,2,3}
+};</code></pre><hr id="39d15dbf-b6a2-80f7-9143-cc7224c1b2e7" dir="auto"/><pre id="39d15dbf-b6a2-8086-abde-d27b8eaf002d" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;variant&gt;
+
+template &lt;class... Ts&gt; struct overload : Ts... {
+  using Ts::operator()...;
+};
+
+template &lt;class... Ts&gt; overload(Ts...) -&gt; overload&lt;Ts...&gt;;
+
+int main(int argc, char *argv[]) {
+  std::variant&lt;int, float, std::string&gt; intFloatString{&quot;hello\n&quot;};
+  std::visit(overload{[](int &amp;i) { i *= 2; }, [](float &amp;f) { f *= 2.0f; },
+                      [](std::string &amp;s) { s = s + s; }},
+             intFloatString);
+
+  auto PrintVisitor = [](const auto &amp;t) { std::cout &lt;&lt; t &lt;&lt; &#x27;\n&#x27;; };
+  std::visit(PrintVisitor, intFloatString);
+  return 0;
+}</code></pre><hr id="39d15dbf-b6a2-8057-b388-e5f8f5110cc5" dir="auto"/><pre id="39d15dbf-b6a2-8049-92cd-fc3bad80cb76" class="code code-wrap" data-notion-code-syntax="cpp"><code class="language-cpp" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;variant&gt;
+
+template &lt;class... Ts&gt; struct overload : Ts... {
+  using Ts::operator()...;
+};
+template &lt;class... Ts&gt; overload(Ts...) -&gt; overload&lt;Ts...&gt;;
+
+struct Pizza {};
+struct Chocolate {};
+struct Salami {};
+struct IceCream {};
+
+int main(int argc, char *argv[]) {
+  std::variant&lt;Pizza, Chocolate, Salami, IceCream&gt; firstIngredient{IceCream()};
+  std::variant&lt;Pizza, Chocolate, Salami, IceCream&gt; secondIngredient{
+      Chocolate()};
+
+  std::visit(overload{
+                 [](const Pizza &amp;, const Salami &amp;) {
+                   std::cout &lt;&lt; &quot;Pizza with Salami\n&quot;;
+                 },
+                 [](const Salami &amp;, const Pizza &amp;) {
+                   std::cout &lt;&lt; &quot;Salami with Pizza\n&quot;;
+                 },
+                 [](const Chocolate &amp;, const IceCream &amp;) {
+                   std::cout &lt;&lt; &quot;Chocolate with IceCream\n&quot;;
+                 },
+                 [](const IceCream &amp;, const Chocolate &amp;) {
+                   std::cout &lt;&lt; &quot;IceCream with Chocolate\n&quot;;
+                 },
+                 [](const auto &amp;a, const auto &amp;b) {
+                   std::cout &lt;&lt; &quot;Unknown combination\n&quot;;
+                 },
+             },
+             firstIngredient, secondIngredient);
+
+  return 0;
+}</code></pre></div></details></div></details><p id="39615dbf-b6a2-8046-ab40-dee8b3003700" class="" dir="auto">
 </p></div></article>
